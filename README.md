@@ -1,6 +1,11 @@
 # Job-Pursuit
 Connecting people with jobs and jobs with people
 
+## Run Project - Remove Upon Project Completion
+- npm install
+- npm run dev
+- npm run server
+
 ## Git Workflow - Remove Upon Project Completion
 The production application will run off of the main branch. All developers will perform edits off of the dev branches. All branches will require at least one approval before being merged into dev. Dev will require at least one approval before merging into main.
 

@@ -17,7 +17,7 @@ app.get('/jobs/search', async (req, res) => {
   const { company_id, experience_type, employment_type, jobsite, salary_min, salary_max } = req.query;
   const jobs = await prisma.Job.findMany({
     where: {
-      company_id: Number(company_id),
+      company_id: Number(company_id) || undefined,
       experience_type: experience_type,
       employment_type: employment_type,
       jobsite: jobsite,

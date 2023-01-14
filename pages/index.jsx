@@ -7,6 +7,9 @@ const App = () => {
       <button>
         <Link href="/calendar">Calendar</Link>
       </button>
+      <button>
+        <Link href="/postJob">Post Job</Link>
+      </button>
     </div>
   )
 }

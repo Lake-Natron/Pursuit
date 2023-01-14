@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -6,24 +7,45 @@ import Grid from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
+
+
 
 const SignIn = () => {
+  const [formFields, setFormFields] = useState({
+    email: '',
+    password: '',
+    role: ''
+  })
+
   const handleSubmit = () => {
+    e.preventDefault();
     //TODO:
     // Some way to determine if the sign up is
   }
 
+  // Handles change for form controlled components
+  const handleChange = (e) => {
+    const val = e.target.value;
+    // console.log(formFields);
+    setFormFields({
+      ...formFields,
+      [e.target.name]: val
+    })
+  }
+
   return (
-    <Container mxWidth='s'>
+    <>
+    <Container maxWidth='xs'>
        <Box
           sx={{
             marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
+            alignItems: 'center'
           }}
         >
-          Sign In
+          <>Sign In</>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
@@ -32,8 +54,10 @@ const SignIn = () => {
               id="email"
               label="Email Address"
               name="email"
-              autoComplete="email"
+              // autoComplete="email"
+              value={formFields.email}
               autoFocus
+              onChange={handleChange}
             />
             <TextField
               margin="normal"
@@ -43,7 +67,9 @@ const SignIn = () => {
               label="Password"
               type="password"
               id="password"
-              autoComplete="current-password"
+              value={formFields.password}
+              // autoComplete="current-password"
+              onChange={handleChange}
             />
             <Button
               type="submit"
@@ -53,16 +79,17 @@ const SignIn = () => {
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+            <Grid>
+              <Grid>
+                <Link href="/signup" variant="body2">
+                  {`Don't have an account? Sign Up`}
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
     </Container>
+    </>
   );
 }
 

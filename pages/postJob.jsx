@@ -1,5 +1,6 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+//import axios from 'axios';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
@@ -23,6 +24,12 @@ const MenuProps = {
     },
   },
 };
+
+const site = [
+  'Remote',
+  'Onsite',
+  'Hybrid'
+];
 
 const experience = [
   'Entry Level',
@@ -57,30 +64,51 @@ function getEmploymentStyles(emp, employmentType, theme) {
   };
 }
 
+function getSiteStyles(site, jobSite, theme) {
+  return {
+    fontWeight:
+      jobSite.indexOf(site) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
+
 const PostJob = () => {
   const theme = useTheme();
-  const [experienceType, setExperienceType] = useState([]);
-  const [employmentType, setEmploymentType] = useState([]);
   const [location, setLocation] = useState('');
   const [error, setError] = useState('');
+  const [jobSite, setJobSite] = useState('');
+  const [experienceType, setExperienceType] = useState('');
+  const [employmentType, setEmploymentType] = useState('');
+  const [isFormValid, setIsFormValid] = useState(false)
+
 
   const handleLocationChange = (e) => {
-    const loc = e.target.value;
-    setLocation(loc);
+    const local = e.target.value;
+    setLocation(local);
 
-    if (!loc.match(/^[A-Za-z\s]+,\s[A-Za-z]{2},\s\d{5}$/)) {
-      setError('Please enter a valid location in the format "City, State, Zip"');
+    if (!local.match(/^[A-Za-z\s]+,\s[A-Za-z]{2},\s\d{5}$/)) {
+      setError('Please enter a valid location in the format "Dallas, TX, 75201"');
     } else {
       setError('');
     }
   }
+
+  const handleSiteChange = (e) => {
+    const {
+      target: { value },
+    } = e;
+    setJobSite(
+      value,
+    );
+  };
 
   const handleExpChange = (e) => {
     const {
       target: { value },
     } = e;
     setExperienceType(
-      typeof value === 'string' ? value.split(',') : value,
+      value,
     );
   };
 
@@ -89,25 +117,49 @@ const PostJob = () => {
       target: { value },
     } = e;
     setEmploymentType(
-      typeof value === 'string' ? value.split(',') : value,
+      value,
     );
   };
 
+
+  useEffect(() => {
+
+  }, [isFormValid])
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('submit')
     let title = e.target.elements.title.value;
     let numberPositions = e.target.elements.numberPositions.value;
     let closeDate = e.target.elements.closeDate.value;
     let jobDescription = e.target.elements.jobDescription.value;
     let salary = e.target.elements.salary.value;
 
+    if (!title || !numberPositions || !closeDate || !jobDescription || !salary || !location || !jobSite || !experienceType || !employmentType) {
+      setIsFormValid(false);
+    } else {
+      setIsFormValid(true);
+      //need route
+      // axios.post('/', {
+      //   title: title,
+      //   numberPositions: numberPositions,
+      //   closeDate: closeDate,
+      //   jobDescription: jobDescription,
+      //   salary: salary,
+      //   location: location,
+      //   jobSite: jobSite,
+      //   experienceType: experienceType,
+      //   employmentType: employmentType
+      // })
+    }
+
+    console.log('submit')
     console.log('title', title)
     console.log('numPos', numberPositions)
     console.log('closeDate', closeDate)
     console.log('jobDescription', jobDescription)
     console.log('salary', salary)
     console.log('location', location)
+    console.log('job site', jobSite)
     console.log('exp type', experienceType)
     console.log('emp type', employmentType)
   }
@@ -118,7 +170,6 @@ const PostJob = () => {
       <h1>Header</h1>
     </div>
     <Container
-      sx={{border:'1px solid grey'}}
     >
       <Box
         display='flex'
@@ -134,43 +185,51 @@ const PostJob = () => {
       >
         Post Job
         <div>
-          <TextField
-            sx={{minWidth:'35vw'}}
-            required
-            id="title"
-            label="Title"
-          />
+          <FormControl>
+            <TextField
+              sx={{minWidth:'35vw'}}
+              required
+              id="title"
+              label="Title"
+            />
+          </FormControl>
         </div>
         <div>
-          <TextField
-            sx={{minWidth:'35vw'}}
-            required
-            id="numberPositions"
-            label="Number of Positions"
-            type="number"
-          />
+          <FormControl>
+            <TextField
+              sx={{minWidth:'35vw'}}
+              required
+              id="numberPositions"
+              label="Number of Positions"
+              type="number"
+            />
+          </FormControl>
         </div>
         <div>
-          <TextField
-            sx={{minWidth:'35vw'}}
-            required
-            id="closeDate"
-            label="Close Date"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            type='date'
-          />
+          <FormControl>
+            <TextField
+              sx={{minWidth:'35vw'}}
+              required
+              id="closeDate"
+              label="Close Date"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              type='date'
+            />
+          </FormControl>
         </div>
         <div>
-          <TextField
-            sx={{minWidth:'35vw'}}
-            required
-            multiline
-            id="jobDescription"
-            label="Job Description"
-            rows={6}
-          />
+          <FormControl>
+            <TextField
+              sx={{minWidth:'35vw'}}
+              required
+              multiline
+              id="jobDescription"
+              label="Job Description"
+              rows={6}
+            />
+          </FormControl>
         </div>
         <div>
           <FormControl sx={{m:1, minWidth:'35vw'}}>
@@ -184,23 +243,41 @@ const PostJob = () => {
           </FormControl>
         </div>
         <div>
-          <TextField
-            sx={{minWidth:'35vw'}}
-            required
-            id="location"
-            label="Location (City, State, Zip)"
-            value={location}
-            onChange={handleLocationChange}
-            error={error !== ''}
-            helperText={error}
-          />
+          <FormControl>
+            <TextField
+              sx={{minWidth:'35vw'}}
+              required
+              id="location"
+              label="Location (City, State, Zip)"
+              value={location}
+              onChange={handleLocationChange}
+              error={error !== ''}
+              helperText={error}
+            />
+          </FormControl>
         </div>
         <div>
-          <Box sx={{display:'flex', justifyContent:'space-between', minWidth:'35vw', m:1}}>
-            <Button id='remote' value='remote' variant="contained">Remote</Button>
-            <Button id='onsite' value='onsite' variant="contained">Onsite</Button>
-            <Button id='hybrid' value='hybrid' variant="contained">Hybrid</Button>
-          </Box>
+          <FormControl sx={{m:1, minWidth:'35vw'}}>
+            <InputLabel id="demo-multiple-name-label" required>Job Site</InputLabel>
+              <Select
+                labelId="demo-multiple-name-label"
+                id="demo-multiple-name"
+                value={jobSite}
+                onChange={handleSiteChange}
+                input={<OutlinedInput label="Job Site" />}
+                MenuProps={MenuProps}
+              >
+                {site.map((exp) => (
+                  <MenuItem
+                    key={exp}
+                    value={exp}
+                    style={getSiteStyles(exp, experienceType, theme)}
+                  >
+                    {exp}
+                  </MenuItem>
+                ))}
+              </Select>
+          </FormControl>
         </div>
         <div>
           <FormControl sx={{m:1, minWidth:'35vw'}}>
@@ -208,7 +285,6 @@ const PostJob = () => {
               <Select
                 labelId="demo-multiple-name-label"
                 id="demo-multiple-name"
-                multiple
                 value={experienceType}
                 onChange={handleExpChange}
                 input={<OutlinedInput label="Experience" />}
@@ -227,31 +303,30 @@ const PostJob = () => {
           </FormControl>
         </div>
         <div>
-        <FormControl sx={{m:1, minWidth:'35vw'}}>
-          <InputLabel id="demo-multiple-name-label" required>Employment Type</InputLabel>
-            <Select
-              labelId="demo-multiple-name-label"
-              id="demo-multiple-name"
-              multiple
-              value={employmentType}
-              onChange={handleEmpChange}
-              input={<OutlinedInput label="Employment Type" />}
-              MenuProps={MenuProps}
-            >
-              {employment.map((emp) => (
-                <MenuItem
-                  key={emp}
-                  value={emp}
-                  style={getEmploymentStyles(emp, employmentType, theme)}
-                >
-                  {emp}
-                </MenuItem>
-              ))}
-            </Select>
-        </FormControl>
+          <FormControl sx={{m:1, minWidth:'35vw'}}>
+            <InputLabel id="demo-multiple-name-label" required>Employment Type</InputLabel>
+              <Select
+                labelId="demo-multiple-name-label"
+                id="demo-multiple-name"
+                value={employmentType}
+                onChange={handleEmpChange}
+                input={<OutlinedInput label="Employment Type" />}
+                MenuProps={MenuProps}
+              >
+                {employment.map((emp) => (
+                  <MenuItem
+                    key={emp}
+                    value={emp}
+                    style={getEmploymentStyles(emp, employmentType, theme)}
+                  >
+                    {emp}
+                  </MenuItem>
+                ))}
+              </Select>
+          </FormControl>
         </div>
         <div>
-          <Button type='submit' variant="contained" sx={{mt: 1}}>Submit</Button>
+          <Button type='submit' variant="contained" sx={{m:1}}>Submit</Button>
         </div>
       </Box>
     </Container>

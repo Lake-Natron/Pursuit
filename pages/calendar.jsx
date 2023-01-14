@@ -4,10 +4,15 @@ import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 
 const Calendar = () => {
   return (
-    <FullCalendar
-      plugins={[dayGridPlugin]}
-      initialView="dayGridMonth"
-    />
+    <div>
+      <FullCalendar
+        plugins={[dayGridPlugin]}
+        initialView="dayGridMonth"
+      />
+      <div>
+        Sidebar
+      </div>
+    </div>
   )
 }
 

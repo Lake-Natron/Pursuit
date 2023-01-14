@@ -8,7 +8,8 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
-
+import Component from '../src/login-btn.jsx'
+import { signIn, signOut } from 'next-auth/react'
 
 
 const SignIn = () => {
@@ -32,6 +33,11 @@ const SignIn = () => {
       ...formFields,
       [e.target.name]: val
     })
+  }
+
+  //handle Google Login
+  async function handleGoogleSignIn(){
+    signIn('google', { callbackUrl: 'http://localhost:3000'})
   }
 
   return (
@@ -71,6 +77,7 @@ const SignIn = () => {
               // autoComplete="current-password"
               onChange={handleChange}
             />
+            <Component></Component>
             <Button
               type="submit"
               fullWidth

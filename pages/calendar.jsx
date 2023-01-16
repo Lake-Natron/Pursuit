@@ -8,6 +8,7 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import PrivateEvent from '../src/calendar/privateEvent.jsx';
 import EditMeeting from '../src/calendar/meetingForm.jsx';
+import Request from '../src/calendar/requestChange.jsx';
 
 Date.prototype.monthNames = [
   "January", "February", "March",
@@ -43,10 +44,11 @@ const { useState, useEffect } = React;
 
 const Calendar = () => {
   let [eventSelected, updateEventSelected] = useState(false);
-  let [companyLogin, updateCompanyLogin] = useState(true);
+  let [companyLogin, updateCompanyLogin] = useState(false);
   let [events, updateEvents] = useState([]);
   let [creatingEvent, updateCreating] = useState(false);
   let [editMode, updateEditMode] = useState(false);
+  let [requestMode, updateRequestMode] = useState(false);
 
   // Event Specific Details
   let [event, updateEvent] = useState({});
@@ -165,7 +167,7 @@ const Calendar = () => {
           events={events}
           eventClick={eventClick}
           customButtons={{create: {text: 'Create Event', click: toggleCreate}}}
-          headerToolbar={{center: 'create'}}
+          headerToolbar={{right: 'create today prev,next'}}
         />
       </div>
       <div style={sidebarStyle}>
@@ -207,6 +209,7 @@ const Calendar = () => {
               </div>
               <Button sx={{backgroundColor: '#E44F48', width: '80%', marginRight: 'auto', marginLeft: 'auto', "&:hover": {backgroundColor: '#c8453e'}}} variant="contained" onClick={e => {
                 e.preventDefault();
+                updateRequestMode(true);
               }}>Request Alternate Time</Button>
             </div>
           }
@@ -243,6 +246,7 @@ const Calendar = () => {
       startTime={startTime}
       endTime={endTime}
       updateEvents={updateEvents}/>
+      <Request visible={requestMode} updateVisible={updateRequestMode} />
     </div>
   )
 }

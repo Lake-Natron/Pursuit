@@ -130,19 +130,17 @@ const PostJob = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let title = e.target.elements.title.value;
-    let numberPositions = e.target.elements.numberPositions.value;
     let closeDate = e.target.elements.closeDate.value;
     let jobDescription = e.target.elements.jobDescription.value;
     let salary = e.target.elements.salary.value;
 
-    if (!title || !numberPositions || !closeDate || !jobDescription || !salary || !location || !jobSite || !experienceType || !employmentType) {
+    if (!title || !closeDate || !jobDescription || !salary || !location || !jobSite || !experienceType || !employmentType) {
       setIsFormValid(false);
     } else {
       setIsFormValid(true);
       //need route
       // axios.post('/', {
       //   title: title,
-      //   numberPositions: numberPositions,
       //   closeDate: closeDate,
       //   jobDescription: jobDescription,
       //   salary: salary,
@@ -153,7 +151,6 @@ const PostJob = () => {
       // })
       console.log('submit')
       console.log('title', title)
-      console.log('numPos', numberPositions)
       console.log('closeDate', closeDate)
       console.log('jobDescription', jobDescription)
       console.log('salary', salary)
@@ -187,17 +184,6 @@ const PostJob = () => {
               sx={{minWidth:'35vw'}}
               id="title"
               label="Title"
-            />
-          </FormControl>
-        </div>
-        <div>
-          <FormControl>
-            <TextField
-              required
-              sx={{minWidth:'35vw'}}
-              id="numberPositions"
-              label="Number of Positions"
-              type="number"
             />
           </FormControl>
         </div>

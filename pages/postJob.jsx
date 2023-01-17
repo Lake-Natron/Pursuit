@@ -139,7 +139,7 @@ const PostJob = () => {
       setIsFormValid(false);
     } else {
       setIsFormValid(true);
-      //need route
+      //need route, also figure out where company_id comes from
       // axios.post('/', {
       //   title: title,
       //   closeDate: closeDate,
@@ -150,6 +150,7 @@ const PostJob = () => {
       //   jobSite: jobSite,
       //   experienceType: experienceType,
       //   employmentType: employmentType
+      //   company_id: company_id
       // })
       console.log('submit')
       console.log('title', title)

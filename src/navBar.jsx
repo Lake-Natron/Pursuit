@@ -26,7 +26,7 @@ const settings = ['My Jobs', 'Notifications', 'Logout', 'Upload Resume'];
 
 const logoUrl = '';
 
-const navBar = ({page}) => {
+const NavBar = ({page}) => {
   const [notifications, setNotifications] = useState([]);
   //TODO: Routinely pull down items for user for notifications:
 
@@ -144,4 +144,4 @@ const navBar = ({page}) => {
 
 };
 
-export default navBar;
+export default NavBar;

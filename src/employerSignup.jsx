@@ -9,10 +9,9 @@ import { Link as MuiLink } from '@mui/material/Link';
 import Radio from '@mui/material/Radio';
 
 
-const Signup = () => {
-  const [signUpAs, setSignUpAs] = useState(null);
+const EmployerSignup = () => {
 
-  return (
+return (
     <Container maxWidth='xs'>
       {!signUpAs && <Box
         sx={{
@@ -22,18 +21,11 @@ const Signup = () => {
           alignItems: 'center'
         }}
       >
-        Are you looking to sign up as a Job-Seeker or a Company?
-        <Box
-          sx={{
-            flexDirection: 'row',
-            justifyContent: 'space-around'
-          }}>
-          <Button variant="contained" sx={{ margin: '10px' }} onClick={() => {setSignUpAs('seeker')}} >Job Seeker</Button>
-          <Button variant="contained" sx={{ margin: '10px' }} onClick={() => {setSignUpAs('employer')}}>Employer</Button>
-        </Box>
+        Employer SignUp Component
+
       </Box>}
     </Container>
   );
 };
 
-export default Signup;
+export default EmployerSignup;

@@ -14,8 +14,8 @@ const getAllSeekers = async (req, res) => {
   res.send(seekers);
 }
 
-const addSeeker = async (req, res) => {
-  const seeker = await prisma.Seeker.create({
+const addUser = async (req, res) => {
+  const seeker = await prisma.User.create({
     data: {
       first_name: req.body.first_name,
       last_name: req.body.last_name,

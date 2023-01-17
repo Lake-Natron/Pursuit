@@ -26,7 +26,7 @@ app.get('/seeker', getSeeker);
 // get all job seekers
 app.get('/seekers', getAllSeekers);
 
-// add a job seeker
-app.post('/seeker', addSeeker);
+// add a user
+app.post('/user', addUser);
 
 app.listen(process.env.PORT, () => console.log('Listening on port ' + process.env.PORT));

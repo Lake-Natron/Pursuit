@@ -3,10 +3,14 @@ import { useState, useEffect } from 'react';
 import NavBar from '../src/navBar';
 import ApplicantListCard from '../src/applicantListCard';
 import Box from '@mui/material/Box';
-import List from '@mui/material/List';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const ViewApplicants = () => {
-  const [jobListings, setJobListings] = useState([]);
+  const [jobListings, setJobListings] = useState(['test', 'test', 'test', 'test', 'test', 'test', 'test']);
 
   useEffect(() => {
     // axios.get('/')
@@ -18,16 +22,11 @@ const ViewApplicants = () => {
     <>
     <NavBar />
     <Box sx={{width: '100%', minWidth: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid'}}>
-      <nav aria-label="job-list-container">
-        <h2>Have Job Details Here?</h2>
-        <List sx={{mt: -1}}>
+      <nav aria-label="applicant-list-container">
+        <h2>Job Title? Other Info?</h2>
           {jobListings.map((listing, index) =>
             <ApplicantListCard listing={listing} key={index} />
           )}
-          <ApplicantListCard />
-          <ApplicantListCard />
-          <ApplicantListCard />
-        </List>
       </nav>
     </Box>
     </>

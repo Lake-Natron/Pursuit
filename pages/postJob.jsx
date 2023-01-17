@@ -150,18 +150,17 @@ const PostJob = () => {
       //   experienceType: experienceType,
       //   employmentType: employmentType
       // })
+      console.log('submit')
+      console.log('title', title)
+      console.log('numPos', numberPositions)
+      console.log('closeDate', closeDate)
+      console.log('jobDescription', jobDescription)
+      console.log('salary', salary)
+      console.log('location', location)
+      console.log('job site', jobSite)
+      console.log('exp type', experienceType)
+      console.log('emp type', employmentType)
     }
-
-    console.log('submit')
-    console.log('title', title)
-    console.log('numPos', numberPositions)
-    console.log('closeDate', closeDate)
-    console.log('jobDescription', jobDescription)
-    console.log('salary', salary)
-    console.log('location', location)
-    console.log('job site', jobSite)
-    console.log('exp type', experienceType)
-    console.log('emp type', employmentType)
   }
 
   return (
@@ -187,8 +186,8 @@ const PostJob = () => {
         <div>
           <FormControl>
             <TextField
-              sx={{minWidth:'35vw'}}
               required
+              sx={{minWidth:'35vw'}}
               id="title"
               label="Title"
             />
@@ -197,8 +196,8 @@ const PostJob = () => {
         <div>
           <FormControl>
             <TextField
-              sx={{minWidth:'35vw'}}
               required
+              sx={{minWidth:'35vw'}}
               id="numberPositions"
               label="Number of Positions"
               type="number"
@@ -208,8 +207,8 @@ const PostJob = () => {
         <div>
           <FormControl>
             <TextField
-              sx={{minWidth:'35vw'}}
               required
+              sx={{minWidth:'35vw'}}
               id="closeDate"
               label="Close Date"
               InputLabelProps={{
@@ -222,8 +221,8 @@ const PostJob = () => {
         <div>
           <FormControl>
             <TextField
-              sx={{minWidth:'35vw'}}
               required
+              sx={{minWidth:'35vw'}}
               multiline
               id="jobDescription"
               label="Job Description"
@@ -245,8 +244,8 @@ const PostJob = () => {
         <div>
           <FormControl>
             <TextField
-              sx={{minWidth:'35vw'}}
               required
+              sx={{minWidth:'35vw'}}
               id="location"
               label="Location (City, State, Zip)"
               value={location}
@@ -258,10 +257,10 @@ const PostJob = () => {
         </div>
         <div>
           <FormControl sx={{m:1, minWidth:'35vw'}}>
-            <InputLabel id="demo-multiple-name-label" required>Job Site</InputLabel>
+            <InputLabel id="job-site-label" required>Job Site</InputLabel>
               <Select
-                labelId="demo-multiple-name-label"
-                id="demo-multiple-name"
+                labelId="job-site-label"
+                id="job-site"
                 value={jobSite}
                 onChange={handleSiteChange}
                 input={<OutlinedInput label="Job Site" />}
@@ -281,10 +280,10 @@ const PostJob = () => {
         </div>
         <div>
           <FormControl sx={{m:1, minWidth:'35vw'}}>
-            <InputLabel id="demo-multiple-name-label" required>Experience</InputLabel>
+            <InputLabel id="experience-label" required>Experience</InputLabel>
               <Select
-                labelId="demo-multiple-name-label"
-                id="demo-multiple-name"
+                labelId="experience-label"
+                id="experience"
                 value={experienceType}
                 onChange={handleExpChange}
                 input={<OutlinedInput label="Experience" />}
@@ -304,10 +303,10 @@ const PostJob = () => {
         </div>
         <div>
           <FormControl sx={{m:1, minWidth:'35vw'}}>
-            <InputLabel id="demo-multiple-name-label" required>Employment Type</InputLabel>
+            <InputLabel id="employment-label" required>Employment Type</InputLabel>
               <Select
-                labelId="demo-multiple-name-label"
-                id="demo-multiple-name"
+                labelId="employment-label"
+                id="employment"
                 value={employmentType}
                 onChange={handleEmpChange}
                 input={<OutlinedInput label="Employment Type" />}

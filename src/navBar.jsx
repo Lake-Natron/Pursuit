@@ -15,10 +15,11 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Image from 'next/image';
+import ResumeForm from './resume/resumeForm.jsx';
 
 // Navigation Links
 const pages = ['Home', 'Job Board', 'My Jobs', 'Calendar'];
-const settings = ['My Jobs', 'Notifications', 'Logout', 'Upload Resume'];
+const settings = ['My Jobs', 'Notifications', 'Logout'];
 
 // TODO: Conditionally Add Login Page
 // TODO: Conditionally change pages based on whether the user is logged in.
@@ -32,6 +33,7 @@ const NavBar = ({page}) => {
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [importingResume, updateImportingResume] = useState(false);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -135,10 +137,14 @@ const NavBar = ({page}) => {
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem key={'upload'} onClick={e => updateImportingResume(true)}>
+                  <Typography textAlign="center">Upload Resume</Typography>
+                </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
       </Container>
+      <ResumeForm visible={importingResume} updateVisible={updateImportingResume} />
     </AppBar>
   )
 

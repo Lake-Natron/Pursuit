@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-//import axios from 'axios';
+import axios from 'axios';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
@@ -13,6 +13,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import NavBar from '../src/navBar';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -165,11 +166,8 @@ const PostJob = () => {
 
   return (
     <>
-    <div>
-      <h1>Header</h1>
-    </div>
-    <Container
-    >
+    <NavBar />
+    <Container sx={{mt:3}}>
       <Box
         display='flex'
         flexDirection='column'
@@ -182,7 +180,6 @@ const PostJob = () => {
         autoComplete="off"
         onSubmit={handleSubmit}
       >
-        Post Job
         <div>
           <FormControl>
             <TextField

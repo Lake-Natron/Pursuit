@@ -36,6 +36,11 @@ const EditMeeting = ({ visible, updateVisible, start, end, description, updateDe
     }
   }
 
+  const cancel = () => {
+    // Send cancellation message
+    updateVisible(false);
+  }
+
   const boxStyle = {
     backgroundColor: 'white',
     borderRadius: '10px',
@@ -102,6 +107,7 @@ const EditMeeting = ({ visible, updateVisible, start, end, description, updateDe
             onChange={e => updateNewDesc(e.target.value)}
           />
           <div style={{ display: 'flex', justifyContent: 'space-evenly', marginTop: '20px', marginBottom: '20px' }}>
+          <Button sx={buttonStyle} onClick={cancel}>Cancel</Button>
           <Button sx={buttonStyle} onClick={save}>Save Changes</Button>
           <Button sx={buttonStyle} onClick={e => updateVisible(false)}>Close</Button>
           </div>

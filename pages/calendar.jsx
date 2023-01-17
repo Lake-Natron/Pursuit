@@ -1,6 +1,7 @@
 import React from 'react'
 import FullCalendar from '@fullcalendar/react' // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
+import timeGridPlugin from '@fullcalendar/timegrid' // a plugin!
 import HelpIcon from '@mui/icons-material/Help';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Button from '@mui/material/Button';
@@ -162,12 +163,15 @@ const Calendar = () => {
     <div style={pageStyle}>
       <div style={calendarStyle} className='calendar'>
         <FullCalendar
-          plugins={[dayGridPlugin]}
+          plugins={[dayGridPlugin, timeGridPlugin]}
           initialView="dayGridMonth"
           events={events}
           eventClick={eventClick}
           customButtons={{create: {text: 'Create Event', click: toggleCreate}}}
-          headerToolbar={{right: 'create today prev,next'}}
+          headerToolbar={{
+            right: 'create today prev,next',
+            center: 'dayGridMonth,timeGridWeek,timeGridDay'
+          }}
         />
       </div>
       <div style={sidebarStyle}>

@@ -30,8 +30,8 @@ const navBar = ({page}) => {
   const [notifications, setNotifications] = useState([]);
   //TODO: Routinely pull down items for user for notifications:
 
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);

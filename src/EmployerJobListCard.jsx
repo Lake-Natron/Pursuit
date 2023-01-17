@@ -6,13 +6,20 @@ import Container from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import Button from '@mui/material/Button';
 
-const EmployerJobListCard = () => {
+const EmployerJobListCard = ({listing}) => {
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    console.log('Click')
+  }
+
   return (
     <>
     <ListItem sx={{border:'1px solid grey', width:'60vw', minHeight:'7em', marginBottom: '1em', borderRadius: '8px', overflow: 'hidden'}}>
         <ListItemText primary='Job Listing Details' />
-        <ListItemButton sx={{border:'1px solid grey', borderRadius: '8px', overflow: 'hidden'}}> Button </ListItemButton>
+        <Button variant="contained" onClick={handleClick}>View Applicants -></Button>
     </ListItem>
     </>
   )

@@ -19,17 +19,21 @@ const HomeEmployer = () => {
   return (
     <>
     <div>
-      <h1>Header - Employer Home</h1>
+      <h1>Header - Employer Home - Calendar, Post Job, etc. included here</h1>
     </div>
     <Box sx={{width: '100%', minWidth: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid'}}>
       <nav aria-label="job-list-container">
-        <List>
-          <EmployerJobListCard></EmployerJobListCard>
-          <EmployerJobListCard></EmployerJobListCard>
-          <EmployerJobListCard></EmployerJobListCard>
-          <EmployerJobListCard></EmployerJobListCard>
-          <EmployerJobListCard></EmployerJobListCard>
-          <EmployerJobListCard></EmployerJobListCard>
+        <List sx={{mt: 4}}>
+          {jobListings.map((listing, index) =>
+            <EmployerJobListCard listing={listing} key={index} />
+          )}
+          <EmployerJobListCard />
+          <EmployerJobListCard />
+          <EmployerJobListCard />
+          <EmployerJobListCard />
+          <EmployerJobListCard />
+          <EmployerJobListCard />
+          <EmployerJobListCard />
         </List>
       </nav>
     </Box>

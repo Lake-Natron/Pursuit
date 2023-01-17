@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import PrivateEvent from '../src/calendar/privateEvent.jsx';
 import EditMeeting from '../src/calendar/meetingForm.jsx';
 import Request from '../src/calendar/requestChange.jsx';
+import NavBar from '../src/navBar';
 
 Date.prototype.monthNames = [
   "January", "February", "March",
@@ -128,7 +129,8 @@ const Calendar = () => {
   const pageStyle = {
     display: 'flex',
     justifyContent: 'space-evenly',
-    fontFamily: 'Lora'
+    fontFamily: 'Lora',
+    marginTop: '15px'
   }
 
   const sidebarStyle = {
@@ -166,6 +168,8 @@ const Calendar = () => {
   }
 
   return (
+    <div>
+      <NavBar />
     <div style={pageStyle}>
       <div style={calendarStyle} className='calendar'>
         <FullCalendar
@@ -259,6 +263,7 @@ const Calendar = () => {
       updateEvents={updateEvents}/>
       <Request visible={requestMode} updateVisible={updateRequestMode} />
     </div>
+    </div>
   )
 }
 
@@ -307,15 +312,3 @@ const data = [
   }
 ]
 
-
-// Only pull meetings where cancelled is false
-
-// Description
-// id
-// title
-// start
-// end
-// notes - if seeker, pull application seeker notes. if company, pull application company notes
-// seeker_accepted
-// private
-// with - if seeker, pull company name. if company, pull seeker name

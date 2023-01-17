@@ -65,6 +65,7 @@ const Calendar = () => {
   let [title, updateTitle] = useState('');
   let [startTime, updateStartTime] = useState({});
   let [endTime, updateEndTime] = useState({});
+  let [whom, updateWhom] = useState('');
 
   useEffect(() => {
     data.forEach(event => {
@@ -90,6 +91,11 @@ const Calendar = () => {
         updateNotes('');
       } else {
         updateNotes(event._def.extendedProps.notes);
+      }
+      if (!event._def.extendedProps.with) {
+        updateWhom('');
+      } else {
+        updateWhom(event._def.extendedProps.with);
       }
       updatePrivatEvent(event._def.extendedProps.private);
       updateStart(event._def.extendedProps.read_start.getStringTime());
@@ -181,6 +187,7 @@ const Calendar = () => {
         {eventSelected &&
         <div>
           <h1 style={sidebarTitle}>{title}</h1>
+          {!privateEvent && <p>Meeting with {whom}</p>}
           { (companyLogin && !privateEvent) &&
             <>
               {event._def.extendedProps.seeker_accepted &&
@@ -269,7 +276,8 @@ const data = [
     seeker_accepted: false,
     change_requested: false,
     request_notes: 'test',
-    id: 1
+    id: 1,
+    with: 'Grace Andrews'
   },
   {
     description: 'Let\'s use this time to chat about an opportunity I have for you',
@@ -282,7 +290,8 @@ const data = [
     seeker_accepted: true,
     change_requested: false,
     request_notes: 'test',
-    id: 2
+    id: 2,
+    with: 'Grace Andrews'
   },
   {
     description: 'Let\'s use this time to chat about an opportunity I have for you',
@@ -293,7 +302,8 @@ const data = [
     canceled: false,
     seeker_accepted: true,
     private: true,
-    id: 3
+    id: 3,
+    with: 'Grace Andrews'
   }
 ]
 
@@ -308,3 +318,4 @@ const data = [
 // notes - if seeker, pull application seeker notes. if company, pull application company notes
 // seeker_accepted
 // private
+// with - if seeker, pull company name. if company, pull seeker name

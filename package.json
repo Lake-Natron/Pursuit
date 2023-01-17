@@ -29,6 +29,7 @@
     "@fullcalendar/core": "^6.0.3",
     "@fullcalendar/daygrid": "^6.0.3",
     "@fullcalendar/react": "^6.0.4",
+    "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.4",
     "babel-loader": "^9.1.2",
     "css-loader": "^6.7.3",

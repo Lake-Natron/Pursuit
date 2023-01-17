@@ -17,8 +17,8 @@ import AdbIcon from '@mui/icons-material/Adb';
 import Image from 'next/image';
 
 // Navigation Links
-const pages = ['Job Board', 'My Jobs', 'Calendar'];
-const settings = ['My Jobs', 'Notifications', 'Logout'];
+const pages = ['Home', 'Job Board', 'My Jobs', 'Calendar'];
+const settings = ['My Jobs', 'Notifications', 'Logout', 'Upload Resume'];
 
 // TODO: Conditionally Add Login Page
 // TODO: Conditionally change pages based on whether the user is logged in.
@@ -49,29 +49,12 @@ const navBar = ({page}) => {
   };
 
   return (
-    <AppBar position='static'>
-     <Container maxWidth="xl">
+    <AppBar position='static' sx={{ bgcolor: '#E44F48' }}>
+     <Container maxWidth="xl" >
         <Toolbar disableGutters>
-          {/* <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherity',
-              textDecoration: 'none',
-            }}
-          >
-            Job Pursuit
-          </Typography> */}
-          <Image src='/assets/logo.png' alt='navigation-bar-logo' width='200' height='64' />
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+
+        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="user-account"
@@ -100,43 +83,30 @@ const navBar = ({page}) => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
+
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
+        </Box>
 
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            Job Pursuit
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
+        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
+          <Image src='/assets/logo.png' alt='Job-Pursuit-Logo' width='200' height='64'  />
+        </Box>
+
+        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          {pages.map((page) => (
+            <Button
+              key={page}
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              {page}
+            </Button>
+          ))}
+        </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">

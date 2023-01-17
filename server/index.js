@@ -1,7 +1,7 @@
 const express = require('express');
 require('dotenv').config();
 const { getJob, searchJobs, getAllJobs, addJob } = require('../prisma/controllers/jobs.js');
-const { getSeeker, getAllSeekers, addSeeker } = require('../prisma/controllers/seekers.js');
+const { getUser, getAllUsers, addUser } = require('../prisma/controllers/users.js');
 
 let app = express();
 app.use(express.json());
@@ -21,10 +21,10 @@ app.get('/jobs', getAllJobs);
 app.post('/job', addJob);
 
 // get a specific job seeker by id
-app.get('/seeker', getSeeker);
+app.get('/user', getUser);
 
 // get all job seekers
-app.get('/seekers', getAllSeekers);
+app.get('/users', getAllUsers);
 
 // add a user
 app.post('/user', addUser);

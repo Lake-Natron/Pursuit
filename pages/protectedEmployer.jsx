@@ -6,6 +6,8 @@ import Router from 'next/router'
 function ProtectedEmployer(props) {
   const { status, data } = useSession();
 
+  console.log(data?.user)
+
   useEffect(() => {
     if (status === "unauthenticated" || data?.user.role !== 'employer') Router.replace("/login");
   }, [status])

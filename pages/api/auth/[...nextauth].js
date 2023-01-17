@@ -5,8 +5,13 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 // import EmailProvider from "next-auth/providers/email"
 // import GitHubProvider from 'next-auth/providers/github'
 
+import { PrismaClient } from '@prisma/client'
+
+
+const prisma = new PrismaClient();
 
 export default NextAuth({
+
   session: {
     strategy: 'jwt'
   },
@@ -16,6 +21,14 @@ export default NextAuth({
       credentials: {},
       authorize(credentials, req) {
         const {email, password} = credentials;
+
+        const getSeeker = async (req, res) => {
+          const { id } = req.query;
+          const user = await prisma.User.findUnique({
+            where: { id: Number(id) }
+          });
+          res.send(seeker);
+        }
 
 
         if (email === 'andy@gmail.com' && password === '1234') {

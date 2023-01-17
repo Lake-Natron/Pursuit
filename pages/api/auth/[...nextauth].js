@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials'
+import bcrypt from 'bcrypt';
 // import GoogleProvider from "next-auth/providers/google"
 // import AppleProvider from "next-auth/providers/apple"
 // import EmailProvider from "next-auth/providers/email"
@@ -19,37 +20,20 @@ export default NextAuth({
     CredentialsProvider({
       type: 'credentials',
       credentials: {},
-      authorize(credentials, req) {
+      async authorize(credentials, req) {
         const {email, password} = credentials;
 
-        const getSeeker = async (req, res) => {
-          const { id } = req.query;
-          const user = await prisma.User.findUnique({
-            where: { id: Number(id) }
+
+        const user = await prisma.User.findUnique({
+            where: { email: email }
           });
-          res.send(seeker);
-        }
 
 
-        if (email === 'andy@gmail.com' && password === '1234') {
-          const user = {id: '1234', name: "John Doe", email: "john@gmail.com", role: "user"};
-          return {id: '1234', name: "John Doe", email: "john@gmail.com", role: "user"};
-        }
+        if (!user) throw new Error ('username does not exist')
 
-        if (email === 'employer@gmail.com' && password === "1234") {
-          const user = {id: '1234', name: "John Doe", email: "john@gmail.com", role: "user"};
-          return {id: '1234', name: "John Doe", email: "john@gmail.com", role: "employer"};
-        }
+        //compare password using bcrypt
 
-        throw new Error('invalid credentials')
-
-        if (email !== 'andy@gmail.com' || password !== '1234') {
-          throw new Error('invalid credentials')
-        }
-
-        //perform your login logic
-        //find user from db
-        return {id: '1234', name: "John Doe", email: "john@gmail.com"};
+        return {id: user.id, name: user.first_name + ' ' + user.last_name, email: user.email, role: user.role};
       }
     })
   ],
@@ -60,7 +44,12 @@ export default NextAuth({
   },
   callbacks: {
     async session({ session, token}) {
-      const user = {id: '1234', name: "John Doe", email: "john@gmail.com", role: "employer"};
+      console.log("session", session.user.email)
+      const email = session.user.email
+      const user = await prisma.User.findUnique({
+        where: { email: email }
+      });
+      session.user.id = user.id;
       session.user.role = user.role; // Add role value to user object so it is passed along with session
       return session;
     }

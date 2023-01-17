@@ -25,12 +25,11 @@ const SignIn = () => {
 
   useEffect(() => {
     if (status === "unauthenticated") Router.replace("/login");
-    if (status === "authenticated" && data.user.role === "user" ) {
+    if (status === "authenticated" && data.user.role === "seeker" ) {
       Router.replace('/protectedUser')
-    console.log(status)
     console.log(data.user.role)
     }
-    if (status === "authenticated" && data.user.role === "employer" ) {
+    if (status === "authenticated" && data.user.role === "company" ) {
       console.log('employer authenticated')
       Router.replace('/protectedEmployer')
     }
@@ -44,6 +43,8 @@ const SignIn = () => {
       ...formFields,
       redirect: false
      });
+
+     console.log(res)
 
      setFormFields({
       email: '',

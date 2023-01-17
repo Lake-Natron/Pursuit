@@ -9,7 +9,10 @@ import Link from '@mui/material/Link';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import Component from '../src/login-btn.jsx'
-import { signIn, signOut } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
+import { useSession } from "next-auth/react";
+import Router from 'next/router'
+
 
 
 const SignIn = () => {
@@ -18,11 +21,35 @@ const SignIn = () => {
     password: '',
     role: ''
   })
+  const { status, data } = useSession();
 
-  const handleSubmit = () => {
+  useEffect(() => {
+    if (status === "unauthenticated") Router.replace("/login");
+    if (status === "authenticated" && data.user.role === "user" ) {
+      Router.replace('/protectedUser')
+    console.log(status)
+    console.log(data.user.role)
+    }
+    if (status === "authenticated" && data.user.role === "employer" ) {
+      console.log('employer authenticated')
+      Router.replace('/protectedEmployer')
+    }
+  }, [status])
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     //TODO:
     // Some way to determine if the sign up is
+    const res = await signIn('credentials', {
+      ...formFields,
+      redirect: false
+     });
+
+     setFormFields({
+      email: '',
+      password: '',
+      role: ''
+    })
   }
 
   // Handles change for form controlled components
@@ -77,7 +104,7 @@ const SignIn = () => {
               // autoComplete="current-password"
               onChange={handleChange}
             />
-            <Component></Component>
+            {/* <Component></Component> */}
             <Button
               type="submit"
               fullWidth

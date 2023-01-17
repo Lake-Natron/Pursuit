@@ -1,5 +1,6 @@
 import React from "react";
 import Link from 'next/link';
+import { signIn } from 'next-auth/react'
 
 const App = () => {
   return (
@@ -7,9 +8,9 @@ const App = () => {
       <button>
         <Link href="/calendar">Calendar</Link>
       </button>
-      <button>
-        <Link href="/login">Login</Link>
-      </button>
+      <button onClick={() => {
+        signIn();
+      }}>Log In</button>
     </div>
 
   )

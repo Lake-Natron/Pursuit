@@ -132,9 +132,10 @@ const PostJob = () => {
     let title = e.target.elements.title.value;
     let closeDate = e.target.elements.closeDate.value;
     let jobDescription = e.target.elements.jobDescription.value;
+    let skills = e.target.elements.skills.value;
     let salary = e.target.elements.salary.value;
 
-    if (!title || !closeDate || !jobDescription || !salary || !location || !jobSite || !experienceType || !employmentType) {
+    if (!title || !closeDate || !jobDescription || !skills || !salary || !location || !jobSite || !experienceType || !employmentType) {
       setIsFormValid(false);
     } else {
       setIsFormValid(true);
@@ -143,6 +144,7 @@ const PostJob = () => {
       //   title: title,
       //   closeDate: closeDate,
       //   jobDescription: jobDescription,
+      //   skills: skills,
       //   salary: salary,
       //   location: location,
       //   jobSite: jobSite,
@@ -153,6 +155,7 @@ const PostJob = () => {
       console.log('title', title)
       console.log('closeDate', closeDate)
       console.log('jobDescription', jobDescription)
+      console.log('skills', skills)
       console.log('salary', salary)
       console.log('location', location)
       console.log('job site', jobSite)
@@ -210,6 +213,16 @@ const PostJob = () => {
               id="jobDescription"
               label="Job Description"
               rows={6}
+            />
+          </FormControl>
+        </div>
+        <div>
+          <FormControl>
+            <TextField
+              required
+              sx={{minWidth:'35vw'}}
+              id="skills"
+              label="Skills"
             />
           </FormControl>
         </div>

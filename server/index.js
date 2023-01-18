@@ -2,19 +2,20 @@ const express = require('express');
 require('dotenv').config();
 const { getJob, searchJobs, getAllJobs, addJob } = require('../prisma/controllers/jobs.js');
 const { getUser, getAllUsers, addUser } = require('../prisma/controllers/users.js');
+const { applyToJob, getJobsAppliedTo, getApplicants } = require('../prisma/controllers/applications.js');
 
 let app = express();
 app.use(express.json());
 
 // Routes
 
-// get a specific job by id
+// get a specific job with job_id as parameter
 app.get('/job', getJob);
 
 // search for jobs with a variety of filters
 app.get('/jobs/search', searchJobs);
 
-// get all jobs
+// get all jobs (optional parameter for company_id)
 app.get('/jobs', getAllJobs);
 
 // add a job
@@ -28,5 +29,14 @@ app.get('/users', getAllUsers);
 
 // add a user
 app.post('/user', addUser);
+
+// apply to a job
+app.post('/apply', applyToJob);
+
+// get all jobs that a job seeker has applied to
+app.get('/jobs/applied', getJobsAppliedTo);
+
+// get all applicants for a specific job
+app.get('/jobs/applicants', getApplicants);
 
 app.listen(process.env.PORT, () => console.log('Listening on port ' + process.env.PORT));

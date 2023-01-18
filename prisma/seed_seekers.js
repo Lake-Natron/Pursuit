@@ -3,39 +3,64 @@ const prisma = new PrismaClient()
 
 let seekers = [
   {
-    first_name: 'Callie',
-    last_name: 'Stoscup',
-    session_id: '1',
-    email: 'calliestoscup@gmail.com',
-    password: 'password_1'
+    first_name: 'George',
+    last_name: 'Bush',
+    email: 'georgebush@gmail.com',
+    image_url: 'https://media.istockphoto.com/id/523761634/photo/cute-panda-bear-climbing-in-tree.jpg?s=612x612&w=0&k=20&c=TxsmORsbuY1LpxQsc6T8fpWJo7lBwncciYhroAr8rXI=',
+    role: 'seeker',
+    address: '1234 Fake Dr',
+    city: 'New York City',
+    state: 'New York',
+    zip_code: '10001',
+    password: 'password_9',
   },
   {
     first_name: 'John',
     last_name: 'Doe',
-    session_id: '2',
     email: 'johndoe@gmail.com',
-    password: 'password_2'
+    password: 'password_5',
+    image_url: 'https://media.istockphoto.com/id/523761634/photo/cute-panda-bear-climbing-in-tree.jpg?s=612x612&w=0&k=20&c=TxsmORsbuY1LpxQsc6T8fpWJo7lBwncciYhroAr8rXI=',
+    role: 'seeker',
+    address: '1234 Fake Dr',
+    city: 'New York City',
+    state: 'New York',
+    zip_code: '10001'
   },
   {
     first_name: 'Jane',
     last_name: 'Doe',
-    session_id: '3',
     email: 'janedoe@gmail.com',
-    password: 'password_3'
+    image_url: 'https://media.istockphoto.com/id/523761634/photo/cute-panda-bear-climbing-in-tree.jpg?s=612x612&w=0&k=20&c=TxsmORsbuY1LpxQsc6T8fpWJo7lBwncciYhroAr8rXI=',
+    role: 'seeker',
+    address: '1234 Fake Dr',
+    city: 'New York City',
+    state: 'New York',
+    zip_code: '10001',
+    password: 'password_6'
   },
   {
     first_name: 'Oprah',
     last_name: 'Winfrey',
-    session_id: '4',
     email: 'oprahwinfrey@gmail.com',
-    password: 'password_4'
+    image_url: 'https://media.istockphoto.com/id/523761634/photo/cute-panda-bear-climbing-in-tree.jpg?s=612x612&w=0&k=20&c=TxsmORsbuY1LpxQsc6T8fpWJo7lBwncciYhroAr8rXI=',
+    role: 'seeker',
+    address: '1234 Fake Dr',
+    city: 'New York City',
+    state: 'New York',
+    zip_code: '10001',
+    password: 'password_7'
   },
   {
     first_name: 'Brad',
     last_name: 'Pitt',
-    session_id: '5',
     email: 'bradpitt@gmail.com',
-    password: 'password_5'
+    image_url: 'https://media.istockphoto.com/id/523761634/photo/cute-panda-bear-climbing-in-tree.jpg?s=612x612&w=0&k=20&c=TxsmORsbuY1LpxQsc6T8fpWJo7lBwncciYhroAr8rXI=',
+    role: 'seeker',
+    address: '1234 Fake Dr',
+    city: 'New York City',
+    state: 'New York',
+    zip_code: '10001',
+    password: 'password_8'
   }
 ];
 
@@ -43,7 +68,7 @@ async function main() {
   console.log('Start seeding...');
 
   for (let i = 0; i < seekers.length; i++) {
-    const seeker = await prisma.Seeker.create({
+    const seeker = await prisma.User.create({
       data: seekers[i]
     })
     console.log(`Created user with id: ${seeker.id}`)

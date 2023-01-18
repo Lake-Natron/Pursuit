@@ -5,6 +5,8 @@ CREATE TABLE "Application" (
     "seeker_id" INTEGER,
     "seeker_notes" VARCHAR(255),
     "company_notes" VARCHAR(255),
+    "seeker_interest_level" VARCHAR(255),
+    "company_interest_level" VARCHAR(255),
 
     CONSTRAINT "Application_pkey" PRIMARY KEY ("id")
 );
@@ -81,7 +83,6 @@ CREATE TABLE "User" (
     "city" VARCHAR(255),
     "state" VARCHAR(255),
     "zip_code" VARCHAR(255),
-    "pdf_url" TEXT,
 
     CONSTRAINT "Seeker_pkey" PRIMARY KEY ("id")
 );

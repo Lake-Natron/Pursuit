@@ -28,8 +28,7 @@ const addUser = async (req, res) => {
       address_2: req.body.address_2,
       city: req.body.city,
       state: req.body.state,
-      zip_code: req.body.zip_code,
-      pdf_url: req.body.pdr_url
+      zip_code: req.body.zip_code
     }
   });
   res.send(user);

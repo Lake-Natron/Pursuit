@@ -8,14 +8,16 @@ datasource db {
 }
 
 model Application {
-  id            Int       @id @default(autoincrement())
-  job_id        Int?
-  seeker_id     Int?
-  seeker_notes  String?   @db.VarChar(255)
-  company_notes String?   @db.VarChar(255)
-  Job           Job?      @relation(fields: [job_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  User          User?     @relation(fields: [seeker_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  Meeting       Meeting[]
+  id                     Int       @id @default(autoincrement())
+  job_id                 Int?
+  seeker_id              Int?
+  seeker_notes           String?   @db.VarChar(255)
+  company_notes          String?   @db.VarChar(255)
+  seeker_interest_level  String?   @db.VarChar(255)
+  company_interest_level String?   @db.VarChar(255)
+  Job                    Job?      @relation(fields: [job_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  User                   User?     @relation(fields: [seeker_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Meeting                Meeting[]
 }
 
 model Education {
@@ -86,7 +88,6 @@ model User {
   city                             String?           @db.VarChar(255)
   state                            String?           @db.VarChar(255)
   zip_code                         String?           @db.VarChar(255)
-  pdf_url                          String?
   Application                      Application[]
   Education                        Education[]
   Job                              Job[]

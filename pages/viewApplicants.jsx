@@ -23,7 +23,7 @@ const ViewApplicants = () => {
     <NavBar />
     <Box sx={{width: '100%', minWidth: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid'}}>
       <nav aria-label="applicant-list-container">
-        <h2>Job Title? Other Info?</h2>
+        <h2>Software Engineer</h2>
           {jobListings.map((listing, index) =>
             <ApplicantListCard listing={listing} key={index} />
           )}

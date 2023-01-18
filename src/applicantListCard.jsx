@@ -26,14 +26,14 @@ const ApplicantListCard = () => {
 
   return (
     <>
-      <Accordion sx={{m: 3, width: '60vw', border:'1px solid grey'}}>
+      <Accordion sx={{width: '60vw', border:'1px solid grey'}}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
           <Typography>Applicant Name</Typography>
-          <Box sx={{ml: '30vw'}}>
+          <Box sx={{ml: '50%'}}>
             <Button variant="contained" sx={{mr: '1em'}} onClick={handleInterestedClick}>Interested</Button>
             <Button variant="contained" onClick={handleNotInterestedClick}>Not Interested</Button>
           </Box>
@@ -44,7 +44,7 @@ const ApplicantListCard = () => {
             Skills: <br/>
 
           </Typography>
-          <CreateMeeting />
+          {/* <CreateMeeting /> */}
         </AccordionDetails>
       </Accordion>
     </>

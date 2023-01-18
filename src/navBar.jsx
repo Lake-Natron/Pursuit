@@ -19,13 +19,14 @@ import ResumeForm from './resume/resumeForm.jsx';
 import Link from 'next/link';
 import Notifications from './notifications.jsx';
 
-// Navigation Links
+// Navigation Link
 const pages = ['Home', 'Job Board', 'My Jobs'];
 const settings = ['My Jobs', 'Logout'];
 
 // TODO: Conditionally Add Login Page
 // TODO: Conditionally change pages based on whether the user is logged in.
-// TODO:
+
+console.log(this.sessionStorage);
 
 const logoUrl = '';
 

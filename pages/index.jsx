@@ -8,6 +8,7 @@ const App = () => {
       <NavBar />
       <button>
         <Link href="/calendar">Calendar</Link>
+        <Link href="/homeJobSeeker">Home Job Seeker </Link>
       </button>
     </div>
   )

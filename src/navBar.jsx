@@ -22,7 +22,7 @@ import { useSession } from "next-auth/react";
 
 
 // Navigation Link
-const pages = [['Home', '/'], ['Job Board', '/'], ['My Jobs', '']];
+const pages = [['Home', '/'], ['Job Board', '/'], ['My Jobs', '/homeJobSeeker']];
 const settings = [['Job Seeker Home', '/homeJobSeeker'], ['Employer Home', '/homeEmployer'] ,['Logout', '/'], ['Post Job', '/postJob']];
 
 // TODO: Conditionally Add Login Page
@@ -95,12 +95,11 @@ const NavBar = ({ page }) => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                   <Link key={page[1]} href={page[1]} passHref style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <Typography textAlign="center" underline='none'>{page[0]}</Typography>
-                    </Link>
+              {pages.map((apage) => (
+                <MenuItem key={apage} onClick={handleCloseNavMenu}>
+                   <Link key={apage[1]} href={apage[1]} passHref style={{ textDecoration: 'none', color: 'black' }}>
+                    <Typography textAlign="center">{apage[0]}</Typography>
+                   </Link>
                 </MenuItem>
               ))}
             </Menu>
@@ -117,7 +116,9 @@ const NavBar = ({ page }) => {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                <Link key={page[1]} href={page[1]} passHref style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <Typography textAlign="center">{page[0]}</Typography>
+                </Link>
               </Button>
             ))}
             <Button>

@@ -120,7 +120,7 @@ const Signup = () => {
       if (!err?.response) {
         console.log("no server response")
       } else {
-        console.log(err.response)
+        console.log(err.response.data.message)
       }
     }
   }

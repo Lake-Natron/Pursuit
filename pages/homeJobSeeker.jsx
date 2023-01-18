@@ -1,11 +1,12 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-//import axios from 'axios';
+import axios from 'axios';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import JobSeekerJobListCard from '../src/JobSeekerJobListCard';
+import NavBar from '../src/navBar';
 
 const HomeJobSeeker = () => {
   const [jobListings, setJobListings] = useState([]);
@@ -18,9 +19,7 @@ const HomeJobSeeker = () => {
 
   return (
     <>
-    <div>
-      <h1>Header - Job Seeker Home - Calendar, Search For Jobs, Post Resume/Cover Letter, etc. included here</h1>
-    </div>
+    <NavBar />
     <Box sx={{width: '100%', minWidth: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid'}}>
       <nav aria-label="job-list-container">
         <h2>Extremely Interested</h2>

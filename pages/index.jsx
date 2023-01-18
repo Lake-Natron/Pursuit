@@ -10,6 +10,9 @@ const App = () => {
         <Link href="/calendar">Calendar</Link>
         <Link href="/homeJobSeeker">Home Job Seeker </Link>
       </button>
+      <button>
+        <Link href="/postJob">Post Job</Link>
+      </button>
     </div>
   )
 }

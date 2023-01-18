@@ -46,7 +46,7 @@ const { useState, useEffect } = React;
 
 const Calendar = () => {
   let [eventSelected, updateEventSelected] = useState(false);
-  let [companyLogin, updateCompanyLogin] = useState(false);
+  let [companyLogin, updateCompanyLogin] = useState(true);
   let [events, updateEvents] = useState([]);
   let [creatingEvent, updateCreating] = useState(false);
   let [editMode, updateEditMode] = useState(false);

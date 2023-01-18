@@ -29,9 +29,12 @@ export default NextAuth({
           });
 
 
-        if (!user) throw new Error ('username does not exist')
+        if (!user) throw new Error ('Username does not exist')
 
         //compare password using bcrypt
+        const matchPwd = await bcrypt.compare(password, user.password);
+
+        if (!matchPwd) throw new Error ('Please re-enter password')
 
         return {id: user.id, name: user.first_name + ' ' + user.last_name, email: user.email, role: user.role};
       }

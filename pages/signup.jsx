@@ -113,6 +113,7 @@ const Signup = () => {
     try {
       const response = await axios.post('http://localhost:3001/user', formFields)
 
+      console.log(response)
 
     } catch (err) {
       if (!err?.response) {
@@ -121,6 +122,20 @@ const Signup = () => {
         console.log(err.response.data.message)
       }
     }
+    setFormFields({
+      company_name: null,
+      first_name: null,
+      last_name: null,
+      image_url: null,
+      role: null,
+      email: null,
+      password: null,
+      address: '',
+      address_2: '',
+      city: '',
+      state: '',
+      zip_code: '',
+    });
   }
 
 

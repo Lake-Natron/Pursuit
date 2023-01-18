@@ -16,6 +16,7 @@ import Router from 'next/router'
 
 
 const SignIn = () => {
+  const [errMsg, setErrMsg] = useState('');
   const [formFields, setFormFields] = useState({
     email: '',
     password: '',
@@ -44,6 +45,7 @@ const SignIn = () => {
       redirect: false
      });
 
+     if (res?.error) setErrMsg(res.error)
      console.log(res)
 
      setFormFields({
@@ -55,17 +57,13 @@ const SignIn = () => {
 
   // Handles change for form controlled components
   const handleChange = (e) => {
+    setErrMsg('')
     const val = e.target.value;
     // console.log(formFields);
     setFormFields({
       ...formFields,
       [e.target.name]: val
     })
-  }
-
-  //handle Google Login
-  async function handleGoogleSignIn(){
-    signIn('google', { callbackUrl: 'http://localhost:3000'})
   }
 
   return (
@@ -114,6 +112,7 @@ const SignIn = () => {
             >
               Sign In
             </Button>
+            {errMsg && <Grid>{errMsg}</Grid>}
             <Grid>
               <Grid>
                 <Link href="/signup" variant="body2">

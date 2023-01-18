@@ -11,6 +11,7 @@ import CreateMeeting from '../src/calendar/createMeeting'
 
 
 const ApplicantListCard = () => {
+  const[visible, updateVisible] = useState(false)
 
   const handleInterestedClick = (e) => {
     e.preventDefault();
@@ -22,6 +23,12 @@ const ApplicantListCard = () => {
     e.preventDefault();
     e.stopPropagation()
     //Patch request to update interest level
+  }
+
+  const handleVisibleClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation()
+    updateVisible(!visible);
   }
 
   return (
@@ -42,11 +49,14 @@ const ApplicantListCard = () => {
           <Typography sx={{}}>
             Education: <br/>
             Skills: <br/>
-
+            Other Info: <br/>
           </Typography>
-          {/* <CreateMeeting /> */}
+          <Box sx={{ml: '60%'}}>
+            <Button sx={{mt:2}} variant="contained" onClick={handleVisibleClick}>Create Meeting</Button>
+          </Box>
         </AccordionDetails>
       </Accordion>
+      <CreateMeeting visible={visible} updateVisible={updateVisible} application_id={1} seeker_id={1} />
     </>
   )
 }

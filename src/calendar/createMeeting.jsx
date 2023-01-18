@@ -13,8 +13,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 const { useState, useEffect } = React;
 
 const CreateMeeting = ({ visible, updateVisible, application_id, seeker_id}) => {
-  let [start, updateStart] = useState(startTime);
-  let [end, updateEnd] = useState(endTime);
+  let [start, updateStart] = useState({});
+  let [end, updateEnd] = useState({});
   let [description, updateDescription] = useState(description);
   let [title, updateTitle] = useState(title);
 

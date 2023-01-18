@@ -17,10 +17,11 @@ import AdbIcon from '@mui/icons-material/Adb';
 import Image from 'next/image';
 import ResumeForm from './resume/resumeForm.jsx';
 import Link from 'next/link';
+import Notifications from './notifications.jsx';
 
 // Navigation Links
 const pages = ['Home', 'Job Board', 'My Jobs'];
-const settings = ['My Jobs', 'Notifications', 'Logout'];
+const settings = ['My Jobs', 'Logout'];
 
 // TODO: Conditionally Add Login Page
 // TODO: Conditionally change pages based on whether the user is logged in.
@@ -29,12 +30,13 @@ const settings = ['My Jobs', 'Notifications', 'Logout'];
 const logoUrl = '';
 
 const NavBar = ({ page }) => {
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState(data);
   //TODO: Routinely pull down items for user for notifications:
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [importingResume, updateImportingResume] = useState(false);
+  const [showNotifications, updateShowNotifications] = useState(false);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -141,6 +143,10 @@ const NavBar = ({ page }) => {
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem key={'notifications'} onClick={event => {
+                updateShowNotifications(true)}}>
+                <Typography textAlign="center">Notifications {'(' + notifications.length + ')'}</Typography>
+              </MenuItem>
               <MenuItem key={'upload'} onClick={e => updateImportingResume(true)}>
                 <Typography textAlign="center">Upload Resume</Typography>
               </MenuItem>
@@ -149,9 +155,26 @@ const NavBar = ({ page }) => {
         </Toolbar>
       </Container>
       <ResumeForm visible={importingResume} updateVisible={updateImportingResume} />
+      <Notifications visible={showNotifications} updateVisible={updateShowNotifications} notifications={notifications} setNotifications={setNotifications}/>
     </AppBar>
   )
 
 };
 
 export default NavBar;
+
+
+let data = [
+  {
+    type: 'Meeting Scheduled',
+    details: 'P&G has scheduled a meeting with you at 10:30PM'
+  },
+  {
+    type: 'Meeting Cancelled',
+    details: 'Your meeting with P&G has been cancelled'
+  },
+  {
+    type: 'New Jobs Available',
+    details: 'You have 5 new jobs available'
+  }
+]

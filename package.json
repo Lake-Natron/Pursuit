@@ -34,6 +34,7 @@
     "@mui/material": "^5.11.4",
     "@prisma/client": "^4.9.0",
     "@mui/x-date-pickers": "^5.0.14",
+    "axios": "^1.2.2",
     "babel-loader": "^9.1.2",
     "css-loader": "^6.7.3",
     "dayjs": "^1.11.7",

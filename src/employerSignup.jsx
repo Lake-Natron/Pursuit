@@ -10,6 +10,10 @@ import Radio from '@mui/material/Radio';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import NativeSelect from '@mui/material/NativeSelect';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+
 
 // Contains all employer specific questions
 const EmployerSignup = ({ handleEmployerSignupClick }) => {
@@ -21,10 +25,10 @@ const EmployerSignup = ({ handleEmployerSignupClick }) => {
 
   // TODO: MAP OVER LIST OF COMPANIES AS PROVIDED BY THE CLIENT.
   return (
-      <Container maxWidth='xs'>
-        <FormControl fullWidth>
+      <Box>
+        {/* <FormControl fullWidth>
           <InputLabel variant="standard" htmlFor="uncontrolled-native">
-            Age
+            Company
           </InputLabel>
           <NativeSelect
             defaultValue={30}
@@ -33,12 +37,26 @@ const EmployerSignup = ({ handleEmployerSignupClick }) => {
               id: 'uncontrolled-native',
             }}
           >
-            <option value={10}>Ten</option>
-            <option value={20}>Twenty</option>
-            <option value={30}>Thirty</option>
+            <option value={Apple}>Apple</option>
+            <option value={Microsoft}>Microsoft</option>
+            <option value={Meta}>Meta</option>
           </NativeSelect>
-        </FormControl>
-      </Container>
+        </FormControl> */}
+
+        <TextField
+          variant="outlined"
+          required
+          fullWidth
+          name="company"
+          label="Company"
+          type="text"
+          id="lastname"
+          autoComplete="current-password"
+          onChange={() => {}}
+          sx={{ m: 1 }}
+        />
+
+      </Box>
   );
 };
 

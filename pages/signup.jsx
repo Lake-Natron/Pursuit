@@ -10,11 +10,36 @@ import Radio from '@mui/material/Radio';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import IconButton from '@mui/material/IconButton';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import FormHelperText from '@mui/material/FormHelperText';
+
+
 import EmployerSignup from '../src/employerSignup.jsx';
 import SeekerSignup from '../src/seekerSignup.jsx';
 
 const Signup = () => {
   const [signUpAs, setSignUpAs] = useState(null);
+  const [showPassword, setShowPassword] = useState(false)
+  const [err, setErr] = useState({
+    company_name: '',
+    first_name: '',
+    last_name: '',
+    image_url: '',
+    role: '',
+    email: '',
+    password: '',
+    address: '',
+    address_2: '',
+    city: '',
+    state: '',
+    zip_code: 'please enter valid zipcode',
+  })
   const [formFields, setFormFields] = useState({
     company_name: null,
     first_name: null,
@@ -23,11 +48,11 @@ const Signup = () => {
     role: null,
     email: null,
     password: null,
-    address: null,
-    address_2: null,
-    city: null,
-    state: null,
-    zip_code: null,
+    address: '',
+    address_2: '',
+    city: '',
+    state: '',
+    zip_code: '',
   });
 
   // const form = signUpAs ==
@@ -47,21 +72,46 @@ const Signup = () => {
   const handleOnChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    console.log(name, value, formFields)
+
     setFormFields({
       ...formFields,
       [name]: value
     })
+
   }
 
   const onCheckZipChange = (e) => {
-
+    const zipMatch = `^\d{5}$`;
+    if (name === 'zip_code') {
+      if(!formFields['zip_code'].match(zipMatch)) {
+        setErr(
+          { ...err,
+            zip_code: 'Please enter a valid 5 number zipcode'
+          });
+      } else {
+        setErr(
+          { ...err,
+            zip_code: ''
+          });
+      }
+    }
   };
+
+  const handleClickShowPassword = (e) => {
+    setShowPassword((show) => !show);
+  }
+
+  const handleMouseDownPassword = (e) => {
+    e.preventDefault();
+  }
 
   const onSubmitForm = (e) => {
     e.preventDefault();
-
+    //TODO: Submit form for Auth and Add to Server
+    // Needs to handle response if company name or email has ready been taken
+    // Forward to homepage after completion
   }
+
 
   return (
     <Container maxWidth='xs'>
@@ -112,30 +162,28 @@ const Signup = () => {
           sx={{ m: 1 }}
         />
 
-        <TextField
-          variant="outlined"
-          required
-          fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          autoComplete="current-password"
-          onChange={handleOnChange}
-          sx={{ m: 1 }}
-        />
-
-        <TextField
-          variant="outlined"
-          required
-          fullWidth
-          name="address"
-          label="Address"
-          type="address"
-          id="password"
-          onChange={handleOnChange}
-          sx={{ m: 1 }}
-        />
+        <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
+          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-password"
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Password"
+            name='password'
+            onChange={handleOnChange}
+          />
+        </FormControl>
 
         <TextField
           variant="outlined"
@@ -149,7 +197,7 @@ const Signup = () => {
           sx={{ m: 1 }}
         />
 
-        <Box sx={{ display:'flex', flexDirection:'row' }}>
+        <Box sx={{ display:'flex', flexDirection:'row', justifyContent:'space-between', width:'100%', m: 1 }}>
           <TextField
             variant="outlined"
             required
@@ -158,7 +206,6 @@ const Signup = () => {
             type="city"
             id="city"
             onChange={handleOnChange}
-            sx={{ m: 1 }}
           />
 
           <TextField
@@ -169,22 +216,26 @@ const Signup = () => {
             type="state"
             id="state"
             onChange={handleOnChange}
-            sx={{ m: 1 }}
           />
         </Box>
 
-        <TextField
-          variant="outlined"
-          required
-          fullWidth
-          name="zipcode"
-          label="Zipcode"
-          type="Zipcode"
-          id="zipcode"
-          onChange={handleOnChange}
-          inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-          sx={{ m: 1 }}
-        />
+
+        <FormControl sx={{ m: 1, width: '100%' }}>
+          <TextField
+            variant="outlined"
+            required
+            fullWidth
+            name="zip_code"
+            label="Zipcode"
+            type="Zipcode"
+            id="zipcode"
+            value={formFields['zip_code']}
+            onChange={handleOnChange}
+            // error={ formFields['zip_code'].match(`^\d{5}$`) === null}
+            // helperText={err['zip_code']}
+            inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+          />
+        </FormControl>
 
         <Button
           type="submit"

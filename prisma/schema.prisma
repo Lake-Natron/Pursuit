@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Application {
+  id                     Int       @id @default(autoincrement())
+  job_id                 Int?
+  seeker_id              Int?
+  seeker_notes           String?   @db.VarChar(255)
+  company_notes          String?   @db.VarChar(255)
+  seeker_interest_level  String?   @db.VarChar(255)
+  company_interest_level String?   @db.VarChar(255)
+  Job                    Job?      @relation(fields: [job_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  User                   User?     @relation(fields: [seeker_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Meeting                Meeting[]
+}
+
+model Education {
+  id              Int       @id @default(autoincrement())
+  seeker_id       Int?
+  school          String?   @db.VarChar(255)
+  location        String?   @db.VarChar(255)
+  degree          String?   @db.VarChar(255)
+  major           String?   @db.VarChar(255)
+  graduate        Boolean?
+  graduation_date DateTime? @db.Date
+  User            User?     @relation(fields: [seeker_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Job {
+  id              Int           @id @default(autoincrement())
+  name            String?       @db.VarChar(255)
+  company_id      Int?
+  description     String?       @db.VarChar(255)
+  salary          Int?
+  location        String?       @db.VarChar(255)
+  close_date      DateTime?     @db.Date
+  experience_type String?       @db.VarChar(255)
+  employment_type String?       @db.VarChar(255)
+  jobsite         String?       @db.VarChar(255)
+  Application     Application[]
+  User            User?         @relation(fields: [company_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Skill           Skill[]
+}
+
+model Meeting {
+  id                            Int          @id @default(autoincrement())
+  seeker_id                     Int?
+  company_id                    Int?
+  start_time                    DateTime?    @db.Timestamp(6)
+  end_time                      DateTime?    @db.Timestamp(6)
+  description                   String?
+  application_id                Int?
+  canceled                      Boolean?
+  seeker_accepted               Boolean?
+  private                       Boolean?
+  title                         String?      @db.VarChar(255)
+  Application                   Application? @relation(fields: [application_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  User_Meeting_company_idToUser User?        @relation("Meeting_company_idToUser", fields: [company_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  User_Meeting_seeker_idToUser  User?        @relation("Meeting_seeker_idToUser", fields: [seeker_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Skill {
+  id        Int     @id @default(autoincrement())
+  job_id    Int?
+  seeker_id Int?
+  skill     String? @db.VarChar(255)
+  Job       Job?    @relation(fields: [job_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  User      User?   @relation(fields: [seeker_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model User {
+  id                               Int               @id(map: "Seeker_pkey") @default(autoincrement())
+  first_name                       String?           @db.VarChar(255)
+  last_name                        String?           @db.VarChar(255)
+  email                            String            @unique(map: "Seeker_email_key") @db.VarChar(255)
+  password                         String            @unique(map: "Seeker_password_key") @db.VarChar(255)
+  company_name                     String?           @db.VarChar(255)
+  role                             String?           @db.VarChar(255)
+  image_url                        String?           @db.VarChar(255)
+  address                          String?           @db.VarChar(255)
+  address_2                        String?           @db.VarChar(255)
+  city                             String?           @db.VarChar(255)
+  state                            String?           @db.VarChar(255)
+  zip_code                         String?           @db.VarChar(255)
+  Application                      Application[]
+  Education                        Education[]
+  Job                              Job[]
+  Meeting_Meeting_company_idToUser Meeting[]         @relation("Meeting_company_idToUser")
+  Meeting_Meeting_seeker_idToUser  Meeting[]         @relation("Meeting_seeker_idToUser")
+  Notification                     Notification[]
+  Skill                            Skill[]
+  Work_Experience                  Work_Experience[]
+}
+
+model Work_Experience {
+  id           Int       @id @default(autoincrement())
+  seeker_id    Int?
+  job_details  String?
+  company_name String?   @db.VarChar(255)
+  location     String?   @db.VarChar(255)
+  start_date   DateTime? @db.Date
+  end_date     DateTime? @db.Date
+  User         User?     @relation(fields: [seeker_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Notification {
+  id      Int      @id @default(autoincrement())
+  user_id Int?
+  type    String?  @db.VarChar(255)
+  details String?  @db.VarChar(255)
+  read    Boolean?
+  User    User?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}

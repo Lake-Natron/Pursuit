@@ -23,7 +23,7 @@ const ResumeForm = ({ visible, updateVisible }) => {
   }
 
   const removeWork = () => {
-    let workList = works.slice(0, eds.length - 1);
+    let workList = works.slice(0, works.length - 1);
     updateWorks(workList);
   }
 
@@ -58,7 +58,7 @@ const ResumeForm = ({ visible, updateVisible }) => {
 
   const buttonBox = {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     width: '100%',
     marginTop: '20px'
   }

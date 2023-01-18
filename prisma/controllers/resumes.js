@@ -68,4 +68,36 @@ const deleteEducation = async (req, res) => {
   res.send(response);
 }
 
-module.exports = { addWorkExperience, getWorkExperience, deleteWorkExperience, addEducation, getEducation, deleteEducation }
+const addSkills = async (req, res) => {
+  let skills = req.body.skills;
+  skills = skills.split(", ");
+  skills = skills.map((skill) => {
+    return {
+      "seeker_id": req.body.seeker_id,
+      "skill": skill
+    };
+  })
+
+  const deleted = await prisma.Skill.deleteMany({
+    where: {
+      seeker_id: req.body.seeker_id
+    }
+  });
+
+  const added = await prisma.Skill.createMany({
+    data: skills
+  })
+  res.send(added);
+}
+
+const getSkills = async (req, res) => {
+  const { seeker_id } = req.query;
+  const skills = await prisma.Skill.findMany({
+    where: {
+      seeker_id: Number(seeker_id)
+    }
+  })
+  res.send(skills);
+}
+
+module.exports = { addWorkExperience, getWorkExperience, deleteWorkExperience, addEducation, getEducation, deleteEducation, addSkills, getSkills }

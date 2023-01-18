@@ -7,24 +7,42 @@ import Grid from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { Link as MuiLink } from '@mui/material/Link';
 import Radio from '@mui/material/Radio';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
-
-const SeekerSignup = () => {
+// Contains all Job Seeker specific questions:
+// Any Refactored Code should be added here
+const SeekerSignup = ({ handleSeekerSignupClick }) => {
 
   return (
-    <Container maxWidth='xs'>
-      {!signUpAs && <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center'
-        }}
-      >
-        Seeker Signup Component
+      <Box>
+        <TextField
+          variant="outlined"
+          required
+          fullWidth
+          name="first_name"
+          label="First Name"
+          type="text"
+          id="password"
+          autoComplete="current-password"
+          onChange={() => {}}
+          sx={{ m: 1 }}
+        />
 
-      </Box>}
-    </Container>
+        <TextField
+          variant="outlined"
+          required
+          fullWidth
+          name="last_name"
+          label="Last Name"
+          type="text"
+          id="lastname"
+          autoComplete="current-password"
+          onChange={() => {}}
+          sx={{ m: 1 }}
+        />
+      </Box>
   );
 };
 

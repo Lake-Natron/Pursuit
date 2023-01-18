@@ -1,4 +1,5 @@
 import * as React from "react";
+import '../public/main.css';
 import PropTypes from "prop-types";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";

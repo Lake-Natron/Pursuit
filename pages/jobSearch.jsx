@@ -6,13 +6,13 @@ import JobSearchList from '../src/JobSearchList.jsx'
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
-import { ThemeProvider } from '@mui/material/styles';
 
 
 
+const Jobs = ({classes}) => {
+ 
 
 
-const Jobs = ({}) => {
 
 const [jobs, setJobs] = useState([{
  "name" : "Junior Software Engineer (iOS)",
@@ -156,14 +156,14 @@ Social gatherings (both virtual and in-person)
     return (
       <div>
       <Box height="100vh" display="flex" flexDirection="column"> 
-        <form className = "topnav">
+        {/* <form className = "topnav">
       <input
       // value= {questionSearch}
       // onInput ={(e)=> {setQuestionSearch(e.target.value)}}
       type ="text"
       id = 'question-search'
       placeholder = " Search" />
-      </form>
+      </form> */}
       <Grid container spacing={2} columns={16} sx={{ m: '5px'}}>
         <Grid item xs={5}>
           <List>
@@ -177,12 +177,14 @@ Social gatherings (both virtual and in-person)
         </Grid>
         <Divider orientation="vertical"  sx={{ m: '18px'}} />
         <Grid item xs={9.8} sx={{ mt: '8px', borderRadius: '16px', bgcolor: '#CFCFCF'}}>
-          <Typography variant = "h3">{jobs[1].name}</Typography>
+          <Typography variant = "h1">{jobs[1].name}</Typography>
+          <Typography variant = "h2">{jobs[1].company_id}</Typography> 
+          <br/>
             <Typography style={{ maxHeight: 600, overflow: 'auto', whiteSpace: "pre-wrap" }}>
            {jobs[1].description}
            </Typography>
-
-        <Button variant="contained" size="large" color='primary'>Apply</Button>
+           <br/>
+        <Button variant="contained" size="large" color="secondary">Apply</Button>
         </Grid>
       </Grid>
       </Box>
@@ -194,4 +196,4 @@ Social gatherings (both virtual and in-person)
   }
   
 
-export default Jobs;
+  export default Jobs;

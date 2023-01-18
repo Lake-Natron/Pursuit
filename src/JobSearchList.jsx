@@ -15,7 +15,7 @@ const JobSearchList = ({job}) => {
             <ListItem sx={{ mb: '5px', borderRadius: '16px', bgcolor: '#CFCFCF'}}>
             <ListItemButton sx ={{ mb: '5px'}}  > 
               <ListItemText>
-               <Typography fontWeight="bold" align="left">
+               <Typography align="left">
                {job.name}
              </Typography>
              </ListItemText>  

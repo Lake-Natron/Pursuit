@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
-.topnav input{
+
+/* .topnav input{
 	font-family:'Montserrat', sans-serif;
 	background: transparent;
 	outline: none;
@@ -14,9 +15,9 @@
 	padding: 0.25em 1em;
 	background-repeat: no-repeat;
 	background-position: 95% center;
-	}
+	} */
 
-.topnav :focus {
+/* .topnav :focus {
 		outline: none;
 		border: 2px solid #E44F48;
-}
+} */

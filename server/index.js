@@ -2,7 +2,7 @@ const express = require('express');
 require('dotenv').config();
 const { getJob, searchJobs, getAllJobs, addJob } = require('../prisma/controllers/jobs.js');
 const { getUser, getAllUsers, addUser } = require('../prisma/controllers/users.js');
-const { applyToJob, getJobsAppliedTo, getApplicants } = require('../prisma/controllers/applications.js');
+const { applyToJob, getJobsAppliedTo, getApplicants, updateSeekerInterest } = require('../prisma/controllers/applications.js');
 
 let app = express();
 app.use(express.json());
@@ -32,6 +32,9 @@ app.post('/user', addUser);
 
 // apply to a job
 app.post('/apply', applyToJob);
+
+// update applicant interest level
+app.patch('/updateSeekerInterest', updateSeekerInterest);
 
 // get all jobs that a job seeker has applied to
 app.get('/jobs/applied', getJobsAppliedTo);

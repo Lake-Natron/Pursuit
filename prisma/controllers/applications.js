@@ -12,6 +12,19 @@ const applyToJob = async (req, res) => {
   res.send(application);
 }
 
+const updateSeekerInterest = async (req, res) => {
+  const { application_id, seeker_interest_level } = req.body;
+  const updated = await prisma.Application.update({
+    where: {
+      id: Number(application_id)
+    },
+    data: {
+      seeker_interest_level: seeker_interest_level
+    }
+  })
+  res.send(updated);
+}
+
 const getJobsAppliedTo = async (req, res) => {
   const { seeker_id } = req.query;
   const jobs = await prisma.Application.findMany({
@@ -47,4 +60,4 @@ const getApplicants = async (req, res) => {
   res.send(applications);
 }
 
-module.exports = { getJobsAppliedTo, applyToJob, getApplicants }
+module.exports = { getJobsAppliedTo, applyToJob, getApplicants, updateSeekerInterest }

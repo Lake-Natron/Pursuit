@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 require('dotenv').config();
 const { getJob, searchJobs, getAllJobs, addJob } = require('../prisma/controllers/jobs.js');
 const { getUser, getAllUsers, addUser } = require('../prisma/controllers/users.js');
@@ -6,6 +7,8 @@ const { applyToJob, getJobsAppliedTo, getApplicants, updateSeekerInterest, updat
 const { addEducation, getEducation, deleteEducation, addWorkExperience, getWorkExperience, deleteWorkExperience } = require('../prisma/controllers/resumes.js');
 
 let app = express();
+
+app.use(cors());
 app.use(express.json());
 
 // Routes

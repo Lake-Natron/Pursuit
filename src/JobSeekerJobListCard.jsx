@@ -8,10 +8,11 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Button from '@mui/material/Button';
 
-const JobSeekerJobListCard = ({listing}) => {
+const JobSeekerJobListCard = ({listing, seeDetailsVisibility}) => {
 
   const handleClick = (e) => {
     e.preventDefault();
+    seeDetailsVisibility(true, listing);
     console.log('Click')
   }
 

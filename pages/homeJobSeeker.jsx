@@ -7,15 +7,24 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import JobSeekerJobListCard from '../src/JobSeekerJobListCard';
 import NavBar from '../src/navBar';
+import JobDetails from '../src/jobDetails.jsx';
 
 const HomeJobSeeker = () => {
   const [jobListings, setJobListings] = useState([]);
+  const [detailsVisibility, setDetailsVisibility] = useState(false);
+  const [detailsOf, setDetailsOf] = useState(null);
 
   useEffect(() => {
     // axios.get('/')
     // .then(())
     // .catch(())
   }, [])
+
+  // sets State to make popup modal visible
+  const seeJobDeets = (visibility, detailsId = '') => {
+    setDetailsVisibility(() => !detailsVisibility);
+    setDetailsOf(detailsId);
+  };
 
   return (
     <>
@@ -27,9 +36,10 @@ const HomeJobSeeker = () => {
           {jobListings.map((listing, index) =>
             <JobSeekerJobListCard listing={listing} key={index} />
           )}
-          <JobSeekerJobListCard />
-          <JobSeekerJobListCard />
-          <JobSeekerJobListCard />
+          <JobSeekerJobListCard seeDetailsVisibility={setDetailsVisibility}/>
+          <JobSeekerJobListCard seeDetailsVisibility={setDetailsVisibility}/>
+          <JobSeekerJobListCard seeDetailsVisibility={setDetailsVisibility}/>
+          <JobSeekerJobListCard seeDetailsVisibility={setDetailsVisibility}/>
         </List>
         <h2>Very Interested</h2>
         <List sx={{mt: -1}}>
@@ -44,8 +54,10 @@ const HomeJobSeeker = () => {
           <JobSeekerJobListCard />
         </List>
       </nav>
+      {detailsVisibility && <JobDetails id={detailsOf} jobVisible={detailsVisibility} setVisible={seeJobDeets}/>}
     </Box>
     </>
+
   )
 }
 

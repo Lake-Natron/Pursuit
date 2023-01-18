@@ -47,7 +47,7 @@ const EmployerSignup = ({ handleChange }) => {
           variant="outlined"
           required
           fullWidth
-          name="company"
+          name="company_name"
           label="Company"
           type="text"
           id="lastname"

@@ -10,11 +10,13 @@ import NavBar from '../src/navBar'
 
 const HomeEmployer = () => {
   const [jobListings, setJobListings] = useState([]);
+  //need session info for company id
+  const company_id = 10;
 
   useEffect(() => {
-    // axios.get('/')
-    // .then(())
-    // .catch(())
+    axios.get(`http://localhost:3002/jobs?company_id=${company_id}`)
+    .then((res) => {setJobListings(res.data)})
+    .catch(err => {console.log(err)})
   }, [])
 
   return (
@@ -26,13 +28,6 @@ const HomeEmployer = () => {
           {jobListings.map((listing, index) =>
             <EmployerJobListCard listing={listing} key={index} />
           )}
-          <EmployerJobListCard />
-          <EmployerJobListCard />
-          <EmployerJobListCard />
-          <EmployerJobListCard />
-          <EmployerJobListCard />
-          <EmployerJobListCard />
-          <EmployerJobListCard />
         </List>
       </nav>
     </Box>

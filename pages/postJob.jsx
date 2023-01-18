@@ -122,11 +122,6 @@ const PostJob = () => {
     );
   };
 
-
-  useEffect(() => {
-
-  }, [isFormValid])
-
   const handleSubmit = (e) => {
     e.preventDefault();
     let title = e.target.elements.title.value;
@@ -134,34 +129,26 @@ const PostJob = () => {
     let jobDescription = e.target.elements.jobDescription.value;
     let skills = e.target.elements.skills.value;
     let salary = e.target.elements.salary.value;
+    let company_id = company_id
 
     if (!title || !closeDate || !jobDescription || !skills || !salary || !location || !jobSite || !experienceType || !employmentType) {
       setIsFormValid(false);
     } else {
       setIsFormValid(true);
-      //need route, also figure out where company_id comes from
-      // axios.post('/', {
-      //   title: title,
-      //   closeDate: closeDate,
-      //   jobDescription: jobDescription,
-      //   skills: skills,
-      //   salary: salary,
-      //   location: location,
-      //   jobSite: jobSite,
-      //   experienceType: experienceType,
-      //   employmentType: employmentType
-      //   company_id: company_id
-      // })
-      console.log('submit')
-      console.log('title', title)
-      console.log('closeDate', closeDate)
-      console.log('jobDescription', jobDescription)
-      console.log('skills', skills)
-      console.log('salary', salary)
-      console.log('location', location)
-      console.log('job site', jobSite)
-      console.log('exp type', experienceType)
-      console.log('emp type', employmentType)
+      //need to change port hardcode, also figure out where company_id comes from
+      //do we want to reroute to home page
+      axios.post('http://localhost:3002/jobs', {
+        title: title,
+        closeDate: closeDate,
+        jobDescription: jobDescription,
+        skills: skills,
+        salary: salary,
+        location: location,
+        jobSite: jobSite,
+        experienceType: experienceType,
+        employmentType: employmentType,
+        company_id: company_id
+      })
     }
   }
 

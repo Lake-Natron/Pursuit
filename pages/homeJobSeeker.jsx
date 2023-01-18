@@ -10,11 +10,17 @@ import NavBar from '../src/navBar';
 
 const HomeJobSeeker = () => {
   const [jobListings, setJobListings] = useState([]);
+  const [extreme, setExtreme] = useState([]);
+  const [very, setVery] = useState([]);
+  const [interested, setInterested] = useState([]);
 
   useEffect(() => {
-    // axios.get('/')
-    // .then(())
-    // .catch(())
+    axios.get('http://localhost:3002/jobs/applied')
+    .then((res) => {setJobListings(res.data)})
+    .then(() => {
+
+    })
+    .catch(err => {console.log(err)})
   }, [])
 
   return (

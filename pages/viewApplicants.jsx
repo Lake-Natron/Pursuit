@@ -14,8 +14,8 @@ import { useRouter } from 'next/router';
 const ViewApplicants = () => {
   const [jobListings, setJobListings] = useState(['test', 'test', 'test', 'test', 'test', 'test', 'test']);
   const router = useRouter();
-  const { name } = router.query;
-  console.log(name)
+  const { id } = router.query;
+  console.log('here', id)
 
   // useEffect(() => {
   //   axios.get('http://localhost:3002/jobs/applicants')

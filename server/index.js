@@ -6,6 +6,8 @@ const { getUser, getAllUsers, addUser } = require('../prisma/controllers/users.j
 const { applyToJob, getJobsAppliedTo, getApplicants, updateSeekerInterest, updateCompanyInterest, updateSeekerNotes, updateCompanyNotes } = require('../prisma/controllers/applications.js');
 
 let app = express();
+
+app.use(cors());
 app.use(express.json());
 
 // Routes

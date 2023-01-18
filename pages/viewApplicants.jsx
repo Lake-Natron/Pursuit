@@ -13,9 +13,9 @@ const ViewApplicants = () => {
   const [jobListings, setJobListings] = useState(['test', 'test', 'test', 'test', 'test', 'test', 'test']);
 
   useEffect(() => {
-    // axios.get('/')
-    // .then(())
-    // .catch(())
+    axios.get('http://localhost:3002/jobs/applicants')
+    .then((res) => {setJobListings(res.data)})
+    .catch(err => {console.log(err)})
   }, [])
 
   return (

@@ -12,9 +12,9 @@ const HomeJobSeeker = () => {
   const [jobListings, setJobListings] = useState([]);
 
   useEffect(() => {
-    // axios.get('/')
-    // .then(())
-    // .catch(())
+    axios.get('http://localhost:3002/jobs/applied')
+    .then((res) => {setJobListings(res.data)})
+    .catch(err => {console.log(err)})
   }, [])
 
   return (

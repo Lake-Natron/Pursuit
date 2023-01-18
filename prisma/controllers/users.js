@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
@@ -15,24 +16,27 @@ const getAllUsers = async (req, res) => {
 }
 
 const addUser = async (req, res) => {
-  const user = await prisma.User.create({
-    data: {
-      company_name: req.body.company_name,
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      image_url: req.body.image_url,
-      role: req.body.role,
-      email: req.body.email,
-      password: req.body.password,
-      address: req.body.address,
-      address_2: req.body.address_2,
-      city: req.body.city,
-      state: req.body.state,
-      zip_code: req.body.zip_code,
-      pdf_url: req.body.pdr_url
-    }
-  });
-  res.send(user);
+  const {company_name} = req.body
+
+  // const user = await prisma.User.create({
+  //   data: {
+  //     company_name: req.body.company_name,
+  //     first_name: req.body.first_name,
+  //     last_name: req.body.last_name,
+  //     image_url: req.body.image_url,
+  //     role: req.body.role,
+  //     email: req.body.email,
+  //     password: req.body.password,
+  //     address: req.body.address,
+  //     address_2: req.body.address_2,
+  //     city: req.body.city,
+  //     state: req.body.state,
+  //     zip_code: req.body.zip_code,
+  //     pdf_url: req.body.pdr_url
+  //   }
+  // });
+  // res.send(user);
+  // res.end();
 }
 
 module.exports = { getUser, getAllUsers, addUser }

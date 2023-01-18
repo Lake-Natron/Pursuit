@@ -18,6 +18,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import FormHelperText from '@mui/material/FormHelperText';
+import axios from 'axios';
 
 
 import EmployerSignup from '../src/employerSignup.jsx';
@@ -59,10 +60,10 @@ const Signup = () => {
   let form = <></>;
   switch (signUpAs) {
     case 'seeker':
-      form = <SeekerSignup />;
+      form = <SeekerSignup handleChange={handleOnChange}/>;
       break;
     case 'employer':
-      form = <EmployerSignup />;
+      form = <EmployerSignup handleChange={handleOnChange} />;
       break;
     default:
       form = <div> Please select from above: </div>;
@@ -105,11 +106,23 @@ const Signup = () => {
     e.preventDefault();
   }
 
-  const onSubmitForm = (e) => {
+  const onSubmitForm = async (e) => {
     e.preventDefault();
     //TODO: Submit form for Auth and Add to Server
     // Needs to handle response if company name or email has ready been taken
     // Forward to homepage after completion
+    console.log('submitting')
+    try {
+      const response = await axios.post('http://localhost:3001/user', formFields)
+
+
+    } catch (err) {
+      if (!err?.response) {
+        console.log("no server response")
+      } else {
+        console.log(err.response)
+      }
+    }
   }
 
 
@@ -242,7 +255,7 @@ const Signup = () => {
           fullWidth
           variant="contained"
           color="primary"
-          onClick={() => {}}
+          onClick={onSubmitForm}
         >
           Sign Up
         </Button>

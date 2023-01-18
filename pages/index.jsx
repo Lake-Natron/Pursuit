@@ -1,10 +1,7 @@
 import React from "react";
 import Link from 'next/link';
-<<<<<<< HEAD
 import { signIn } from 'next-auth/react'
-=======
 import NavBar from '../src/navBar';
->>>>>>> signup-page
 
 const App = () => {
   return (

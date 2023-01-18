@@ -16,7 +16,7 @@ import FormControl from '@mui/material/FormControl';
 
 
 // Contains all employer specific questions
-const EmployerSignup = ({ handleEmployerSignupClick }) => {
+const EmployerSignup = ({ handleChange }) => {
 
   useEffect(() => {
     // TODO: pull down data of all available companies
@@ -52,7 +52,7 @@ const EmployerSignup = ({ handleEmployerSignupClick }) => {
           type="text"
           id="lastname"
           autoComplete="current-password"
-          onChange={() => {}}
+          onChange={handleChange}
           sx={{ m: 1 }}
         />
 

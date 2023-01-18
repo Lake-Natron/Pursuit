@@ -1,9 +1,12 @@
 const express = require('express');
 require('dotenv').config();
+const cors = require('cors');
 const { getJob, searchJobs, getAllJobs, addJob } = require('../prisma/controllers/jobs.js');
 const { getUser, getAllUsers, addUser } = require('../prisma/controllers/users.js');
 
+
 let app = express();
+app.use(cors());
 app.use(express.json());
 
 // Routes
@@ -23,8 +26,7 @@ app.post('/job', addJob);
 // get a specific job seeker by id
 app.get('/user', getUser);
 
-<<<<<<< HEAD
-app.listen(process.env.PORT, () => console.log('Listening on port 3000'));
+app.listen(process.env.PORT, () => console.log('Listening on port 3001'));
 // const { PrismaClient } = require('@prisma/client');
 // const prisma = new PrismaClient();
 
@@ -32,12 +34,10 @@ app.listen(process.env.PORT, () => console.log('Listening on port 3000'));
 //   const jobs = await prisma.Job.findMany();
 //   res.json(jobs);
 // })
-=======
 // get all job seekers
 app.get('/users', getAllUsers);
 
 // add a user
 app.post('/user', addUser);
->>>>>>> callie
 
 // app.listen(process.env.PORT, () => console.log('Listening on port ' + process.env.PORT));

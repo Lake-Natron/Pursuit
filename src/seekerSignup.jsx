@@ -13,7 +13,7 @@ import Checkbox from '@mui/material/Checkbox';
 
 // Contains all Job Seeker specific questions:
 // Any Refactored Code should be added here
-const SeekerSignup = ({ handleSeekerSignupClick }) => {
+const SeekerSignup = ({ handleChange }) => {
 
   return (
       <Box>
@@ -26,7 +26,7 @@ const SeekerSignup = ({ handleSeekerSignupClick }) => {
           type="text"
           id="password"
           autoComplete="current-password"
-          onChange={() => {}}
+          onChange={handleChange}
           sx={{ m: 1 }}
         />
 
@@ -39,7 +39,7 @@ const SeekerSignup = ({ handleSeekerSignupClick }) => {
           type="text"
           id="lastname"
           autoComplete="current-password"
-          onChange={() => {}}
+          onChange={handleChange}
           sx={{ m: 1 }}
         />
       </Box>

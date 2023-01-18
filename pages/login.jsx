@@ -28,6 +28,7 @@ const SignIn = () => {
     if (status === "unauthenticated") Router.replace("/login");
     if (status === "authenticated" && data.user.role === "seeker" ) {
       Router.replace('/protectedUser')
+    console.log(status)
     console.log(data.user.role)
     }
     if (status === "authenticated" && data.user.role === "company" ) {

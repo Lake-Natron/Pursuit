@@ -25,6 +25,8 @@ import EmployerSignup from '../src/employerSignup.jsx';
 import SeekerSignup from '../src/seekerSignup.jsx';
 
 const Signup = () => {
+  const [successMsg, setSuccessMsg]= useState('')
+  const [errMsg, setErrMsg] = useState('');
   const [signUpAs, setSignUpAs] = useState(null);
   const [showPassword, setShowPassword] = useState(false)
   const [err, setErr] = useState({
@@ -57,6 +59,8 @@ const Signup = () => {
   });
 
   const handleOnChange = (e) => {
+    setSuccessMsg('')
+    setErrMsg('')
     const name = e.target.name;
     const value = e.target.value;
 
@@ -113,12 +117,13 @@ const Signup = () => {
     try {
       const response = await axios.post('http://localhost:3001/user', formFields)
 
-      console.log(response)
+      setSuccessMsg(response.data.success)
 
     } catch (err) {
       if (!err?.response) {
-        console.log("no server response")
+        setErrMsg("No Server Response. Try again!")
       } else {
+        setErrMsg(err.response.data.message)
         console.log(err.response.data.message)
       }
     }
@@ -155,6 +160,8 @@ const Signup = () => {
             flexDirection: 'row',
             justifyContent: 'space-around'
           }}>
+          {successMsg && <Grid>{successMsg}</Grid>}
+          {errMsg && <Grid>{errMsg}</Grid>}
           <Button variant="contained" sx={{ margin: '10px' }} onClick={() => {
             setFormFields({
               ...formFields,
@@ -178,7 +185,6 @@ const Signup = () => {
       {signUpAs &&
       <Container>
         {form}
-
         <TextField
           variant="outlined"
           required

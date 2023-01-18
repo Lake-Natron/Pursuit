@@ -52,6 +52,7 @@ export default NextAuth({
       const user = await prisma.User.findUnique({
         where: { email: email }
       });
+      console.log(user.role)
       session.user.id = user.id;
       session.user.role = user.role; // Add role value to user object so it is passed along with session
       return session;

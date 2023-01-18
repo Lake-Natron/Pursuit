@@ -56,7 +56,16 @@ const Signup = () => {
     zip_code: '',
   });
 
-  // const form = signUpAs ==
+  const handleOnChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    setFormFields({
+      ...formFields,
+      [name]: value
+    })
+  }
+
   let form = <></>;
   switch (signUpAs) {
     case 'seeker':
@@ -68,17 +77,6 @@ const Signup = () => {
     default:
       form = <div> Please select from above: </div>;
       break;
-  }
-
-  const handleOnChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-
-    setFormFields({
-      ...formFields,
-      [name]: value
-    })
-
   }
 
   const onCheckZipChange = (e) => {
@@ -145,6 +143,7 @@ const Signup = () => {
           <Button variant="contained" sx={{ margin: '10px' }} onClick={() => {
             setFormFields({
               ...formFields,
+              company_name: null,
               role: 'seeker'
             })
             setSignUpAs('seeker')
@@ -152,6 +151,8 @@ const Signup = () => {
           <Button variant="contained" sx={{ margin: '10px' }} onClick={() => {
             setFormFields({
               ...formFields,
+              first_name: null,
+              last_name: null,
               role: 'employer'
             })
             setSignUpAs('employer')

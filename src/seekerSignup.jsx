@@ -15,6 +15,8 @@ import Checkbox from '@mui/material/Checkbox';
 // Any Refactored Code should be added here
 const SeekerSignup = ({ handleChange }) => {
 
+  console.log(typeof handleChange);
+
   return (
       <Box>
         <TextField
@@ -39,7 +41,7 @@ const SeekerSignup = ({ handleChange }) => {
           type="text"
           id="lastname"
           autoComplete="current-password"
-          onChange={handleChange}
+          onChange={(e) => { handleChange(e) }}
           sx={{ m: 1 }}
         />
       </Box>

@@ -7,11 +7,13 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import CreateMeeting from '../src/calendar/createMeeting'
+import CreateMeeting from '../src/calendar/createMeeting';
+import EmployerAddNote from '../src/employerAddNote';
 
 
 const ApplicantListCard = () => {
-  const[visible, updateVisible] = useState(false)
+  const [visible, updateVisible] = useState(false);
+  const [notesVisible, updateNotesVisible] = useState(false);
 
   const handleInterestedClick = (e) => {
     e.preventDefault();
@@ -29,6 +31,12 @@ const ApplicantListCard = () => {
     e.preventDefault();
     e.stopPropagation()
     updateVisible(!visible);
+  }
+
+  const handleNotesVisibleClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation()
+    updateNotesVisible(!notesVisible);
   }
 
   return (
@@ -50,13 +58,16 @@ const ApplicantListCard = () => {
             Education: <br/>
             Skills: <br/>
             Other Info: <br/>
+            Notes:
           </Typography>
           <Box sx={{ml: '60%'}}>
-            <Button sx={{mt:2}} variant="contained" onClick={handleVisibleClick}>Create Meeting</Button>
+            <Button sx={{mt:2, mr: '1em'}} variant="contained" onClick={handleVisibleClick}>Create Meeting</Button>
+            <Button sx={{mt:2}} variant="contained" onClick={handleNotesVisibleClick}>Edit Notes</Button>
           </Box>
         </AccordionDetails>
       </Accordion>
       <CreateMeeting visible={visible} updateVisible={updateVisible} application_id={1} seeker_id={1} />
+      <EmployerAddNote notesVisible={notesVisible} updateNotesVisible={updateNotesVisible} application_id={1} seeker_id={1} />
     </>
   )
 }

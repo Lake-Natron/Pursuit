@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 import NavBar from '../src/navBar';
 import ApplicantListCard from '../src/applicantListCard';
 import Box from '@mui/material/Box';
@@ -8,15 +9,19 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useRouter } from 'next/router';
 
 const ViewApplicants = () => {
   const [jobListings, setJobListings] = useState(['test', 'test', 'test', 'test', 'test', 'test', 'test']);
+  const router = useRouter();
+  const { name } = router.query;
+  console.log(name)
 
-  useEffect(() => {
-    axios.get('http://localhost:3002/jobs/applicants')
-    .then((res) => {setJobListings(res.data)})
-    .catch(err => {console.log(err)})
-  }, [])
+  // useEffect(() => {
+  //   axios.get('http://localhost:3002/jobs/applicants')
+  //   .then((res) => {setJobListings(res.data)})
+  //   .catch(err => {console.log(err)})
+  // }, [])
 
   return (
     <>

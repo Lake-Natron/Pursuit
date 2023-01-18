@@ -26,6 +26,8 @@
     "@babel/preset-react": "^7.18.6",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@fontsource/lora": "^4.5.13",
+    "@fontsource/montserrat": "^4.5.14",
     "@fullcalendar/core": "^6.0.3",
     "@fullcalendar/daygrid": "^6.0.3",
     "@fullcalendar/react": "^6.0.4",

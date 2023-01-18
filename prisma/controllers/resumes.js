@@ -15,6 +15,23 @@ const addWorkExperience = async (req, res) => {
   res.send(work);
 }
 
+const updateWorkExperience = async (req, res) => {
+  const work = await prisma.Work_Experience.update({
+    where: {
+      id: req.body.id
+    },
+    data: {
+      seeker_id: req.body.seeker_id,
+      job_details: req.body.job_details,
+      company_name: req.body.company_name,
+      location: req.body.location,
+      start_date: new Date(req.body.start_date),
+      end_date: new Date(req.body.end_date)
+    }
+  });
+  res.send(work);
+}
+
 const getWorkExperience = async (req, res) => {
   const { seeker_id } = req.query;
   const work = await prisma.Work_Experience.findMany({
@@ -49,6 +66,8 @@ const addEducation = async (req, res) => {
   res.send(education);
 }
 
+
+
 const getEducation = async (req, res) => {
   const { seeker_id } = req.query;
   const education = await prisma.Education.findMany({
@@ -68,4 +87,22 @@ const deleteEducation = async (req, res) => {
   res.send(response);
 }
 
-module.exports = { addWorkExperience, getWorkExperience, deleteWorkExperience, addEducation, getEducation, deleteEducation }
+const updateEducation = async (req, res) => {
+  const response = await prisma.Education.update({
+    where: {
+      id: req.body.id
+    },
+    data: {
+      seeker_id: req.body.seeker_id,
+      school: req.body.school,
+      location: req.body.location,
+      degree: req.body.degree,
+      major: req.body.major,
+      graduate: req.body.graduate,
+      graduation_date: new Date(req.body.graduation_date)
+    }
+  })
+  res.send(response);
+}
+
+module.exports = { addWorkExperience, getWorkExperience, deleteWorkExperience, addEducation, getEducation, deleteEducation, updateEducation, updateWorkExperience }

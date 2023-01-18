@@ -3,7 +3,7 @@ require('dotenv').config();
 const { getJob, searchJobs, getAllJobs, addJob } = require('../prisma/controllers/jobs.js');
 const { getUser, getAllUsers, addUser } = require('../prisma/controllers/users.js');
 const { applyToJob, getJobsAppliedTo, getApplicants, updateSeekerInterest, updateCompanyInterest, updateSeekerNotes, updateCompanyNotes } = require('../prisma/controllers/applications.js');
-const { addEducation, getEducation, deleteEducation } = require('../prisma/controllers/resumes.js');
+const { addEducation, getEducation, deleteEducation, addWorkExperience, getWorkExperience, deleteWorkExperience } = require('../prisma/controllers/resumes.js');
 
 let app = express();
 app.use(express.json());
@@ -60,5 +60,14 @@ app.get('/education', getEducation);
 
 // delete education with education id
 app.delete('/education', deleteEducation);
+
+// add work experience for seeker
+app.post('/workExperience', addWorkExperience);
+
+// get all work experience for seeker
+app.get('/workExperience', getWorkExperience);
+
+// delete work experience with work experience id
+app.delete('/workExperience', deleteWorkExperience);
 
 app.listen(process.env.PORT, () => console.log('Listening on port ' + process.env.PORT));

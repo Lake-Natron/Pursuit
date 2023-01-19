@@ -37,7 +37,7 @@ const HomeJobSeeker = () => {
   return (
     <>
     <NavBar />
-    <Box sx={{width: '100%', minWidth: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '1em'}}>
+    <Box sx={{width: '100%', minWidth: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '2em'}}>
       <nav aria-label="job-list-container">
         <h2>Extremely Interested</h2>
         <List sx={{mt: -1}}>

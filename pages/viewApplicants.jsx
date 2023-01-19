@@ -32,7 +32,7 @@ const ViewApplicants = () => {
   return (
     <>
     <NavBar />
-    <Box sx={{width: '100%', minWidth: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid'}}>
+    <Box sx={{mt: '2em', width: '100%', minWidth: 480, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
       <nav aria-label="applicant-list-container">
         <h2>{jobName}</h2>
           {applicantList.map((applicant, index) =>

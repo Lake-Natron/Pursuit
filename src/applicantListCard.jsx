@@ -59,7 +59,7 @@ const ApplicantListCard = ({ applicant }) => {
 
   return (
     <>
-      <Accordion sx={{width: '60vw', border:'1px solid grey'}}>
+      <Accordion sx={{width: '60vw', border:'1px solid grey', borderRadius: '8px', overflow: 'hidden'}}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"

@@ -30,8 +30,10 @@ const HomeEmployer = () => {
       .catch(err => {console.log(err)})
     }
 
-    getCompanyName();
-    getCompanyJobListings();
+    if (data?.user.id) {
+      getCompanyName();
+      getCompanyJobListings();
+    }
   }, [])
 
   return (

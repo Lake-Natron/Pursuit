@@ -23,23 +23,28 @@ const HomeJobSeeker = () => {
 
   useEffect(() => {
     if (status === "unauthenticated" || data?.user.role !== 'seeker') Router.replace("/login");
+    const getJobListings = async () => {
+      await axios.get(`http://localhost:3001/jobs/applied?seeker_id=${data?.user.id}`)
+      .then(res => {
+        const extreme = res.data.filter(item =>
+          item.seeker_interest_level === 'Extremely Interested'
+        );
+        setExtreme(extreme);
+        const very = res.data.filter(item =>
+          item.seeker_interest_level === 'Very Interested'
+        );
+        setVery(very);
+        const interested = res.data.filter(item =>
+          item.seeker_interest_level === 'Interested'
+        );
+        setInterested(interested);
+      })
+      .catch(err => {console.log(err)})
+    }
 
-    axios.get(`http://localhost:3001/jobs/applied?seeker_id=${data?.user.id}`)
-    .then(res => {
-      const extreme = res.data.filter(item =>
-        item.seeker_interest_level === 'Extremely Interested'
-      );
-      setExtreme(extreme);
-      const very = res.data.filter(item =>
-        item.seeker_interest_level === 'Very Interested'
-      );
-      setVery(very);
-      const interested = res.data.filter(item =>
-        item.seeker_interest_level === 'Interested'
-      );
-      setInterested(interested);
-    })
-    .catch(err => {console.log(err)})
+    if (data?.user.id) {
+      getJobListings();
+    }
   }, [])
 
   // sets State to make popup modal visible
@@ -53,9 +58,6 @@ const HomeJobSeeker = () => {
     <NavBar />
     <Box sx={{width: '100%', minWidth: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '2em'}}>
       <nav aria-label="job-list-container">
-        <Typography>
-        {extreme.length === 0 && very.length === 0 && interested.length === 0 && <h1>Please Visit the Job Board to Apply</h1>}
-        </Typography>
         {extreme.length >= 1 && <h2>Extremely Interested</h2>}
         <List sx={{mt: -1}}>
           {extreme.map((listing, index) =>

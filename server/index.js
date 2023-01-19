@@ -1,7 +1,6 @@
 const express = require("express");
-require("dotenv").config();
 const cors = require("cors");
-
+require("dotenv").config();
 const {
   getJob,
   searchJobs,
@@ -29,9 +28,24 @@ const {
   addWorkExperience,
   getWorkExperience,
   deleteWorkExperience,
+  updateEducation,
+  updateWorkExperience,
+  addSkills,
+  getSkills,
 } = require("../prisma/controllers/resumes.js");
+const {
+  createMeeting,
+  getMeetings,
+  editMeeting,
+} = require("../prisma/controllers/meetings.js");
+const {
+  createNotification,
+  getNotifications,
+  markNotificationRead,
+} = require("../prisma/controllers/notifications.js");
 
 let app = express();
+
 app.use(cors());
 app.use(express.json());
 
@@ -92,7 +106,7 @@ app.get("/jobs/applicants", getApplicants);
 app.post("/education", addEducation);
 
 // add education for seeker
-app.patch('/updateEducation', updateEducation);
+app.patch("/updateEducation", updateEducation);
 
 // get all education for seeker
 app.get("/education", getEducation);
@@ -104,7 +118,7 @@ app.delete("/education", deleteEducation);
 app.post("/workExperience", addWorkExperience);
 
 // add education for seeker
-app.patch('/workExperience', updateWorkExperience);
+app.patch("/workExperience", updateWorkExperience);
 
 // get all work experience for seeker
 app.get("/workExperience", getWorkExperience);
@@ -113,27 +127,29 @@ app.get("/workExperience", getWorkExperience);
 app.delete("/workExperience", deleteWorkExperience);
 
 // add seeker skills
-app.post('/skills', addSkills);
+app.post("/skills", addSkills);
 
 // get all skills for seeker
-app.get('/skills', getSkills);
+app.get("/skills", getSkills);
 
 // create a meeting
-app.post('/meeting', createMeeting);
+app.post("/meeting", createMeeting);
 
 // get meetings with seeker_id and company_id
-app.get('/meetings', getMeetings);
+app.get("/meetings", getMeetings);
 
 // edit meeting
-app.patch('/meeting', editMeeting);
+app.patch("/meeting", editMeeting);
 
 // create a notification
-app.post('/notification', createNotification);
+app.post("/notification", createNotification);
 
 // get a user's notifications
-app.get('/notifications', getNotifications);
+app.get("/notifications", getNotifications);
 
 // mark a specific notification read
-app.patch('/notification', markNotificationRead);
+app.patch("/notification", markNotificationRead);
 
-app.listen(process.env.PORT, () => console.log('Listening on port ' + process.env.PORT));
+app.listen(process.env.PORT, () =>
+  console.log("Listening on port " + process.env.PORT)
+);

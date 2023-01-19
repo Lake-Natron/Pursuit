@@ -13,6 +13,8 @@ import Request from '../src/calendar/requestChange.jsx';
 import NavBar from '../src/navBar';
 import axios from 'axios';
 
+import { useSession } from "next-auth/react";
+
 Date.prototype.monthNames = [
   "January", "February", "March",
   "April", "May", "June",
@@ -68,13 +70,16 @@ const Calendar = () => {
   let [startTime, updateStartTime] = useState({});
   let [endTime, updateEndTime] = useState({});
   let [whom, updateWhom] = useState('');
+  let [notificationUser, updateNotificationUser] = useState(0);
+
+  const { status, data } = useSession();
 
   const loadEvents = () => {
     let params = {};
     if (companyLogin) {
-      params.company_id = 9;
+      params.company_id = data?.user.id;
     } else {
-      params.seeker_id = 2;
+      params.seeker_id = data?.user.id;
     }
     axios.get('http://localhost:3001/meetings', { params })
       .then(res => res.data)
@@ -100,11 +105,19 @@ const Calendar = () => {
   }
 
   useEffect(() => {
-    loadEvents()
-  }, []);
+    loadEvents();
+    if (data?.user.role === 'employer') {
+      updateCompanyLogin(true);
+    }
+  }, [data]);
 
   useEffect(() => {
     if (event._def) {
+      if (companyLogin) {
+        updateNotificationUser(event._def.extendedProps.seeker_id);
+      } else {
+        updateNotificationUser(event._def.extendedProps.company_id);
+      }
       if (!event._def.extendedProps.application_id) {
         updateJob('');
       } else {
@@ -306,8 +319,10 @@ const Calendar = () => {
       updateTitle={updateTitle}
       startTime={startTime}
       endTime={endTime}
+      seeker_id={notificationUser}
+      company={companyLogin}
       updateEvents={loadEvents}/>
-      <Request visible={requestMode} updateVisible={updateRequestMode} />
+      <Request visible={requestMode} updateVisible={updateRequestMode} company_id={notificationUser} title={title}/>
     </div>
     </div>
   )

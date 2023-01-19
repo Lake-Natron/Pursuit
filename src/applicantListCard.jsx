@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Accordion from '@mui/material/Accordion';
@@ -16,16 +17,25 @@ const ApplicantListCard = ({ applicant }) => {
   const [notesVisible, updateNotesVisible] = useState(false);
   const [applicantDetails, setApplicantsDetails] = useState([]);
 
+  //need to change host at some point
   const handleInterestedClick = (e) => {
     e.preventDefault();
     e.stopPropagation()
-    //Patch request to update interest level
+    axios.patch('http://localhost:3002/updateCompanyInterest', {
+      'application_id': applicant.id,
+      'company_interest_level': 'Interested'
+    })
+    .catch(err => {console.log(err)})
   }
 
   const handleNotInterestedClick = (e) => {
     e.preventDefault();
     e.stopPropagation()
-    //Patch request to update interest level
+    axios.patch('http://localhost:3002/updateCompanyInterest', {
+      'application_id': applicant.id,
+      'company_interest_level': 'Not Interested'
+    })
+    .catch(err => {console.log(err)})
   }
 
   const handleVisibleClick = (e) => {
@@ -41,17 +51,22 @@ const ApplicantListCard = ({ applicant }) => {
   }
   console.log(applicant)
 
-  //need useeffect and get request to pull applicant details
+  // useEffect(() => {
+  //   axios.get('http://localhost:3002/updateCompanyInterest')
+  //   .then(res => setApplicantsDetails(res.data))
+  //   .catch(err => {console.log(err)})
+  // }, [])
+
   return (
     <>
-      <Accordion sx={{width: '60vw', border:'1px solid grey'}}>
+      <Accordion sx={{width: '60vw', border:'1px solid grey', borderRadius: '8px', overflow: 'hidden'}}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
           <Typography>{applicant.User.first_name} {applicant.User.last_name}</Typography>
-          <Box sx={{ml: '50%', border: '1px solid'}}>
+          <Box sx={{ml: '30vw', border: '1px solid', width:'20vw'}}>
             <Button variant="contained" sx={{mr: '1em'}} onClick={handleInterestedClick}>Interested</Button>
             <Button variant="contained" onClick={handleNotInterestedClick}>Not Interested</Button>
           </Box>
@@ -63,7 +78,7 @@ const ApplicantListCard = ({ applicant }) => {
             Other Info: <br/>
             Notes:
           </Typography>
-          <Box sx={{mt: 2, ml: '60%', border: '1px solid'}}>
+          <Box sx={{mt: 2, ml: '30vw', border: '1px solid', width:'20vw'}}>
             <Button sx={{mr: '1em'}} variant="contained" onClick={handleVisibleClick}>Create Meeting</Button>
             <Button variant="contained" onClick={handleNotesVisibleClick}>Edit Notes</Button>
           </Box>

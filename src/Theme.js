@@ -16,6 +16,10 @@ const theme = createTheme({
       fontFamily: "Lora",
       fontSize: 16,
     },
+    body2: {
+      fontFamily: "Lora",
+      fontSize: 12,
+    },
     button: {
       fontFamily: "Montserrat",
     },

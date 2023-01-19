@@ -21,7 +21,7 @@ import Notifications from './notifications.jsx';
 import axios from 'axios';
 
 // Navigation Link
-const pages = [['Home', '/'], ['Job Board', '/'], ['My Jobs', '/homeJobSeeker']];
+const pages = [['Home', '/'], ['Job Board', '/search'], ['My Jobs', '/homeJobSeeker']];
 const settings = [['Job Seeker Home', '/homeJobSeeker'], ['Employer Home', '/homeEmployer'] ,['Logout', '/'], ['Post Job', '/postJob']];
 
 // TODO: Conditionally Add Login Page
@@ -60,7 +60,7 @@ const NavBar = ({ page }) => {
   useEffect(() => {
     axios.get('http://localhost:3001/notifications', {params: {user_id: 2}})
       .then(res => setNotifications(res.data))
-      .catch(err => console.log(data))
+      .catch(err => console.log(err))
   }, [])
 
   return (

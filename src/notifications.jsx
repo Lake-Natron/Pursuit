@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
+import axios from 'axios';
 
 const { useState, useEffect } = React;
 
@@ -14,13 +15,15 @@ const Notifications = ({ notifications, visible, updateVisible, setNotifications
   }
 
   const removeNotification = (index) => {
+    let id = notifications[index].id;
     let list = [...notifications];
     list.splice(index, 1);
     setNotifications(list);
     if (list.length === 0) {
       updateVisible(false);
     }
-    // Send request
+    axios.patch('http://localhost:3001/notification', {id})
+      .catch(err => console.log(err));
   }
 
   const boxStyle = {

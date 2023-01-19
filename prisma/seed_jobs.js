@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 let jobs = [
   {
     name: 'Technical Recruiter',
-    company_id: 7,
+    company_id: 17,
     description: 'Lorem ipsum dolor sit amet',
     salary: 80000,
     location: '27540',

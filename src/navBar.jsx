@@ -41,8 +41,12 @@ const NavBar = ({ page }) => {
   const [importingResume, updateImportingResume] = useState(false);
   const [showNotifications, updateShowNotifications] = useState(false);
 
-  // TODO: Routinely pull down items for user for notifications:
+  // TODO: Routinely pull down items from user for notifications:
   // console.log(status, data.user.id);
+
+  useEffect(() => {
+
+  }, []);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);

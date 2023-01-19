@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import EditIcon from '@mui/icons-material/Edit';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
+import CancelIcon from '@mui/icons-material/Cancel';
 import Fab from '@mui/material/Fab';
 import { useState, useEffect } from 'react';
 
@@ -71,6 +72,17 @@ const JobDetails = ({id, jobVisible, setVisible}) => {
   return (
     <Modal sx={{ top: '20%' }} open={jobVisible}>
       <Box sx={boxStyle}>
+        <Box display="flex" justifyContent="flex-end">
+          <Fab color="secondary" aria-label="save note"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setVisible(false);
+                }}
+                sx={{ m:2}}
+              >
+            <CancelIcon size='small'/>
+          </Fab>
+        </Box>
         <Card sx={{ mb: 1.5, boxShadow: 0 }}>
         <Typography sx={{ fontSize: 18 }} color="text.secondary" gutterBottom>
           {company}
@@ -94,12 +106,14 @@ const JobDetails = ({id, jobVisible, setVisible}) => {
           <>
             {notes}
             <br />
-            <Fab color="secondary" aria-label="edit note"
-              onClick={() => {setCanEditNote(true)}}
-              sx={{ m:2}}
-            >
-              <EditIcon />
-            </Fab>
+            <Box display="flex" justifyContent="flex-end">
+              <Fab color="secondary" aria-label="edit note"
+                onClick={() => {setCanEditNote(true)}}
+                sx={{ m:2}}
+              >
+                <EditIcon />
+              </Fab>
+            </Box>
           </>}
          {canEditNote &&
          <>
@@ -109,16 +123,17 @@ const JobDetails = ({id, jobVisible, setVisible}) => {
               defaultValue={notes}
               style={{ width: '98%' }}
             />
-          <Fab color="secondary" aria-label="save note"
-              onClick={handleOnSaveClick}
-              sx={{ m:2}}
-            >
-              <DoneAllIcon />
-          </Fab>
+          <Box display="flex" justifyContent="flex-end">
+            <Fab color="secondary" aria-label="save note"
+                onClick={handleOnSaveClick}
+                sx={{ m:2}}
+              >
+                <DoneAllIcon size='small'/>
+            </Fab>
+          </Box>
          </>
           }
         </Card>
-
       </Box>
     </Modal>
   )

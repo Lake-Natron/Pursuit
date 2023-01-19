@@ -14,6 +14,7 @@ const HomeEmployer = () => {
   const company_id = 10;
 
   //need to change port at some point
+  //get route for company name
   useEffect(() => {
     axios.get(`http://localhost:3002/jobs?company_id=${company_id}`)
     .then((res) => {setJobListings(res.data)})
@@ -23,9 +24,10 @@ const HomeEmployer = () => {
   return (
     <>
     <NavBar />
-    <Box sx={{width: '100%', minWidth: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid'}}>
+    <Box sx={{width: '100%', minWidth: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', mt:'2em'}}>
       <nav aria-label="job-list-container">
-        <List sx={{mt: 4}}>
+        <h2>Company Name</h2>
+        <List sx={{mt: '1em'}}>
           {jobListings.map((listing, index) =>
             <EmployerJobListCard listing={listing} key={index} />
           )}

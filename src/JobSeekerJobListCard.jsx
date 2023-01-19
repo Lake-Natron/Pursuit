@@ -15,12 +15,10 @@ const JobSeekerJobListCard = ({listing}) => {
   const closeDate = listing.Job.close_date.slice(0, 10);
   const job_id = listing.job_id;
 
-
   const handleClick = (e) => {
     e.preventDefault();
     console.log('Click')
   }
-  console.log(listing)
 
   //make sure to change port at some point
   //need a route to get company name

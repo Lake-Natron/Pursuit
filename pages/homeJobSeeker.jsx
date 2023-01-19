@@ -34,11 +34,10 @@ const HomeJobSeeker = () => {
     .catch(err => {console.log(err)})
   }, [])
 
-
   return (
     <>
     <NavBar />
-    <Box sx={{width: '100%', minWidth: 480, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+    <Box sx={{width: '100%', minWidth: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '1em'}}>
       <nav aria-label="job-list-container">
         <h2>Extremely Interested</h2>
         <List sx={{mt: -1}}>

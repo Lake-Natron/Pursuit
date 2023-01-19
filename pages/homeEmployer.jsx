@@ -5,20 +5,31 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import EmployerJobListCard from '../src/employerJobListCard'
-import NavBar from '../src/navBar'
+import EmployerJobListCard from '../src/employerJobListCard';
+import NavBar from '../src/navBar';
 
 const HomeEmployer = () => {
   const [jobListings, setJobListings] = useState([]);
+  const [companyName, setCompanyName] = useState('');
   //need session info for company id
-  const company_id = 10;
+  const company_id = '1';
 
   //need to change port at some point
-  //get route for company name
   useEffect(() => {
-    axios.get(`http://localhost:3002/jobs?company_id=${company_id}`)
-    .then((res) => {setJobListings(res.data)})
-    .catch(err => {console.log(err)})
+    const getCompanyName = async () => {
+      await axios.get(`http://localhost:3002/user?id=${company_id}`)
+      .then(res => {console.log('2', res.data); setCompanyName(res.data.company_name)})
+      .catch(err => {console.log(err)})
+    }
+
+    const getCompanyJobListings = async () => {
+      await axios.get(`http://localhost:3002/jobs?company_id=${company_id}`)
+      .then(res => {setJobListings(res.data)})
+      .catch(err => {console.log(err)})
+    }
+
+    getCompanyName();
+    getCompanyJobListings();
   }, [])
 
   return (
@@ -26,7 +37,7 @@ const HomeEmployer = () => {
     <NavBar />
     <Box sx={{width: '100%', minWidth: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', mt:'2em'}}>
       <nav aria-label="job-list-container">
-        <h2>Company Name</h2>
+        <h2>{companyName}</h2>
         <List sx={{mt: '1em'}}>
           {jobListings.map((listing, index) =>
             <EmployerJobListCard listing={listing} key={index} />

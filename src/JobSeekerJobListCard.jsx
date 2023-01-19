@@ -22,6 +22,7 @@ const JobSeekerJobListCard = ({listing}) => {
 
   //make sure to change port at some point
   //need a route to get company name
+  //getUser
   useEffect(() => {
     console.log(job_id)
     axios.get(`http://localhost:3002/job?job_id=${job_id}`)

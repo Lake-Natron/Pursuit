@@ -17,7 +17,6 @@ const ApplicantListCard = ({ applicant }) => {
   const [notesVisible, updateNotesVisible] = useState(false);
   const [applicantDetails, setApplicantsDetails] = useState([]);
 
-  //need to change host at some point
   const handleInterestedClick = (e) => {
     e.preventDefault();
     e.stopPropagation()
@@ -49,7 +48,7 @@ const ApplicantListCard = ({ applicant }) => {
     e.stopPropagation()
     updateNotesVisible(!notesVisible);
   }
-  console.log(applicant)
+  console.log('here', applicant)
 
   // useEffect(() => {
   //   axios.get('http://localhost:3002/updateCompanyInterest')
@@ -76,7 +75,7 @@ const ApplicantListCard = ({ applicant }) => {
             Education: <br/>
             Skills: <br/>
             Other Info: <br/>
-            Notes:
+            Notes: {applicant.company_notes}
           </Typography>
           <Box sx={{mt: 2, ml: '30vw', border: '1px solid', width:'20vw'}}>
             <Button sx={{mr: '1em'}} variant="contained" onClick={handleVisibleClick}>Create Meeting</Button>
@@ -84,7 +83,7 @@ const ApplicantListCard = ({ applicant }) => {
           </Box>
         </AccordionDetails>
       </Accordion>
-      <CreateMeeting visible={visible} updateVisible={updateVisible} application_id={1} seeker_id={1} />
+      <CreateMeeting visible={visible} updateVisible={updateVisible} application_id={applicant.id} seeker_id={applicant.seeker_id} />
       <EmployerAddNote notesVisible={notesVisible} updateNotesVisible={updateNotesVisible} application_id={1} seeker_id={1} />
     </>
   )

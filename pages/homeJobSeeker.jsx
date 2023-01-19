@@ -20,6 +20,8 @@ const HomeJobSeeker = () => {
   //need seeker_id from session info
   //need to change port at some point
   useEffect(() => {
+    if (status === "unauthenticated" || data?.user.role !== 'seeker') Router.replace("/login");
+
     axios.get(`http://localhost:3002/jobs/applied?seeker_id=6`)
     .then(res => {
       const extreme = res.data.filter(item =>
@@ -37,10 +39,6 @@ const HomeJobSeeker = () => {
     })
     .catch(err => {console.log(err)})
   }, [])
-
-  useEffect(() => {
-    if (status === "unauthenticated" || data?.user.role !== 'seeker') Router.replace("/login");
-  }, [status])
 
   return (
     <>

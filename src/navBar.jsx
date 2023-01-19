@@ -38,8 +38,6 @@ const NavBar = ({ page }) => {
   const [showNotifications, updateShowNotifications] = useState(false);
   const { status, data } = useSession();
 
-  // TODO: Routinely pull down items from user for notifications:
-
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -58,32 +56,20 @@ const NavBar = ({ page }) => {
   };
 
   useEffect(() => {
-    const apiNotifications = () => {
-      console.log('this is the user id', data?.user.id)
-      console.log('this is all stored in sesshionstorage', data?.user.role)
-      console.log('making axios call');
-      axios.get('http://localhost:3001/notifications', {params: {user_id: data?.user.id}})
-      .then(res => setNotifications(res.data))
-      .catch(err => console.log(err))
-    };
-
-    const interval = setInterval(apiNotifications, 3000);
-
-    return () => clearInterval(interval);
-  }, [])
-
-  //need seeker_id from session info
-  useEffect(() => {
-    // if (status === "unauthenticated" || data?.user.role !== 'seeker') Router.replace("/login");
-    if (data?.user.role === 'seeker') {
-      console.log('changing seeker name');
-      pages = [['Job Board', '/jobSearch'], ['My Jobs', '/homeJobSeeker']];
-      settings = [['Job Seeker Home', '/homeJobSeeker']];
-    } else if (data?.user.role==='employer') {
-      pages = [['Job Board', '/jobSearch'], ['Jobs & Applicants', '/employerSeeker']]
-      settings = [['Job Seeker Home', '/homeJobSeeker'], ['Post Job', '/postJob']];
+    if (!data) {
+      return;
     }
-  }, []);
+
+    const apiNotifications = () => {
+      axios.get('http://localhost:3001/notifications', {params: {user_id: data?.user.id}})
+        .then(res => setNotifications(res.data))
+        .catch(err => console.log(err))
+    }
+
+    const interval = setInterval(apiNotifications, 20000);
+
+    return ()=> clearInterval(interval);
+  }, [data])
 
   return (
     <AppBar position='static' sx={{ bgcolor: '#E44F48' }}>

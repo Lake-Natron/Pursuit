@@ -11,12 +11,15 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import axios from 'axios';
 
 const { useState, useEffect } = React;
+import { useSession } from "next-auth/react";
 
 const CreateMeeting = ({ visible, updateVisible, application_id, seeker_id}) => {
   let [start, updateStart] = useState({});
   let [end, updateEnd] = useState({});
   let [description, updateDescription] = useState(description);
   let [title, updateTitle] = useState(title);
+
+  const { status, data } = useSession();
 
   const save = () => {
     if (start.toString() !== '[object Object]' && end.toString() !== '[object Object]' && title !== '') {
@@ -26,12 +29,18 @@ const CreateMeeting = ({ visible, updateVisible, application_id, seeker_id}) => 
         end_time: end.toString(),
         description: description,
         title: title,
-        application_id: 1,
-        seeker_id: 2,
-        company_id: 9
+        application_id: application_id,
+        seeker_id: seeker_id,
+        company_id: data?.user.id
       }
       axios.post('http://localhost:3001/meeting', params)
         .catch(err => console.log(err))
+      axios.post('http://localhost:3001/notification', {
+        user_id: seeker_id,
+        type: 'Meeting Request',
+        details: 'You have a meeting request for ' + title
+      })
+        .catch(err => console.log(err));
       updateVisible(false);
     }
   }

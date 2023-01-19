@@ -21,7 +21,7 @@ const ViewApplicants = () => {
 
   //need job_id through session storage
   useEffect(() => {
-    axios.get(`http://localhost:3002/jobs/applicants?job_id=3`)
+    axios.get(`http://localhost:3002/jobs/applicants?job_id=2`)
     .then((res) => {
       setApplicantList(res.data);
       setJobName(res.data[0].Job.name);

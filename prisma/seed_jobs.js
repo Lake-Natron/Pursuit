@@ -3,9 +3,9 @@ const prisma = new PrismaClient();
 
 let jobs = [
   {
-    name: "Technical Recruiter",
-    company_id: 7,
-    description: "Lorem ipsum dolor sit amet",
+    name: 'Technical Recruiter',
+    company_id: 17,
+    description: 'Lorem ipsum dolor sit amet',
     salary: 80000,
     location: "27540",
     close_date: new Date("2023-01-31"),
@@ -16,7 +16,7 @@ let jobs = [
   {
     name: "Software Engineer",
     company_id: 9,
-    description: "Lorem ipsum dolor sit amet",
+    description: 'Lorem ipsum dolor sit amet',
     salary: 100000,
     location: "37421",
     close_date: new Date("2023-01-31"),
@@ -27,7 +27,7 @@ let jobs = [
   {
     name: "HR Generalist",
     company_id: 10,
-    description: "Lorem ipsum dolor sit amet",
+    description: 'Lorem ipsum dolor sit amet',
     salary: 65000,
     location: "11791",
     close_date: new Date("2023-01-31"),
@@ -38,7 +38,7 @@ let jobs = [
   {
     name: "Corporate Trainer",
     company_id: 10,
-    description: "Lorem ipsum dolor sit amet",
+    description: 'Lorem ipsum dolor sit amet',
     salary: 70000,
     location: "43512",
     close_date: new Date("2023-01-31"),
@@ -49,7 +49,7 @@ let jobs = [
   {
     name: "Front End Developer",
     company_id: 9,
-    description: "Lorem ipsum dolor sit amet",
+    description: 'Lorem ipsum dolor sit amet',
     salary: 90000,
     location: "11111",
     close_date: new Date("2023-01-31"),

@@ -11,6 +11,9 @@ import PrivateEvent from '../src/calendar/privateEvent.jsx';
 import EditMeeting from '../src/calendar/meetingForm.jsx';
 import Request from '../src/calendar/requestChange.jsx';
 import NavBar from '../src/navBar';
+import axios from 'axios';
+
+import { useSession } from "next-auth/react";
 
 Date.prototype.monthNames = [
   "January", "February", "March",
@@ -46,7 +49,7 @@ const { useState, useEffect } = React;
 
 const Calendar = () => {
   let [eventSelected, updateEventSelected] = useState(false);
-  let [companyLogin, updateCompanyLogin] = useState(true);
+  let [companyLogin, updateCompanyLogin] = useState(false);
   let [events, updateEvents] = useState([]);
   let [creatingEvent, updateCreating] = useState(false);
   let [editMode, updateEditMode] = useState(false);
@@ -67,21 +70,58 @@ const Calendar = () => {
   let [startTime, updateStartTime] = useState({});
   let [endTime, updateEndTime] = useState({});
   let [whom, updateWhom] = useState('');
+  let [notificationUser, updateNotificationUser] = useState(0);
+
+  const { status, data } = useSession();
+
+  const loadEvents = () => {
+    let params = {};
+    if (companyLogin) {
+      params.company_id = data?.user.id;
+    } else {
+      params.seeker_id = data?.user.id;
+    }
+    axios.get('http://localhost:3001/meetings', { params })
+      .then(res => res.data)
+      .then(data => {
+        data.forEach(event => {
+          event.start = new Date(event.start_time);
+          event.end = new Date(event.end_time);
+          event.read_start = event.start;
+          event.read_end = event.end;
+          event.meeting_id = event.id;
+          if (event.Application) {
+            if (companyLogin) {
+              event.notes = event.Application.company_notes;
+              event.whom = event.Application.User.first_name + ' ' + event.Application.User.last_name;
+            } else {
+              event.notes = event.Application.seeker_notes;
+            }
+          }
+        })
+        updateEvents(data);
+      })
+      .catch(err => console.log(err));
+  }
 
   useEffect(() => {
-    data.forEach(event => {
-      event.read_start = event.start;
-      event.read_end = event.end;
-    })
-    updateEvents(data);
-  }, []);
+    loadEvents();
+    if (data?.user.role === 'employer') {
+      updateCompanyLogin(true);
+    }
+  }, [data]);
 
   useEffect(() => {
     if (event._def) {
-      if (!event._def.extendedProps.job) {
+      if (companyLogin) {
+        updateNotificationUser(event._def.extendedProps.seeker_id);
+      } else {
+        updateNotificationUser(event._def.extendedProps.company_id);
+      }
+      if (!event._def.extendedProps.application_id) {
         updateJob('');
       } else {
-        updateJob(event._def.extendedProps.job);
+        updateJob(event._def.extendedProps.application_id);
       }
       if (!event._def.extendedProps.description) {
         updateDescription('');
@@ -93,10 +133,10 @@ const Calendar = () => {
       } else {
         updateNotes(event._def.extendedProps.notes);
       }
-      if (!event._def.extendedProps.with) {
+      if (!event._def.extendedProps.whom) {
         updateWhom('');
       } else {
-        updateWhom(event._def.extendedProps.with);
+        updateWhom(event._def.extendedProps.whom);
       }
       updatePrivatEvent(event._def.extendedProps.private);
       updateStart(event._def.extendedProps.read_start.getStringTime());
@@ -104,7 +144,7 @@ const Calendar = () => {
       updateStartTime(event._def.extendedProps.read_start);
       updateEndTime(event._def.extendedProps.read_end);
       updateDate(event._def.extendedProps.read_end.getStringName());
-      updateEventId(event._def.extendedProps.id);
+      updateEventId(event._def.extendedProps.meeting_id);
       updateTitle(event._def.title);
     } else {
       updateJob('');
@@ -118,13 +158,33 @@ const Calendar = () => {
    updateAccepted(e.event._def.extendedProps.seeker_accepted);
   }
 
-  // Toggle New Event Creation
   const toggleCreate = () => {
     if (!creatingEvent) {
       updateCreating(true);
     }
   }
 
+  const declineMeeting = () => {
+    axios.patch('http://localhost:3001/meeting', {
+        id: eventId,
+        canceled: true
+      })
+    .then(() => loadEvents())
+  }
+
+  const acceptMeeting = () => {
+    let params = {
+      id: eventId,
+      start_time: startTime.toString(),
+      end_time: endTime.toString(),
+      description: description,
+      title: title,
+      seeker_accepted: true,
+      canceled: false
+    }
+    axios.patch('http://localhost:3001/meeting', params)
+    .then(() => loadEvents())
+  }
 
   const pageStyle = {
     display: 'flex',
@@ -191,19 +251,18 @@ const Calendar = () => {
         {eventSelected &&
         <div>
           <h1 style={sidebarTitle}>{title}</h1>
-          {!privateEvent && <p>Meeting with {whom}</p>}
           { (companyLogin && !privateEvent) &&
             <>
               {event._def.extendedProps.seeker_accepted &&
               <p>
                 <CheckCircleIcon sx={{marginRight: '5px', fontSize: 'large'}}/>
-                {event._def.title + ' has accepted'}
+                {whom + ' has accepted'}
               </p>
               }
               {!event._def.extendedProps.seeker_accepted &&
               <p>
                 <HelpIcon sx={{marginRight: '5px', fontSize: 'large'}}/>
-                {'Waiting on ' + event._def.title + ' to accept'}
+                {'Waiting on ' + whom + ' to accept'}
               </p>
               }
             </>
@@ -214,11 +273,11 @@ const Calendar = () => {
               <Button sx={buttonStyle} variant="contained" onClick={e => {
                 e.preventDefault();
                 updateAccepted(true);
-                // Send Accept Request, Get another list of events
+                acceptMeeting();
               }}>Accept</Button>
               <Button sx={buttonStyle} variant="contained" onClick={e => {
                 e.preventDefault();
-                // Send Decline cancellation, Get another list of events
+                declineMeeting();
                 updateEventSelected(false);
               }}>Decline</Button>
               </div>
@@ -236,8 +295,8 @@ const Calendar = () => {
           <p>{date}</p>
           <h2>Time:</h2>
           <p>{start + ' - ' + end}</p>
-          {job !== '' && <h2>Related Job:</h2>}
-          {job !== '' && <p>{job}</p>}
+          {/* {job !== '' && <h2>Related Job:</h2>}
+          {job !== '' && <p>{job}</p>} */}
           <h2 style={sidebarTitle}>Description</h2>
           <p style={sidebarText}>{description}</p>
           {job !== '' && <h2 style={sidebarTitle}>Application Notes</h2>}
@@ -245,7 +304,7 @@ const Calendar = () => {
         </div>
         }
       </div>
-      <PrivateEvent visible={creatingEvent} updateVisible={updateCreating} />
+      <PrivateEvent visible={creatingEvent} updateVisible={updateCreating} updateEvents={loadEvents}/>
       <EditMeeting visible={editMode} updateVisible={updateEditMode}
       eventId={eventId}
       description={description}
@@ -260,55 +319,14 @@ const Calendar = () => {
       updateTitle={updateTitle}
       startTime={startTime}
       endTime={endTime}
-      updateEvents={updateEvents}/>
-      <Request visible={requestMode} updateVisible={updateRequestMode} />
+      seeker_id={notificationUser}
+      company={companyLogin}
+      updateEvents={loadEvents}/>
+      <Request visible={requestMode} updateVisible={updateRequestMode} company_id={notificationUser} title={title}/>
     </div>
     </div>
   )
 }
 
 export default Calendar;
-
-const data = [
-  {
-    description: 'Hello Jeff, we will use to time to interview for the role of product manager',
-    title: 'Jeff Franky', //Name of company/person meeting with
-    job: 'Product Manager',
-    start: new Date(),//'2023-01-01T10:30:00',
-    end: new Date(),//'2023-01-01T11:30:00',
-    notes: 'Jeff has no experience. Do NOT hire him.',
-    canceled: false,
-    seeker_accepted: false,
-    change_requested: false,
-    request_notes: 'test',
-    id: 1,
-    with: 'Grace Andrews'
-  },
-  {
-    description: 'Let\'s use this time to chat about an opportunity I have for you',
-    title: 'Grace Andrews', //Name of company/person meeting with
-    job: 'Software Developer',
-    start: new Date(),//'2023-01-01T10:30:00',
-    end: new Date(),//'2023-01-01T11:30:00',
-    notes: 'Grace has experience through a boot camp.',
-    canceled: false,
-    seeker_accepted: true,
-    change_requested: false,
-    request_notes: 'test',
-    id: 2,
-    with: 'Grace Andrews'
-  },
-  {
-    description: 'Let\'s use this time to chat about an opportunity I have for you',
-    title: 'Time Reserved',
-    start: new Date(),//'2023-01-01T10:30:00',
-    end: new Date(),//'2023-01-01T11:30:00',
-    notes: 'Grace has experience through a boot camp.',
-    canceled: false,
-    seeker_accepted: true,
-    private: true,
-    id: 3,
-    with: 'Grace Andrews'
-  }
-]
 

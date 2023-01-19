@@ -47,33 +47,6 @@ const employment = [
   'Contract'
 ];
 
-function getExperienceStyles(exp, experienceType, theme) {
-  return {
-    fontWeight:
-      experienceType.indexOf(exp) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
-function getEmploymentStyles(emp, employmentType, theme) {
-  return {
-    fontWeight:
-      employmentType.indexOf(emp) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
-function getSiteStyles(site, jobSite, theme) {
-  return {
-    fontWeight:
-      jobSite.indexOf(site) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
 const PostJob = () => {
   const theme = useTheme();
   const [location, setLocation] = useState('');
@@ -122,11 +95,6 @@ const PostJob = () => {
     );
   };
 
-
-  useEffect(() => {
-
-  }, [isFormValid])
-
   const handleSubmit = (e) => {
     e.preventDefault();
     let title = e.target.elements.title.value;
@@ -134,34 +102,25 @@ const PostJob = () => {
     let jobDescription = e.target.elements.jobDescription.value;
     let skills = e.target.elements.skills.value;
     let salary = e.target.elements.salary.value;
+    let company_id = company_id
 
     if (!title || !closeDate || !jobDescription || !skills || !salary || !location || !jobSite || !experienceType || !employmentType) {
       setIsFormValid(false);
     } else {
       setIsFormValid(true);
-      //need route, also figure out where company_id comes from
-      // axios.post('/', {
-      //   title: title,
-      //   closeDate: closeDate,
-      //   jobDescription: jobDescription,
-      //   skills: skills,
-      //   salary: salary,
-      //   location: location,
-      //   jobSite: jobSite,
-      //   experienceType: experienceType,
-      //   employmentType: employmentType
-      //   company_id: company_id
-      // })
-      console.log('submit')
-      console.log('title', title)
-      console.log('closeDate', closeDate)
-      console.log('jobDescription', jobDescription)
-      console.log('skills', skills)
-      console.log('salary', salary)
-      console.log('location', location)
-      console.log('job site', jobSite)
-      console.log('exp type', experienceType)
-      console.log('emp type', employmentType)
+      //need company_id from session
+      axios.post('http://localhost:3001/jobs', {
+        title: title,
+        closeDate: closeDate,
+        jobDescription: jobDescription,
+        skills: skills,
+        salary: salary,
+        location: location,
+        jobSite: jobSite,
+        experienceType: experienceType,
+        employmentType: employmentType,
+        company_id: company_id
+      })
     }
   }
 
@@ -175,7 +134,7 @@ const PostJob = () => {
         alignItems='center'
         component="form"
         sx={{
-          '& .MuiTextField-root': { m: 1, minwidth: '35vw' }, border:'1px solid grey',
+          '& .MuiTextField-root': { m: 1, minwidth: '35vw' }
         }}
         noValidate
         autoComplete="off"
@@ -267,7 +226,6 @@ const PostJob = () => {
                   <MenuItem
                     key={exp}
                     value={exp}
-                    style={getSiteStyles(exp, experienceType, theme)}
                   >
                     {exp}
                   </MenuItem>
@@ -290,7 +248,6 @@ const PostJob = () => {
                   <MenuItem
                     key={exp}
                     value={exp}
-                    style={getExperienceStyles(exp, experienceType, theme)}
                   >
                     {exp}
                   </MenuItem>
@@ -313,7 +270,6 @@ const PostJob = () => {
                   <MenuItem
                     key={emp}
                     value={emp}
-                    style={getEmploymentStyles(emp, employmentType, theme)}
                   >
                     {emp}
                   </MenuItem>

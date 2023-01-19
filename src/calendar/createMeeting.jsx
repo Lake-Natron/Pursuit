@@ -8,9 +8,10 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-
+import axios from 'axios';
 
 const { useState, useEffect } = React;
+import { useSession } from "next-auth/react";
 
 const CreateMeeting = ({ visible, updateVisible, application_id, seeker_id}) => {
   let [start, updateStart] = useState({});
@@ -18,10 +19,29 @@ const CreateMeeting = ({ visible, updateVisible, application_id, seeker_id}) => 
   let [description, updateDescription] = useState(description);
   let [title, updateTitle] = useState(title);
 
-  const save = () => {
-    if (newStart.toString() !== '[object Object]' && newEnd.toString() !== '[object Object]' && newTitle !== '') {
-      // Send request before updating visibility
+  const { status, data } = useSession();
 
+  const save = () => {
+    if (start.toString() !== '[object Object]' && end.toString() !== '[object Object]' && title !== '') {
+      // Send request before updating visibility
+      let params = {
+        start_time: start.toString(),
+        end_time: end.toString(),
+        description: description,
+        title: title,
+        application_id: application_id,
+        seeker_id: seeker_id,
+        company_id: data?.user.id
+      }
+      axios.post('http://localhost:3001/meeting', params)
+        .catch(err => console.log(err))
+      axios.post('http://localhost:3001/notification', {
+        user_id: seeker_id,
+        type: 'Meeting Request',
+        details: 'You have a meeting request for ' + title
+      })
+        .catch(err => console.log(err));
+      updateVisible(false);
     }
   }
 

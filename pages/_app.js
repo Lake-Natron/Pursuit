@@ -1,19 +1,31 @@
 import * as React from "react";
+import '../public/main.css';
+import { SessionProvider } from "next-auth/react"
 import PropTypes from "prop-types";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 const lora = require("@fontsource/lora");
 const montserrat = require("@fontsource/montserrat");
-import theme from "../src/theme";
+import theme from "../src/Theme";
+
+// export default function MyApp({ Component, pageProps: {session, ...pageProps}, }) {
+//   return (
+//     <SessionProvider session={session}>
+//       <Component {...pageProps} />
+//     </SessionProvider>
+//   )
+// }
 
 export default function MyApp(props) {
-  const { Component, pageProps } = props;
+  const { Component, pageProps : {session, ...pageProps} } = props;
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Component {...pageProps} />
-    </ThemeProvider>
+    <SessionProvider session={session}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </SessionProvider>
   );
 }
 

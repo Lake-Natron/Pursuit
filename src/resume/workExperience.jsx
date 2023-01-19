@@ -9,18 +9,18 @@ import Checkbox from '@mui/material/Checkbox';
 const { useState, useEffect } = React;
 
 const WorkExperience = ({ index, works }) => {
-  const [details, updateDetails] = useState(works[index].job_details);
-  const [company, updateCompany] = useState(works[index].company);
-  const [location, updateLocation] = useState(works[index].location);
-  const [start, updateStart] = useState(works[index].start_date);
-  const [end, updateEnd] = useState(works[index].end_date)
+  const [details, updateDetails] = useState(works[index].job_details || '');
+  const [company, updateCompany] = useState(works[index].company_name || '');
+  const [location, updateLocation] = useState(works[index].location || '');
+  const [start, updateStart] = useState(new Date(works[index].start_date) || {});
+  const [end, updateEnd] = useState(new Date(works[index].end_date) || {})
 
   useEffect(() => {
     works[index].job_details = details;
     works[index].location = location;
     works[index].company_name = company;
-    works[index].start_date = start;
-    works[index].end_date = end;
+    works[index].start_date = start.toString();
+    works[index].end_date = end.toString();
   }, [details, location, company, start, end, works, index])
 
   const inputStyle = {
@@ -34,6 +34,7 @@ const WorkExperience = ({ index, works }) => {
         <TextField
           sx={inputStyle}
           label='Company'
+          value={company}
           required
           variant="filled"
           size="small"
@@ -42,6 +43,7 @@ const WorkExperience = ({ index, works }) => {
         <TextField
           sx={inputStyle}
           label='Location'
+          value={location}
           required
           variant="filled"
           size="small"
@@ -54,6 +56,7 @@ const WorkExperience = ({ index, works }) => {
           label='Job Description'
           required
           multiline
+          value={details}
           variant="filled"
           size="small"
           onChange={e => updateDetails(e.target.value)}

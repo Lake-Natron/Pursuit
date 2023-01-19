@@ -3,80 +3,84 @@ const prisma = new PrismaClient();
 
 let seekers = [
   {
-    first_name: "George",
-    last_name: "Bush",
-    email: "georgebush@gmail.com",
-    image_url:
-      "https://media.istockphoto.com/id/523761634/photo/cute-panda-bear-climbing-in-tree.jpg?s=612x612&w=0&k=20&c=TxsmORsbuY1LpxQsc6T8fpWJo7lBwncciYhroAr8rXI=",
+    company_name: '',
+    first_name: 'Callie',
+    last_name: 'Stoscup',
+    image_url: '',
     role: "seeker",
-    address: "1234 Fake Dr",
-    city: "New York City",
-    state: "New York",
-    zip_code: "10001",
-    password: "password_1234",
+    email: 'calliestoscupgmail.com',
+    password: 'password_1',
+    address: '',
+    address_2: '',
+    city: '',
+    state: '',
+    zip_code: '',
   },
   {
-    first_name: "John",
-    last_name: "Doe",
-    email: "johndoe@gmail.com",
-    password: "password_54325",
-    image_url:
-      "https://media.istockphoto.com/id/523761634/photo/cute-panda-bear-climbing-in-tree.jpg?s=612x612&w=0&k=20&c=TxsmORsbuY1LpxQsc6T8fpWJo7lBwncciYhroAr8rXI=",
+    company_name: '',
+    first_name: 'John',
+    last_name: 'Doe',
+    image_url: '',
+    email: 'johndoe@gmail.com',
+    password: 'password_2',
     role: "seeker",
-    address: "1234 Fake Dr",
-    city: "New York City",
-    state: "New York",
-    zip_code: "10001",
+    address: '',
+    address_2: '',
+    city: '',
+    state: '',
+    zip_code: '',
   },
   {
-    first_name: "Jane",
-    last_name: "Doe",
-    email: "janedoe@gmail.com",
-    image_url:
-      "https://media.istockphoto.com/id/523761634/photo/cute-panda-bear-climbing-in-tree.jpg?s=612x612&w=0&k=20&c=TxsmORsbuY1LpxQsc6T8fpWJo7lBwncciYhroAr8rXI=",
+    company_name: '',
+    first_name: 'Jane',
+    last_name: 'Doe',
+    image_url: '',
+    email: 'janedoe@gmail.com',
+    password: 'password_3',
     role: "seeker",
-    address: "1234 Fake Dr",
-    city: "New York City",
-    state: "New York",
-    zip_code: "10001",
-    password: "password_624536",
+    address: '',
+    address_2: '',
+    city: '',
+    state: '',
+    zip_code: '',
   },
   {
-    first_name: "Oprah",
-    last_name: "Winfrey",
-    email: "oprahwinfrey@gmail.com",
-    image_url:
-      "https://media.istockphoto.com/id/523761634/photo/cute-panda-bear-climbing-in-tree.jpg?s=612x612&w=0&k=20&c=TxsmORsbuY1LpxQsc6T8fpWJo7lBwncciYhroAr8rXI=",
-    role: "seeker",
-    address: "1234 Fake Dr",
-    city: "New York City",
-    state: "New York",
-    zip_code: "10001",
-    password: "password_536456",
+    company_name: '',
+    first_name: 'Oprah',
+    last_name: 'Winfrey',
+    image_url: '',
+    email: 'oprahwinfrey@gmail.com',
+    password: 'password_4',
+    role: "company",
+    address: '',
+    address_2: '',
+    city: '',
+    state: '',
+    zip_code: '',
   },
   {
-    first_name: "Brad",
-    last_name: "Pitt",
-    email: "bradpitt@gmail.com",
-    image_url:
-      "https://media.istockphoto.com/id/523761634/photo/cute-panda-bear-climbing-in-tree.jpg?s=612x612&w=0&k=20&c=TxsmORsbuY1LpxQsc6T8fpWJo7lBwncciYhroAr8rXI=",
-    role: "seeker",
-    address: "1234 Fake Dr",
-    city: "New York City",
-    state: "New York",
-    zip_code: "10001",
-    password: "password_634563",
-  },
+    company_name: '',
+    first_name: 'Brad',
+    last_name: 'Pitt',
+    image_url: '',
+    email: 'bradpitt@gmail.com',
+    password: 'password_5',
+    role: "company",  address: '',
+    address_2: '',
+    city: '',
+    state: '',
+    zip_code: '',
+  }
 ];
 
 async function main() {
   console.log("Start seeding...");
 
   for (let i = 0; i < seekers.length; i++) {
-    const seeker = await prisma.User.create({
-      data: seekers[i],
-    });
-    console.log(`Created user with id: ${seeker.id}`);
+    const user = await prisma.User.create({
+      data: seekers[i]
+    })
+    console.log(`Created user with id: ${user.id}`)
   }
 }
 
@@ -85,7 +89,8 @@ main()
     await prisma.$disconnect();
   })
   .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+    console.error(e)
+    await prisma.$disconnect()
+    process.exit(1)
+  })
+

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Accordion from '@mui/material/Accordion';
@@ -7,22 +8,34 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import CreateMeeting from '../src/calendar/createMeeting'
+import CreateMeeting from '../src/calendar/createMeeting';
+import EmployerAddNote from '../src/employerAddNote';
 
 
-const ApplicantListCard = () => {
-  const[visible, updateVisible] = useState(false)
+const ApplicantListCard = ({ applicant }) => {
+  const [visible, updateVisible] = useState(false);
+  const [notesVisible, updateNotesVisible] = useState(false);
+  const [applicantDetails, setApplicantsDetails] = useState([]);
 
+  //need to change host at some point
   const handleInterestedClick = (e) => {
     e.preventDefault();
     e.stopPropagation()
-    //Patch request to update interest level
+    axios.patch('http://localhost:3001/updateCompanyInterest', {
+      'application_id': applicant.id,
+      'company_interest_level': 'Interested'
+    })
+    .catch(err => {console.log(err)})
   }
 
   const handleNotInterestedClick = (e) => {
     e.preventDefault();
     e.stopPropagation()
-    //Patch request to update interest level
+    axios.patch('http://localhost:3001/updateCompanyInterest', {
+      'application_id': applicant.id,
+      'company_interest_level': 'Not Interested'
+    })
+    .catch(err => {console.log(err)})
   }
 
   const handleVisibleClick = (e) => {
@@ -31,16 +44,29 @@ const ApplicantListCard = () => {
     updateVisible(!visible);
   }
 
+  const handleNotesVisibleClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation()
+    updateNotesVisible(!notesVisible);
+  }
+  console.log(applicant)
+
+  // useEffect(() => {
+  //   axios.get('http://localhost:3002/updateCompanyInterest')
+  //   .then(res => setApplicantsDetails(res.data))
+  //   .catch(err => {console.log(err)})
+  // }, [])
+
   return (
     <>
-      <Accordion sx={{width: '60vw', border:'1px solid grey'}}>
+      <Accordion sx={{width: '60vw', border:'1px solid grey', borderRadius: '8px', overflow: 'hidden'}}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography>Applicant Name</Typography>
-          <Box sx={{ml: '50%'}}>
+          <Typography>{applicant.User.first_name} {applicant.User.last_name}</Typography>
+          <Box sx={{ml: '30vw', border: '1px solid', width:'20vw'}}>
             <Button variant="contained" sx={{mr: '1em'}} onClick={handleInterestedClick}>Interested</Button>
             <Button variant="contained" onClick={handleNotInterestedClick}>Not Interested</Button>
           </Box>
@@ -50,13 +76,16 @@ const ApplicantListCard = () => {
             Education: <br/>
             Skills: <br/>
             Other Info: <br/>
+            Notes:
           </Typography>
-          <Box sx={{ml: '60%'}}>
-            <Button sx={{mt:2}} variant="contained" onClick={handleVisibleClick}>Create Meeting</Button>
+          <Box sx={{mt: 2, ml: '30vw', border: '1px solid', width:'20vw'}}>
+            <Button sx={{mr: '1em'}} variant="contained" onClick={handleVisibleClick}>Create Meeting</Button>
+            <Button variant="contained" onClick={handleNotesVisibleClick}>Edit Notes</Button>
           </Box>
         </AccordionDetails>
       </Accordion>
       <CreateMeeting visible={visible} updateVisible={updateVisible} application_id={1} seeker_id={1} />
+      <EmployerAddNote notesVisible={notesVisible} updateNotesVisible={updateNotesVisible} application_id={1} seeker_id={1} />
     </>
   )
 }

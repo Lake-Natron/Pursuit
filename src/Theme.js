@@ -18,8 +18,12 @@ const theme = createTheme({
     },
     body2: {
       fontFamily: "Lora",
+<<<<<<< HEAD
       fontSize: 16,
       fontWeight: "bold",
+=======
+      fontSize: 12,
+>>>>>>> dev
     },
     button: {
       fontFamily: "Montserrat",

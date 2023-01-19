@@ -8,11 +8,12 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import axios from 'axios';
 
 
 const { useState, useEffect } = React;
 
-const EditMeeting = ({ visible, updateVisible, start, end, description, updateDescription, updateStart, updateEnd, title, updateTitle, eventId, updateDate, startTime, endTime, updateEvents }) => {
+const EditMeeting = ({ visible, updateVisible, start, end, description, updateDescription, updateStart, updateEnd, title, updateTitle, eventId, updateDate, startTime, endTime, updateEvents, seeker_id, company }) => {
   let [newStart, updateNewStart] = useState(startTime);
   let [newEnd, updateNewEnd] = useState(endTime);
   let [newDesc, updateNewDesc] = useState(description);
@@ -27,18 +28,40 @@ const EditMeeting = ({ visible, updateVisible, start, end, description, updateDe
 
   const save = () => {
     if (newStart.toString() !== '[object Object]' && newEnd.toString() !== '[object Object]' && newTitle !== '') {
-      // Send request before updating visibility
       updateEnd(newEnd.getStringTime(true));
       updateStart(newStart.getStringTime());
       updateDescription(newDesc);
       updateTitle(newTitle);
-      updateVisible(false);
+      axios.patch('http://localhost:3001/meeting', {
+        id: eventId,
+        start_time: newStart.toString(),
+        end_time: newEnd.toString(),
+        description: newDesc,
+        title: newTitle,
+        seeker_accepted: false,
+        canceled: false
+      })
+      .then(() => updateEvents())
+      .then(() => updateVisible(false));
+      if (company) {
+        axios.post('http://localhost:3001/notification', {
+        user_id: seeker_id,
+        type: 'Meeting Change',
+        details: 'Your meeting for ' + title + ' has been edited'
+      })
+        .catch(err => console.log(err));
+      }
     }
   }
 
   const cancel = () => {
     // Send cancellation message
-    updateVisible(false);
+    axios.patch('http://localhost:3001/meeting', {
+        id: eventId,
+        canceled: true
+      })
+    .then(() => updateEvents())
+    .then(() => updateVisible(false));
   }
 
   const boxStyle = {

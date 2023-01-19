@@ -22,7 +22,7 @@ const EmployerJobListCard = ({listing}) => {
         <Link style={{ textDecoration: 'none', color: 'white' }}
         href="/viewApplicants" as={`/viewApplicants?job_id=${listing.id}`}
         >
-          View Applicants ->
+          View Applicants
         </Link>
       </Button>
     </ListItem>

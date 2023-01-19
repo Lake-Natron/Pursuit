@@ -5,16 +5,16 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import JobSeekerJobListCard from '../src/JobSeekerJobListCard';
+import JobSeekerJobListCard from '../src/jobSeekerJobListCard';
 import NavBar from '../src/navBar';
 
 const HomeJobSeeker = () => {
-  const [jobListings, setJobListings] = useState([]);
   const [extreme, setExtreme] = useState([]);
   const [very, setVery] = useState([]);
   const [interested, setInterested] = useState([]);
 
   //need seeker_id from session info
+  //need to change port at some point
   useEffect(() => {
     axios.get(`http://localhost:3002/jobs/applied?seeker_id=6`)
     .then(res => {

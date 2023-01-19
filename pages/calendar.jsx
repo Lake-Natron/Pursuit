@@ -11,6 +11,7 @@ import PrivateEvent from '../src/calendar/privateEvent.jsx';
 import EditMeeting from '../src/calendar/meetingForm.jsx';
 import Request from '../src/calendar/requestChange.jsx';
 import NavBar from '../src/navBar';
+import axios from 'axios';
 
 Date.prototype.monthNames = [
   "January", "February", "March",
@@ -46,7 +47,7 @@ const { useState, useEffect } = React;
 
 const Calendar = () => {
   let [eventSelected, updateEventSelected] = useState(false);
-  let [companyLogin, updateCompanyLogin] = useState(true);
+  let [companyLogin, updateCompanyLogin] = useState(false);
   let [events, updateEvents] = useState([]);
   let [creatingEvent, updateCreating] = useState(false);
   let [editMode, updateEditMode] = useState(false);
@@ -67,13 +68,41 @@ const Calendar = () => {
   let [startTime, updateStartTime] = useState({});
   let [endTime, updateEndTime] = useState({});
   let [whom, updateWhom] = useState('');
+  //let [application_id, updateApplication_id] = useState(0);
+  //let [company_id, updateCompany_id] = useState(0);
+
+  const loadEvents = () => {
+    let params = {};
+    if (companyLogin) {
+      params.company_id = 9;
+    } else {
+      params.seeker_id = 2;
+    }
+    axios.get('http://localhost:3001/meetings', { params })
+      .then(res => res.data)
+      .then(data => {
+        data.forEach(event => {
+          event.start = new Date(event.start_time);
+          event.end = new Date(event.end_time);
+          event.read_start = event.start;
+          event.read_end = event.end;
+          event.meeting_id = event.id;
+          if (event.Application) {
+            if (companyLogin) {
+              event.notes = event.Application.company_notes;
+              event.whom = event.Application.User.first_name + ' ' + event.Application.User.last_name;
+            } else {
+              event.notes = event.Application.seeker_notes;
+            }
+          }
+        })
+        updateEvents(data);
+      })
+      .catch(err => console.log(err));
+  }
 
   useEffect(() => {
-    data.forEach(event => {
-      event.read_start = event.start;
-      event.read_end = event.end;
-    })
-    updateEvents(data);
+    loadEvents()
   }, []);
 
   useEffect(() => {
@@ -93,10 +122,10 @@ const Calendar = () => {
       } else {
         updateNotes(event._def.extendedProps.notes);
       }
-      if (!event._def.extendedProps.with) {
+      if (!event._def.extendedProps.whom) {
         updateWhom('');
       } else {
-        updateWhom(event._def.extendedProps.with);
+        updateWhom(event._def.extendedProps.whom);
       }
       updatePrivatEvent(event._def.extendedProps.private);
       updateStart(event._def.extendedProps.read_start.getStringTime());
@@ -104,7 +133,7 @@ const Calendar = () => {
       updateStartTime(event._def.extendedProps.read_start);
       updateEndTime(event._def.extendedProps.read_end);
       updateDate(event._def.extendedProps.read_end.getStringName());
-      updateEventId(event._def.extendedProps.id);
+      updateEventId(event._def.extendedProps.meeting_id);
       updateTitle(event._def.title);
     } else {
       updateJob('');
@@ -118,13 +147,33 @@ const Calendar = () => {
    updateAccepted(e.event._def.extendedProps.seeker_accepted);
   }
 
-  // Toggle New Event Creation
   const toggleCreate = () => {
     if (!creatingEvent) {
       updateCreating(true);
     }
   }
 
+  const declineMeeting = () => {
+    axios.patch('http://localhost:3001/meeting', {
+        id: eventId,
+        canceled: true
+      })
+    .then(() => loadEvents())
+  }
+
+  const acceptMeeting = () => {
+    let params = {
+      id: eventId,
+      start_time: startTime.toString(),
+      end_time: endTime.toString(),
+      description: description,
+      title: title,
+      seeker_accepted: true,
+      canceled: false
+    }
+    axios.patch('http://localhost:3001/meeting', params)
+    .then(() => loadEvents())
+  }
 
   const pageStyle = {
     display: 'flex',
@@ -191,19 +240,18 @@ const Calendar = () => {
         {eventSelected &&
         <div>
           <h1 style={sidebarTitle}>{title}</h1>
-          {!privateEvent && <p>Meeting with {whom}</p>}
           { (companyLogin && !privateEvent) &&
             <>
               {event._def.extendedProps.seeker_accepted &&
               <p>
                 <CheckCircleIcon sx={{marginRight: '5px', fontSize: 'large'}}/>
-                {event._def.title + ' has accepted'}
+                {whom + ' has accepted'}
               </p>
               }
               {!event._def.extendedProps.seeker_accepted &&
               <p>
                 <HelpIcon sx={{marginRight: '5px', fontSize: 'large'}}/>
-                {'Waiting on ' + event._def.title + ' to accept'}
+                {'Waiting on ' + whom + ' to accept'}
               </p>
               }
             </>
@@ -214,11 +262,11 @@ const Calendar = () => {
               <Button sx={buttonStyle} variant="contained" onClick={e => {
                 e.preventDefault();
                 updateAccepted(true);
-                // Send Accept Request, Get another list of events
+                acceptMeeting();
               }}>Accept</Button>
               <Button sx={buttonStyle} variant="contained" onClick={e => {
                 e.preventDefault();
-                // Send Decline cancellation, Get another list of events
+                declineMeeting();
                 updateEventSelected(false);
               }}>Decline</Button>
               </div>
@@ -245,7 +293,7 @@ const Calendar = () => {
         </div>
         }
       </div>
-      <PrivateEvent visible={creatingEvent} updateVisible={updateCreating} />
+      <PrivateEvent visible={creatingEvent} updateVisible={updateCreating} updateEvents={loadEvents}/>
       <EditMeeting visible={editMode} updateVisible={updateEditMode}
       eventId={eventId}
       description={description}
@@ -260,7 +308,7 @@ const Calendar = () => {
       updateTitle={updateTitle}
       startTime={startTime}
       endTime={endTime}
-      updateEvents={updateEvents}/>
+      updateEvents={loadEvents}/>
       <Request visible={requestMode} updateVisible={updateRequestMode} />
     </div>
     </div>

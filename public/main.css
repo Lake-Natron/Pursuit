@@ -1,0 +1,40 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+
+/* .topnav input{
+	font-family:'Montserrat', sans-serif;
+	background: transparent;
+	outline: none;
+	width: 93%;
+	height: 40px;
+	border-radius: 3px;
+	border: 1px solid black;
+    margin-left:20px ;
+	background-image: url("https://upload.wikimedia.org/wikipedia/commons/5/55/Magnifying_glass_icon.svg");
+	background-size: 13px;
+	padding: 0.25em 1em;
+	background-repeat: no-repeat;
+	background-position: 95% center;
+	} */
+
+/* .topnav :focus {
+		outline: none;
+		border: 2px solid #E44F48;
+} */
+
+:root:root {
+  --fc-button-bg-color: #E44F48;
+  --fc-button-border-color: #E44F48;
+  --fc-button-hover-bg-color: #E44F48;
+  --fc-button-hover-border-color: #E44F48;
+  --fc-button-active-bg-color: #E44F48;
+  --fc-button-active-border-color: #E44F48;
+  --fc-today-bg-color: #e2827d;
+  --fc-event-bg-color: #E44F48;
+  --fc-event-border-color: #9d4d4a;
+}
+
+.fc .fc-toolbar-title {
+  color:#E44F48;
+}

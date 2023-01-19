@@ -15,10 +15,14 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Image from 'next/image';
+import ResumeForm from './resume/resumeForm.jsx';
+import Link from 'next/link';
+import Notifications from './notifications.jsx';
+import axios from 'axios';
 
 // Navigation Links
-const pages = ['Home', 'Job Board', 'My Jobs', 'Calendar'];
-const settings = ['My Jobs', 'Notifications', 'Logout', 'Upload Resume'];
+const pages = ['Home', 'Job Board', 'My Jobs'];
+const settings = ['My Jobs', 'Logout'];
 
 // TODO: Conditionally Add Login Page
 // TODO: Conditionally change pages based on whether the user is logged in.
@@ -26,12 +30,14 @@ const settings = ['My Jobs', 'Notifications', 'Logout', 'Upload Resume'];
 
 const logoUrl = '';
 
-const NavBar = ({page}) => {
+const NavBar = ({ page }) => {
   const [notifications, setNotifications] = useState([]);
   //TODO: Routinely pull down items for user for notifications:
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [importingResume, updateImportingResume] = useState(false);
+  const [showNotifications, updateShowNotifications] = useState(false);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -48,13 +54,19 @@ const NavBar = ({page}) => {
     setAnchorElUser(null);
   };
 
+  useEffect(() => {
+    axios.get('http://localhost:3001/notifications', {params: {user_id: 2}})
+      .then(res => setNotifications(res.data))
+      .catch(err => console.log(data))
+  }, [])
+
   return (
     <AppBar position='static' sx={{ bgcolor: '#E44F48' }}>
-     <Container maxWidth="xl" >
+      <Container maxWidth="xl" >
         <Toolbar disableGutters>
 
 
-        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="user-account"
@@ -63,7 +75,7 @@ const NavBar = ({page}) => {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-            <MenuIcon />
+              <MenuIcon />
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -90,23 +102,26 @@ const NavBar = ({page}) => {
                 </MenuItem>
               ))}
             </Menu>
-        </Box>
+          </Box>
 
-        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
-          <Image src='/assets/logo.png' alt='Job-Pursuit-Logo' width='200' height='64'  />
-        </Box>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
+            <Image src='/assets/logo.png' alt='Job-Pursuit-Logo' width='200' height='64' />
+          </Box>
 
-        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-          {pages.map((page) => (
-            <Button
-              key={page}
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: 'white', display: 'block' }}
-            >
-              {page}
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {pages.map((page) => (
+              <Button
+                key={page}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                {page}
+              </Button>
+            ))}
+            <Button>
+              <Link style={{ textDecoration: 'none', color: 'white' }} href="/calendar">Calendar</Link>
             </Button>
-          ))}
-        </Box>
+          </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
@@ -135,10 +150,19 @@ const NavBar = ({page}) => {
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem key={'notifications'} onClick={event => {
+                updateShowNotifications(true)}}>
+                <Typography textAlign="center">Notifications {'(' + notifications.length + ')'}</Typography>
+              </MenuItem>
+              <MenuItem key={'upload'} onClick={e => updateImportingResume(true)}>
+                <Typography textAlign="center">Upload Resume</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
       </Container>
+      <ResumeForm visible={importingResume} updateVisible={updateImportingResume} />
+      <Notifications visible={showNotifications} updateVisible={updateShowNotifications} notifications={notifications} setNotifications={setNotifications}/>
     </AppBar>
   )
 

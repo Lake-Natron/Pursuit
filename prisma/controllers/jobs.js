@@ -2,9 +2,17 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const getJob = async (req, res) => {
-  const { id } = req.query;
+  const { job_id } = req.query;
   const job = await prisma.Job.findUnique({
-    where: { id: Number(id) }
+    where: { id: Number(job_id) },
+    include: {
+      User: {
+        select: {
+          company_name: true,
+          email: true
+        }
+      }
+    }
   });
   res.send(job);
 }
@@ -29,17 +37,17 @@ const searchJobs = async (req, res) => {
         contains: name,
         mode: 'insensitive'
       },
-      Company: {
-        name: {
+      User: {
+        company_name: {
           contains: company_name,
           mode: 'insensitive'
         }
       }
     },
     include: {
-      Company: {
+      User: {
         select: {
-          name: true,
+          company_name: true,
           email: true
         }
       }
@@ -49,31 +57,34 @@ const searchJobs = async (req, res) => {
 }
 
 const getAllJobs = async (req, res) => {
+  const { company_id } = req.query;
   const jobs = await prisma.Job.findMany({
-    include: {
-      Company: {
-        select: {
-          name: true,
-          email: true
-        }
-      }
-    }
+    where: { company_id: Number(company_id) || undefined }
   });
   res.send(jobs);
 }
 
 const addJob = async (req, res) => {
+  let skills = req.body.skills;
+  skills = skills.split(", ");
+  skills = skills.map((skill) => {
+    return { "skill": skill };
+  })
+
   const job = await prisma.Job.create({
     data: {
-      name: req.body.name,
+      name: req.body.title,
       company_id: req.body.company_id,
-      description: req.body.description,
+      description: req.body.jobDescription,
       salary: req.body.salary,
       location: req.body.location,
       close_date: new Date(req.body.close_date),
-      experience_type: req.body.experience_type,
-      employment_type: req.body.employment_type,
-      jobsite: req.body.jobsite
+      experience_type: req.body.experienceType,
+      employment_type: req.body.employmentType,
+      jobsite: req.body.jobSite,
+      Skill: {
+        create: skills
+      }
     }
   });
   res.send(job);

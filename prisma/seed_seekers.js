@@ -8,7 +8,7 @@ let seekers = [
     last_name: 'Stoscup',
     image_url: '',
     role: "seeker",
-    email: 'calliestoscup@gmail.com',
+    email: 'calliestoscupgmail.com',
     password: 'password_1',
     address: '',
     address_2: '',

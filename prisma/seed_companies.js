@@ -3,34 +3,34 @@ const prisma = new PrismaClient()
 
 let companies = [
   {
-    name: 'Amazon',
-    session_id: '1',
+    company_name: 'Amazon',
     email: 'amazon@gmail.com',
-    password: 'password_1'
+    password: 'password_1',
+    role: 'company'
   },
   {
-    name: 'Nike',
-    session_id: '2',
+    company_name: 'Nike',
     email: 'nike@gmail.com',
-    password: 'password_2'
+    password: 'password_2',
+    role: 'company'
   },
   {
-    name: 'Google',
-    session_id: '3',
+    company_name: 'Google',
     email: 'google@gmail.com',
-    password: 'password_3'
+    password: 'password_3',
+    role: 'company'
   },
   {
-    name: 'Cigna',
-    session_id: '4',
+    company_name: 'Cigna',
     email: 'cigna@gmail.com',
-    password: 'password_4'
+    password: 'password_4',
+    role: 'company'
   },
   {
-    name: 'Chubb',
-    session_id: '5',
+    company_name: 'Chubb',
     email: 'chubb@gmail.com',
-    password: 'password_5'
+    password: 'password_5',
+    role: 'company'
   }
 ];
 
@@ -38,7 +38,7 @@ async function main() {
   console.log('Start seeding...');
 
   for (let i = 0; i < companies.length; i++) {
-    const company = await prisma.Company.create({
+    const company = await prisma.User.create({
       data: companies[i]
     })
     console.log(`Created user with id: ${company.id}`)

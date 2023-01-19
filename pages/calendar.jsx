@@ -1,7 +1,7 @@
 import React from 'react'
-import FullCalendar from '@fullcalendar/react' // must go before plugins
-import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
-import timeGridPlugin from '@fullcalendar/timegrid' // a plugin!
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
 import HelpIcon from '@mui/icons-material/Help';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Button from '@mui/material/Button';
@@ -79,7 +79,6 @@ const Calendar = () => {
       return;
     }
     let params = {};
-    //console.log(data?.user.id);
     if (data?.user.role === 'employer') {
       params.company_id = data?.user.id;
     } else {
@@ -299,8 +298,6 @@ const Calendar = () => {
           <p>{date}</p>
           <h2>Time:</h2>
           <p>{start + ' - ' + end}</p>
-          {/* {job !== '' && <h2>Related Job:</h2>}
-          {job !== '' && <p>{job}</p>} */}
           <h2 style={sidebarTitle}>Description</h2>
           <p style={sidebarText}>{description}</p>
           {job !== '' && <h2 style={sidebarTitle}>Application Notes</h2>}

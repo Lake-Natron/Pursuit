@@ -72,14 +72,16 @@ const Calendar = () => {
   let [whom, updateWhom] = useState('');
   let [notificationUser, updateNotificationUser] = useState(0);
 
-  //const { status, data } = useSession();
+  const { status, data } = useSession();
 
   const loadEvents = () => {
+    console.log(data);
     let params = {};
+    console.log('Loading Events for User: ' + data.user.id);
     if (companyLogin) {
-      params.company_id = 9;
+      params.company_id = data.user.id;
     } else {
-      params.seeker_id = 2;
+      params.seeker_id = data.user.id;
     }
     axios.get('http://localhost:3001/meetings', { params })
       .then(res => res.data)

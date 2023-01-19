@@ -7,11 +7,15 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import JobSeekerJobListCard from '../src/jobSeekerJobListCard';
 import NavBar from '../src/navBar';
+import { useSession, signOut } from "next-auth/react";
+import Router from 'next/router'
+
 
 const HomeJobSeeker = () => {
   const [extreme, setExtreme] = useState([]);
   const [very, setVery] = useState([]);
   const [interested, setInterested] = useState([]);
+  const { status, data } = useSession();
 
   //need seeker_id from session info
   //need to change port at some point
@@ -33,6 +37,10 @@ const HomeJobSeeker = () => {
     })
     .catch(err => {console.log(err)})
   }, [])
+
+  useEffect(() => {
+    if (status === "unauthenticated" || data?.user.role !== 'seeker') Router.replace("/login");
+  }, [status])
 
   return (
     <>
@@ -58,6 +66,7 @@ const HomeJobSeeker = () => {
           )}
         </List>
       </nav>
+      <button onClick={() => signOut()}>Sign Out</button>
     </Box>
     </>
   )

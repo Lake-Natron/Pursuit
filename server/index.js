@@ -4,9 +4,10 @@ require('dotenv').config();
 const { getJob, searchJobs, getAllJobs, addJob } = require('../prisma/controllers/jobs.js');
 const { getUser, getAllUsers, addUser } = require('../prisma/controllers/users.js');
 const { applyToJob, getJobsAppliedTo, getApplicants, updateSeekerInterest, updateCompanyInterest, updateSeekerNotes, updateCompanyNotes } = require('../prisma/controllers/applications.js');
-const { addEducation, getEducation, deleteEducation, addWorkExperience, getWorkExperience, deleteWorkExperience, addSkills, getSkills } = require('../prisma/controllers/resumes.js');
+const { addEducation, getEducation, deleteEducation, addWorkExperience, getWorkExperience, deleteWorkExperience, updateEducation, updateWorkExperience, addSkills, getSkills } = require('../prisma/controllers/resumes.js');
 const { createMeeting, getMeetings, editMeeting } = require('../prisma/controllers/meetings.js');
 const { createNotification, getNotifications, markNotificationRead } = require('../prisma/controllers/notifications.js');
+
 
 let app = express();
 
@@ -30,12 +31,21 @@ app.post('/job', addJob);
 // get a specific job seeker by id
 app.get('/user', getUser);
 
+// app.listen(process.env.PORT, () => console.log('Listening on port 3001'));
+// const { PrismaClient } = require('@prisma/client');
+// const prisma = new PrismaClient();
+
+// app.get('/jobs', async (req, res) => {
+//   const jobs = await prisma.Job.findMany();
+//   res.json(jobs);
+// })
 // get all job seekers
 app.get('/users', getAllUsers);
 
 // add a user
 app.post('/user', addUser);
 
+// app.listen(process.env.PORT, () => console.log('Listening on port ' + process.env.PORT));
 // apply to a job
 app.post('/apply', applyToJob);
 
@@ -60,6 +70,9 @@ app.get('/jobs/applicants', getApplicants);
 // add education for seeker
 app.post('/education', addEducation);
 
+// add education for seeker
+app.patch('/updateEducation', updateEducation);
+
 // get all education for seeker
 app.get('/education', getEducation);
 
@@ -68,6 +81,9 @@ app.delete('/education', deleteEducation);
 
 // add work experience for seeker
 app.post('/workExperience', addWorkExperience);
+
+// add education for seeker
+app.patch('/workExperience', updateWorkExperience);
 
 // get all work experience for seeker
 app.get('/workExperience', getWorkExperience);

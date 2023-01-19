@@ -13,7 +13,7 @@ import axios from 'axios';
 
 const { useState, useEffect } = React;
 
-const EditMeeting = ({ visible, updateVisible, start, end, description, updateDescription, updateStart, updateEnd, title, updateTitle, eventId, updateDate, startTime, endTime, updateEvents, seeker_id, company }) => {
+const EditMeeting = ({ visible, updateVisible, start, end, description, updateDescription, updateStart, updateEnd, title, updateTitle, eventId, updateDate, startTime, endTime, updateEvents, seeker_id, company, privateEvent }) => {
   let [newStart, updateNewStart] = useState(startTime);
   let [newEnd, updateNewEnd] = useState(endTime);
   let [newDesc, updateNewDesc] = useState(description);
@@ -43,7 +43,7 @@ const EditMeeting = ({ visible, updateVisible, start, end, description, updateDe
       })
       .then(() => updateEvents())
       .then(() => updateVisible(false));
-      if (company) {
+      if (company && !privateEvent) {
         axios.post('http://localhost:3001/notification', {
         user_id: seeker_id,
         type: 'Meeting Change',

@@ -75,8 +75,12 @@ const Calendar = () => {
   const { status, data } = useSession();
 
   const loadEvents = () => {
+    if (!data?.user.id) {
+      return;
+    }
     let params = {};
-    if (companyLogin) {
+    //console.log(data?.user.id);
+    if (data?.user.role === 'employer') {
       params.company_id = data?.user.id;
     } else {
       params.seeker_id = data?.user.id;
@@ -304,7 +308,7 @@ const Calendar = () => {
         </div>
         }
       </div>
-      <PrivateEvent visible={creatingEvent} updateVisible={updateCreating} updateEvents={loadEvents}/>
+      <PrivateEvent visible={creatingEvent} updateVisible={updateCreating} updateEvents={loadEvents} companyLogin={companyLogin}/>
       <EditMeeting visible={editMode} updateVisible={updateEditMode}
       eventId={eventId}
       description={description}
@@ -321,6 +325,7 @@ const Calendar = () => {
       endTime={endTime}
       seeker_id={notificationUser}
       company={companyLogin}
+      privateEvent={privateEvent}
       updateEvents={loadEvents}/>
       <Request visible={requestMode} updateVisible={updateRequestMode} company_id={notificationUser} title={title}/>
     </div>

@@ -22,8 +22,8 @@ import axios from 'axios';
 import { useSession, signOut } from "next-auth/react";
 
 // Navigation Link
-const pages = [['Home', '/'], ['Job Board', '/jobSearch'], ['My Jobs', '/homeJobSeeker']];
-const settings = [['Job Seeker Home', '/homeJobSeeker'], ['Employer Home', '/homeEmployer'], ['Post Job', '/postJob']];
+let pages = [['Home', '/'], ['Job Board', '/jobSearch'], ['My Jobs', '/homeJobSeeker']];
+let settings = [['Job Seeker Home', '/homeJobSeeker'], ['Employer Home', '/homeEmployer'], ['Post Job', '/postJob']];
 
 // TODO: Conditionally Add Login Page
 // TODO: Conditionally change pages based on whether the user is logged in.
@@ -32,12 +32,11 @@ const logoUrl = '';
 
 const NavBar = ({ page }) => {
   const [notifications, setNotifications] = useState([]);
-  //TODO: Routinely pull down items for user for notifications:
-
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [importingResume, updateImportingResume] = useState(false);
   const [showNotifications, updateShowNotifications] = useState(false);
+  const { status, data } = useSession();
 
   // TODO: Routinely pull down items from user for notifications:
 
@@ -78,10 +77,13 @@ const NavBar = ({ page }) => {
     // if (status === "unauthenticated" || data?.user.role !== 'seeker') Router.replace("/login");
     if (data?.user.role === 'seeker') {
       console.log('changing seeker name');
+      pages = [['Job Board', '/jobSearch'], ['My Jobs', '/homeJobSeeker']];
+      settings = [['Job Seeker Home', '/homeJobSeeker']];
+    } else if (data?.user.role==='employer') {
+      pages = [['Job Board', '/jobSearch'], ['Jobs & Applicants', '/employerSeeker']]
+      settings = [['Job Seeker Home', '/homeJobSeeker'], ['Post Job', '/postJob']];
     }
-
-
-  }, [])
+  }, []);
 
   return (
     <AppBar position='static' sx={{ bgcolor: '#E44F48' }}>

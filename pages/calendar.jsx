@@ -13,6 +13,8 @@ import Request from '../src/calendar/requestChange.jsx';
 import NavBar from '../src/navBar';
 import axios from 'axios';
 
+import { useSession } from "next-auth/react";
+
 Date.prototype.monthNames = [
   "January", "February", "March",
   "April", "May", "June",
@@ -68,6 +70,9 @@ const Calendar = () => {
   let [startTime, updateStartTime] = useState({});
   let [endTime, updateEndTime] = useState({});
   let [whom, updateWhom] = useState('');
+  let [notificationUser, updateNotificationUser] = useState(0);
+
+  //const { status, data } = useSession();
 
   const loadEvents = () => {
     let params = {};
@@ -105,6 +110,11 @@ const Calendar = () => {
 
   useEffect(() => {
     if (event._def) {
+      if (companyLogin) {
+        updateNotificationUser(event._def.extendedProps.seeker_id);
+      } else {
+        updateNotificationUser(event._def.extendedProps.company_id);
+      }
       if (!event._def.extendedProps.application_id) {
         updateJob('');
       } else {
@@ -306,8 +316,10 @@ const Calendar = () => {
       updateTitle={updateTitle}
       startTime={startTime}
       endTime={endTime}
+      seeker_id={notificationUser}
+      company={companyLogin}
       updateEvents={loadEvents}/>
-      <Request visible={requestMode} updateVisible={updateRequestMode} />
+      <Request visible={requestMode} updateVisible={updateRequestMode} company_id={notificationUser} title={title}/>
     </div>
     </div>
   )

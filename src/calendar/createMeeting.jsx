@@ -26,12 +26,18 @@ const CreateMeeting = ({ visible, updateVisible, application_id, seeker_id}) => 
         end_time: end.toString(),
         description: description,
         title: title,
-        application_id: 1,
-        seeker_id: 2,
+        application_id: application_id,
+        seeker_id: seeker_id,
         company_id: 9
       }
       axios.post('http://localhost:3001/meeting', params)
         .catch(err => console.log(err))
+      axios.post('http://localhost:3001/notification', {
+        user_id: seeker_id,
+        type: 'Meeting Request',
+        details: 'You have a meeting request for ' + title
+      })
+        .catch(err => console.log(err));
       updateVisible(false);
     }
   }

@@ -19,14 +19,14 @@ import ResumeForm from './resume/resumeForm.jsx';
 import Link from 'next/link';
 import Notifications from './notifications.jsx';
 import axios from 'axios';
+import { useSession, signOut } from "next-auth/react";
 
-// Navigation Links
-const pages = ['Home', 'Job Board', 'My Jobs'];
-const settings = ['My Jobs', 'Logout'];
+// Navigation Link
+const pages = [['Home', '/'], ['Job Board', '/jobSearch'], ['My Jobs', '/homeJobSeeker']];
+const settings = [['Job Seeker Home', '/homeJobSeeker'], ['Employer Home', '/homeEmployer'], ['Post Job', '/postJob']];
 
 // TODO: Conditionally Add Login Page
 // TODO: Conditionally change pages based on whether the user is logged in.
-// TODO:
 
 const logoUrl = '';
 
@@ -39,9 +39,12 @@ const NavBar = ({ page }) => {
   const [importingResume, updateImportingResume] = useState(false);
   const [showNotifications, updateShowNotifications] = useState(false);
 
+  // TODO: Routinely pull down items from user for notifications:
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -52,19 +55,19 @@ const NavBar = ({ page }) => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+
   };
 
   useEffect(() => {
     axios.get('http://localhost:3001/notifications', {params: {user_id: 2}})
       .then(res => setNotifications(res.data))
-      .catch(err => console.log(data))
+      .catch(err => console.log(err))
   }, [])
 
   return (
     <AppBar position='static' sx={{ bgcolor: '#E44F48' }}>
       <Container maxWidth="xl" >
         <Toolbar disableGutters>
-
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -95,17 +98,18 @@ const NavBar = ({ page }) => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+              {pages.map((apage) => (
+                <MenuItem key={apage} onClick={handleCloseNavMenu}>
+                   <Link key={apage[1]} href={apage[1]} passHref style={{ textDecoration: 'none', color: 'black' }}>
+                    <Typography textAlign="center">{apage[0]}</Typography>
+                   </Link>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
-            <Image src='/assets/logo.png' alt='Job-Pursuit-Logo' width='200' height='64' />
+            <Image src='/assets/logo.png' alt='Job-Pursuit-Logo' width='200' height='50' />
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
@@ -115,7 +119,9 @@ const NavBar = ({ page }) => {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                <Link key={page[1]} href={page[1]} passHref style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <Typography textAlign="center">{page[0]}</Typography>
+                </Link>
               </Button>
             ))}
             <Button>
@@ -146,9 +152,11 @@ const NavBar = ({ page }) => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
+                  <MenuItem key={setting[0]} onClick={handleCloseUserMenu} >
+                    <Link key={setting[1]} href={setting[1]} passHref style={{ textDecoration: 'none', color: 'black' }}>
+                    <Typography textAlign="center" underline='none'>{setting[0]}</Typography>
+                    </Link>
+                  </MenuItem>
               ))}
               <MenuItem key={'notifications'} onClick={event => {
                 updateShowNotifications(true)}}>
@@ -156,6 +164,9 @@ const NavBar = ({ page }) => {
               </MenuItem>
               <MenuItem key={'upload'} onClick={e => updateImportingResume(true)}>
                 <Typography textAlign="center">Upload Resume</Typography>
+              </MenuItem>
+              <MenuItem key={'signout'} onClick={e => signOut()}>
+                <Typography textAlign="center">Sign out</Typography>
               </MenuItem>
             </Menu>
           </Box>

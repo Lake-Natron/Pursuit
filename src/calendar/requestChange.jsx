@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 
 const { useState, useEffect } = React;
 
-const Request = ({visible, updateVisible}) => {
+const Request = ({visible, updateVisible, company_id, title}) => {
   let [description, updateDescription] = useState('');
 
   useEffect(() => {
@@ -15,7 +15,12 @@ const Request = ({visible, updateVisible}) => {
 
   const sendRequest = () => {
     if (description) {
-      // Send Request
+      axios.post('http://localhost:3001/notification', {
+        user_id: company_id,
+        type: 'Change Meeting Request',
+        details: 'Job Seeker has request an alternative time for ' + title
+      })
+        .catch(err => console.log(err));
       updateVisible(false);
     }
   }

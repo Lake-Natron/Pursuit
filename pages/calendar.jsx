@@ -1,7 +1,7 @@
 import React from 'react'
-import FullCalendar from '@fullcalendar/react' // must go before plugins
-import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
-import timeGridPlugin from '@fullcalendar/timegrid' // a plugin!
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
 import HelpIcon from '@mui/icons-material/Help';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Button from '@mui/material/Button';
@@ -12,6 +12,8 @@ import EditMeeting from '../src/calendar/meetingForm.jsx';
 import Request from '../src/calendar/requestChange.jsx';
 import NavBar from '../src/navBar';
 import axios from 'axios';
+
+import { useSession } from "next-auth/react";
 
 Date.prototype.monthNames = [
   "January", "February", "March",
@@ -68,13 +70,19 @@ const Calendar = () => {
   let [startTime, updateStartTime] = useState({});
   let [endTime, updateEndTime] = useState({});
   let [whom, updateWhom] = useState('');
+  let [notificationUser, updateNotificationUser] = useState(0);
+
+  const { status, data } = useSession();
 
   const loadEvents = () => {
+    if (!data?.user.id) {
+      return;
+    }
     let params = {};
-    if (companyLogin) {
-      params.company_id = 9;
+    if (data?.user.role === 'employer') {
+      params.company_id = data?.user.id;
     } else {
-      params.seeker_id = 2;
+      params.seeker_id = data?.user.id;
     }
     axios.get('http://localhost:3001/meetings', { params })
       .then(res => res.data)
@@ -100,11 +108,19 @@ const Calendar = () => {
   }
 
   useEffect(() => {
-    loadEvents()
-  }, []);
+    loadEvents();
+    if (data?.user.role === 'employer') {
+      updateCompanyLogin(true);
+    }
+  }, [data]);
 
   useEffect(() => {
     if (event._def) {
+      if (companyLogin) {
+        updateNotificationUser(event._def.extendedProps.seeker_id);
+      } else {
+        updateNotificationUser(event._def.extendedProps.company_id);
+      }
       if (!event._def.extendedProps.application_id) {
         updateJob('');
       } else {
@@ -282,8 +298,6 @@ const Calendar = () => {
           <p>{date}</p>
           <h2>Time:</h2>
           <p>{start + ' - ' + end}</p>
-          {/* {job !== '' && <h2>Related Job:</h2>}
-          {job !== '' && <p>{job}</p>} */}
           <h2 style={sidebarTitle}>Description</h2>
           <p style={sidebarText}>{description}</p>
           {job !== '' && <h2 style={sidebarTitle}>Application Notes</h2>}
@@ -291,7 +305,7 @@ const Calendar = () => {
         </div>
         }
       </div>
-      <PrivateEvent visible={creatingEvent} updateVisible={updateCreating} updateEvents={loadEvents}/>
+      <PrivateEvent visible={creatingEvent} updateVisible={updateCreating} updateEvents={loadEvents} companyLogin={companyLogin}/>
       <EditMeeting visible={editMode} updateVisible={updateEditMode}
       eventId={eventId}
       description={description}
@@ -306,8 +320,11 @@ const Calendar = () => {
       updateTitle={updateTitle}
       startTime={startTime}
       endTime={endTime}
+      seeker_id={notificationUser}
+      company={companyLogin}
+      privateEvent={privateEvent}
       updateEvents={loadEvents}/>
-      <Request visible={requestMode} updateVisible={updateRequestMode} />
+      <Request visible={requestMode} updateVisible={updateRequestMode} company_id={notificationUser} title={title}/>
     </div>
     </div>
   )

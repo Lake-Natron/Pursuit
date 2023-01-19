@@ -18,8 +18,6 @@ const getAllUsers = async (req, res) => {
 const addUser = async (req, res) => {
   const {company_name, first_name, last_name, image_url, role, email, password, address, address_2, city, state, zip_code, pdf_url} = req.body
 
-  console.log(req.body)
-
   if (!email || !password) res.status(400).json({'message': 'Email and Password are required'})
   else {
   try {
@@ -39,10 +37,9 @@ const addUser = async (req, res) => {
 
       const hashedPwd = await bcrypt.hash(password, 10);
 
-      let newUser = {company_name, first_name, last_name, image_url, role, email, address, address_2, city, state, zip_code, pdf_url}
+      let newUser = {company_name, first_name, last_name, image_url, role, email, address, address_2, city, state, zip_code}
 
       newUser.password = hashedPwd
-      newUser.pdf_url = null;
 
       console.log(newUser)
 

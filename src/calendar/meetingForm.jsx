@@ -8,6 +8,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import axios from 'axios';
 
 
 const { useState, useEffect } = React;
@@ -27,18 +28,32 @@ const EditMeeting = ({ visible, updateVisible, start, end, description, updateDe
 
   const save = () => {
     if (newStart.toString() !== '[object Object]' && newEnd.toString() !== '[object Object]' && newTitle !== '') {
-      // Send request before updating visibility
       updateEnd(newEnd.getStringTime(true));
       updateStart(newStart.getStringTime());
       updateDescription(newDesc);
       updateTitle(newTitle);
-      updateVisible(false);
+      axios.patch('http://localhost:3001/meeting', {
+        id: eventId,
+        start_time: newStart.toString(),
+        end_time: newEnd.toString(),
+        description: newDesc,
+        title: newTitle,
+        seeker_accepted: false,
+        canceled: false
+      })
+      .then(() => updateEvents())
+      .then(() => updateVisible(false));
     }
   }
 
   const cancel = () => {
     // Send cancellation message
-    updateVisible(false);
+    axios.patch('http://localhost:3001/meeting', {
+        id: eventId,
+        canceled: true
+      })
+    .then(() => updateEvents())
+    .then(() => updateVisible(false));
   }
 
   const boxStyle = {

@@ -109,7 +109,7 @@ const NavBar = ({ page }) => {
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
-            <Image src='/assets/logo.png' alt='Job-Pursuit-Logo' width='200' height='64' />
+            <Image src='/assets/logo.png' alt='Job-Pursuit-Logo' width='200' height='50' />
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>

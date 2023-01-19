@@ -1,5 +1,5 @@
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient()
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
 
 let seekers = [
   {
@@ -74,7 +74,7 @@ let seekers = [
 ];
 
 async function main() {
-  console.log('Start seeding...');
+  console.log("Start seeding...");
 
   for (let i = 0; i < seekers.length; i++) {
     const user = await prisma.User.create({
@@ -82,12 +82,11 @@ async function main() {
     })
     console.log(`Created user with id: ${user.id}`)
   }
-
 }
 
 main()
   .then(async () => {
-    await prisma.$disconnect()
+    await prisma.$disconnect();
   })
   .catch(async (e) => {
     console.error(e)

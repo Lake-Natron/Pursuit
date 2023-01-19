@@ -8,6 +8,9 @@ import ListItem from '@mui/material/ListItem';
 import JobSeekerJobListCard from '../src/JobSeekerJobListCard';
 import NavBar from '../src/navBar';
 import JobDetails from '../src/jobDetails.jsx';
+import { useSession, signOut } from "next-auth/react";
+import Router from 'next/router'
+
 
 const HomeJobSeeker = () => {
   const [jobListings, setJobListings] = useState([]);
@@ -16,6 +19,7 @@ const HomeJobSeeker = () => {
   const [extreme, setExtreme] = useState([]);
   const [very, setVery] = useState([]);
   const [interested, setInterested] = useState([]);
+  const { status, data } = useSession();
 
   useEffect(() => {
     axios.get('http://localhost:3002/jobs/applied')
@@ -31,6 +35,10 @@ const HomeJobSeeker = () => {
     setDetailsVisibility(() => !detailsVisibility);
     setDetailsOf(detailsId);
   };
+
+  useEffect(() => {
+    if (status === "unauthenticated" || data?.user.role !== 'seeker') Router.replace("/login");
+  }, [status])
 
   return (
     <>
@@ -61,6 +69,7 @@ const HomeJobSeeker = () => {
         </List>
       </nav>
       {detailsVisibility && <JobDetails id={detailsOf} jobVisible={detailsVisibility} setVisible={seeJobDeets}/>}
+      <button onClick={() => signOut()}>Sign Out</button>
     </Box>
     </>
 

@@ -8,6 +8,7 @@ const { addEducation, getEducation, deleteEducation, addWorkExperience, getWorkE
 const { createMeeting, getMeetings, editMeeting } = require('../prisma/controllers/meetings.js');
 const { createNotification, getNotifications, markNotificationRead } = require('../prisma/controllers/notifications.js');
 
+
 let app = express();
 
 app.use(cors());
@@ -30,12 +31,21 @@ app.post('/job', addJob);
 // get a specific job seeker by id
 app.get('/user', getUser);
 
+// app.listen(process.env.PORT, () => console.log('Listening on port 3001'));
+// const { PrismaClient } = require('@prisma/client');
+// const prisma = new PrismaClient();
+
+// app.get('/jobs', async (req, res) => {
+//   const jobs = await prisma.Job.findMany();
+//   res.json(jobs);
+// })
 // get all job seekers
 app.get('/users', getAllUsers);
 
 // add a user
 app.post('/user', addUser);
 
+// app.listen(process.env.PORT, () => console.log('Listening on port ' + process.env.PORT));
 // apply to a job
 app.post('/apply', applyToJob);
 

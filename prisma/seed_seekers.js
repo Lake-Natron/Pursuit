@@ -15,7 +15,6 @@ let seekers = [
     city: '',
     state: '',
     zip_code: '',
-    pdf_url: ''
   },
   {
     company_name: '',
@@ -30,7 +29,6 @@ let seekers = [
     city: '',
     state: '',
     zip_code: '',
-    pdf_url: ''
   },
   {
     company_name: '',
@@ -45,7 +43,6 @@ let seekers = [
     city: '',
     state: '',
     zip_code: '',
-    pdf_url: ''
   },
   {
     company_name: '',
@@ -60,7 +57,6 @@ let seekers = [
     city: '',
     state: '',
     zip_code: '',
-    pdf_url: ''
   },
   {
     company_name: '',
@@ -74,7 +70,6 @@ let seekers = [
     city: '',
     state: '',
     zip_code: '',
-    pdf_url: ''
   }
 ];
 

@@ -62,23 +62,19 @@ const HomeJobSeeker = () => {
         <h2>Extremely Interested</h2>
         <List sx={{mt: -1}}>
           {extreme.map((listing, index) =>
-            <JobSeekerJobListCard listing={listing} key={index} />
+            <JobSeekerJobListCard listing={listing} key={index} seeDetailsVisibility={setDetailsVisibility}/>
           )}
-          <JobSeekerJobListCard seeDetailsVisibility={setDetailsVisibility}/>
-          <JobSeekerJobListCard seeDetailsVisibility={setDetailsVisibility}/>
-          <JobSeekerJobListCard seeDetailsVisibility={setDetailsVisibility}/>
-          <JobSeekerJobListCard seeDetailsVisibility={setDetailsVisibility}/>
         </List>
         <h2>Very Interested</h2>
         <List sx={{mt: -1}}>
           {very.map((listing, index) =>
-            <JobSeekerJobListCard listing={listing} key={index} />
+            <JobSeekerJobListCard listing={listing} key={index} seeDetailsVisibility={setDetailsVisibility}/>
           )}
         </List>
         <h2>Interested</h2>
         <List sx={{mt: -1}}>
           {interested.map((listing, index) =>
-            <JobSeekerJobListCard listing={listing} key={index} />
+            <JobSeekerJobListCard listing={listing} key={index} seeDetailsVisibility={setDetailsVisibility}/>
           )}
         </List>
       </nav>

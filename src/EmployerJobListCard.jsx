@@ -10,21 +10,19 @@ import Button from '@mui/material/Button';
 import Link from 'next/link';
 
 const EmployerJobListCard = ({listing}) => {
-  //need to pass the job ID to viewApplicants so applicants can be pulled
   const closeDate = listing.close_date.slice(0, 10);
-  console.log(closeDate)
 
+  //need to pass the job ID to viewApplicants so applicants can be pulled
   return (
     <>
     <ListItem sx={{border:'1px solid grey', width:'60vw', minHeight:'7em', marginBottom: '1em', borderRadius: '8px', overflow: 'hidden'}}>
       <ListItemText primary={listing.name} secondary={`Close Date: ${closeDate}`}/>
-      <Button variant="contained">
+
         <Link style={{ textDecoration: 'none', color: 'white' }}
         href="/viewApplicants" as={`/viewApplicants?job_id=${listing.id}`}
         >
-          View Applicants ->
+          <Button variant="contained">View Applicants</Button>
         </Link>
-      </Button>
     </ListItem>
     </>
   )

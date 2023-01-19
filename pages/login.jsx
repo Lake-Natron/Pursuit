@@ -27,13 +27,13 @@ const SignIn = () => {
   useEffect(() => {
     if (status === "unauthenticated") Router.replace("/login");
     if (status === "authenticated" && data.user.role === "seeker" ) {
-      Router.replace('/protectedUser')
+      Router.replace('/homeJobSeeker')
     console.log(status)
     console.log(data.user.role)
     }
     if (status === "authenticated" && data.user.role === "employer" ) {
       console.log('employer authenticated')
-      Router.replace('/protectedEmployer')
+      Router.replace('/homeEmployer')
     }
   }, [status, data])
 

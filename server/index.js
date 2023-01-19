@@ -31,7 +31,7 @@ app.post('/job', addJob);
 // get a specific job seeker by id
 app.get('/user', getUser);
 
-app.listen(process.env.PORT, () => console.log('Listening on port 3001'));
+// app.listen(process.env.PORT, () => console.log('Listening on port 3001'));
 // const { PrismaClient } = require('@prisma/client');
 // const prisma = new PrismaClient();
 

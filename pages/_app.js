@@ -1,6 +1,5 @@
 import * as React from "react";
 import '../public/main.css';
-import React from 'react';
 import { SessionProvider } from "next-auth/react"
 import PropTypes from "prop-types";
 import { ThemeProvider } from "@mui/material/styles";

@@ -40,6 +40,8 @@ const ApplicantListCard = ({ applicant }) => {
     updateNotesVisible(!notesVisible);
   }
   console.log(applicant)
+
+  //need useeffect and get request to pull applicant details
   return (
     <>
       <Accordion sx={{width: '60vw', border:'1px solid grey'}}>

@@ -4,7 +4,7 @@
   "description": "Connecting people with jobs and jobs with people",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack.common.js",
+    "build": "next build",
     "start": "nodemon server/index.js",
     "dev": "next dev",
     "lint": "next lint"

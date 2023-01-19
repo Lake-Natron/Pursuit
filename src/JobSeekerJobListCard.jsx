@@ -20,7 +20,7 @@ const JobSeekerJobListCard = ({listing}) => {
     <>
     <ListItem sx={{border:'1px solid grey', width:'60vw', minHeight:'7em', marginBottom: '1em', borderRadius: '8px', overflow: 'hidden'}}>
       <ListItemText primary='Job Listing Details' />
-      <Button variant="contained" onClick={handleClick}>View Application -></Button>
+      <Button variant="contained" onClick={handleClick}>View Application</Button>
     </ListItem>
     </>
   )

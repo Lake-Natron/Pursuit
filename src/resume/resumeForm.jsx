@@ -32,6 +32,18 @@ const ResumeForm = ({ visible, updateVisible }) => {
         }
       })
       .catch(err => console.log(err))
+      axios.get('http://localhost:3001/skills', { params: { seeker_id: 1 } })
+        .then(res => {
+          let string = '';
+          res.data.forEach(skill => {
+            if (string.length > 0) {
+              string += ', ';
+            };
+            string += skill.skill;
+          })
+          updateSkills(string);
+        })
+        .catch(err => console.log(err));
   }, [])
 
   const addWork = () => {
@@ -86,6 +98,8 @@ const ResumeForm = ({ visible, updateVisible }) => {
           .catch(err => console.log(err))
       }
     });
+    axios.post('http://localhost:3001/skills', { skills, seeker_id: 1 })
+          .catch(err => console.log(err))
     updateVisible(false);
   }
 
@@ -142,6 +156,7 @@ const ResumeForm = ({ visible, updateVisible }) => {
               label='Skills'
               variant="filled"
               size="small"
+              value={skills}
               onChange={e => updateSkills(e.target.value)}
             />
           </div>

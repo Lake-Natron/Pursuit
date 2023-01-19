@@ -29,7 +29,8 @@ const HomeEmployer = () => {
       .then(res => {setJobListings(res.data)})
       .catch(err => {console.log(err)})
     }
-    if (data?user.id) {
+
+    if (data?.user.id) {
       getCompanyName();
       getCompanyJobListings();
     }

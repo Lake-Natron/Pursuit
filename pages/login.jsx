@@ -31,11 +31,11 @@ const SignIn = () => {
     console.log(status)
     console.log(data.user.role)
     }
-    if (status === "authenticated" && data.user.role === "company" ) {
+    if (status === "authenticated" && data.user.role === "employer" ) {
       console.log('employer authenticated')
       Router.replace('/protectedEmployer')
     }
-  }, [status])
+  }, [status, data])
 
   const handleSubmit = async (e) => {
     e.preventDefault();

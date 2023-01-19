@@ -9,7 +9,7 @@ function ProtectedEmployer(props) {
   console.log(data?.user)
 
   useEffect(() => {
-    if (status === "unauthenticated" || data?.user.role !== 'company') Router.replace("/login");
+    if (status === "unauthenticated" || data?.user.role !== 'employer') Router.replace("/login");
   }, [status])
 
   if (status === "authenticated") {

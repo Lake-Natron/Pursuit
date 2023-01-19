@@ -5,13 +5,16 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import JobSeekerJobListCard from '../src/jobSeekerJobListCard';
+import JobSeekerJobListCard from '../src/JobSeekerJobListCard';
 import NavBar from '../src/navBar';
+import JobDetails from '../src/jobDetails.jsx';
 import { useSession, signOut } from "next-auth/react";
 import Router from 'next/router'
 
-
 const HomeJobSeeker = () => {
+  const [jobListings, setJobListings] = useState([]);
+  const [detailsVisibility, setDetailsVisibility] = useState(false);
+  const [detailsOf, setDetailsOf] = useState(null);
   const [extreme, setExtreme] = useState([]);
   const [very, setVery] = useState([]);
   const [interested, setInterested] = useState([]);
@@ -40,6 +43,12 @@ const HomeJobSeeker = () => {
     .catch(err => {console.log(err)})
   }, [])
 
+  // sets State to make popup modal visible
+  const seeJobDeets = (visibility, detailsId = '') => {
+    setDetailsVisibility(() => !detailsVisibility);
+    setDetailsOf(detailsId);
+  };
+
   return (
     <>
     <NavBar />
@@ -48,25 +57,26 @@ const HomeJobSeeker = () => {
         <h2>Extremely Interested</h2>
         <List sx={{mt: -1}}>
           {extreme.map((listing, index) =>
-            <JobSeekerJobListCard listing={listing} key={index} />
+            <JobSeekerJobListCard listing={listing} key={index} seeDetailsVisibility={setDetailsVisibility}/>
           )}
         </List>
         <h2>Very Interested</h2>
         <List sx={{mt: -1}}>
           {very.map((listing, index) =>
-            <JobSeekerJobListCard listing={listing} key={index} />
+            <JobSeekerJobListCard listing={listing} key={index} seeDetailsVisibility={setDetailsVisibility}/>
           )}
         </List>
         <h2>Interested</h2>
         <List sx={{mt: -1}}>
           {interested.map((listing, index) =>
-            <JobSeekerJobListCard listing={listing} key={index} />
+            <JobSeekerJobListCard listing={listing} key={index} seeDetailsVisibility={setDetailsVisibility}/>
           )}
         </List>
       </nav>
-      <button onClick={() => signOut()}>Sign Out</button>
+      {detailsVisibility && <JobDetails id={detailsOf} jobVisible={detailsVisibility} setVisible={seeJobDeets}/>}
     </Box>
     </>
+
   )
 }
 

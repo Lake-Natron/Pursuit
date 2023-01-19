@@ -10,13 +10,14 @@ import Button from '@mui/material/Button';
 import Link from 'next/link';
 import { Typography } from '@mui/material';
 
-const JobSeekerJobListCard = ({listing}) => {
+const JobSeekerJobListCard = ({listing, seeDetailsVisibility}) => {
   const [companyName, setCompanyName] = useState('')
   const closeDate = listing.Job.close_date.slice(0, 10);
   const job_id = listing.job_id;
 
   const handleClick = (e) => {
     e.preventDefault();
+    seeDetailsVisibility(true, listing);
     console.log('Click')
   }
 

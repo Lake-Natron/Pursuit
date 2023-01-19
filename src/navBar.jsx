@@ -28,8 +28,6 @@ let settings = [['Job Seeker Home', '/homeJobSeeker'], ['Employer Home', '/homeE
 // TODO: Conditionally Add Login Page
 // TODO: Conditionally change pages based on whether the user is logged in.
 
-const logoUrl = '';
-
 const NavBar = ({ page }) => {
   const [notifications, setNotifications] = useState([]);
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -37,6 +35,8 @@ const NavBar = ({ page }) => {
   const [importingResume, updateImportingResume] = useState(false);
   const [showNotifications, updateShowNotifications] = useState(false);
   const { status, data } = useSession();
+
+  // TODO: Routinely pull down items from user for notifications:
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -55,21 +55,37 @@ const NavBar = ({ page }) => {
 
   };
 
+  // Recurringly invokes get notifications
+  // TODO: Add user id onto the application
   useEffect(() => {
-    if (!data) {
-      return;
-    }
-
     const apiNotifications = () => {
+      console.log('this is the user id', data?.user.id)
+      console.log('this is all stored in sesshionstorage', data?.user.role)
+      console.log('making axios call');
       axios.get('http://localhost:3001/notifications', {params: {user_id: data?.user.id}})
-        .then(res => setNotifications(res.data))
-        .catch(err => console.log(err))
+      .then(res => setNotifications(res.data))
+      .catch(err => console.log(err))
+    };
+
+    const interval = setInterval(apiNotifications, 3000);
+
+    return () => clearInterval(interval);
+  }, [])
+
+  //need seeker_id from session info
+  useEffect(() => {
+    // if (status === "unauthenticated" || data?.user.role !== 'seeker') Router.replace("/login");
+    if (data?.user.role === 'seeker') {
+      console.log('changing seeker name');
+      pages = [['Job Board', '/jobSearch'], ['My Jobs', '/homeJobSeeker']];
+      settings = [['Job Seeker Home', '/homeJobSeeker']];
+    } else if (data?.user.role === 'employer') {
+      pages = [['Job Board', '/jobSearch'], ['My Jobs', '/homeJobSeeker']];
+      settings = [['Job Seeker Home', '/homeJobSeeker'], ['Post Job', '/postJob']];
+    } else if (status === 'unauthenticated') {
+      pages = ['Job Board', '/jobSearch', ]
     }
-
-    const interval = setInterval(apiNotifications, 20000);
-
-    return ()=> clearInterval(interval);
-  }, [data])
+  }, [])
 
   return (
     <AppBar position='static' sx={{ bgcolor: '#E44F48' }}>

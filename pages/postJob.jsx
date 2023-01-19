@@ -47,33 +47,6 @@ const employment = [
   'Contract'
 ];
 
-function getExperienceStyles(exp, experienceType, theme) {
-  return {
-    fontWeight:
-      experienceType.indexOf(exp) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
-function getEmploymentStyles(emp, employmentType, theme) {
-  return {
-    fontWeight:
-      employmentType.indexOf(emp) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
-function getSiteStyles(site, jobSite, theme) {
-  return {
-    fontWeight:
-      jobSite.indexOf(site) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
 const PostJob = () => {
   const theme = useTheme();
   const [location, setLocation] = useState('');
@@ -162,7 +135,7 @@ const PostJob = () => {
         alignItems='center'
         component="form"
         sx={{
-          '& .MuiTextField-root': { m: 1, minwidth: '35vw' }, border:'1px solid grey',
+          '& .MuiTextField-root': { m: 1, minwidth: '35vw' }
         }}
         noValidate
         autoComplete="off"
@@ -254,7 +227,6 @@ const PostJob = () => {
                   <MenuItem
                     key={exp}
                     value={exp}
-                    style={getSiteStyles(exp, experienceType, theme)}
                   >
                     {exp}
                   </MenuItem>
@@ -277,7 +249,6 @@ const PostJob = () => {
                   <MenuItem
                     key={exp}
                     value={exp}
-                    style={getExperienceStyles(exp, experienceType, theme)}
                   >
                     {exp}
                   </MenuItem>
@@ -300,7 +271,6 @@ const PostJob = () => {
                   <MenuItem
                     key={emp}
                     value={emp}
-                    style={getEmploymentStyles(emp, employmentType, theme)}
                   >
                     {emp}
                   </MenuItem>

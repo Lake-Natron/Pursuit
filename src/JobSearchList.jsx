@@ -8,15 +8,21 @@ import { Typography } from '@mui/material';
 
 
 
-const JobSearchList = ({job}) => { 
+const JobSearchList = ({handleJob,job}) => { 
 
     return(
             <div>
             <ListItem sx={{ mb: '5px', borderRadius: '16px', bgcolor: '#CFCFCF'}}>
-            <ListItemButton sx ={{ mb: '5px'}}  > 
+            <ListItemButton onClick={(e) => handleJob(job,e)} sx ={{ mb: '5px'}}  > 
               <ListItemText>
-               <Typography align="left">
+               <Typography align="left" variant="body2">
                {job.name}
+             </Typography>
+             <Typography align="left" variant="body1">
+               {job.company_name}
+             </Typography>
+             <Typography align="left" variant="body1" color="secondary">
+               {job.location}
              </Typography>
              </ListItemText>  
             </ListItemButton>

@@ -1,57 +1,56 @@
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient()
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
 
 let companies = [
   {
-    name: 'Amazon',
-    session_id: '1',
-    email: 'amazon@gmail.com',
-    password: 'password_1'
+    company_name: "Amazon",
+    email: "amazon@gmail.com",
+    password: "password_1",
+    role: "company",
   },
   {
-    name: 'Nike',
-    session_id: '2',
-    email: 'nike@gmail.com',
-    password: 'password_2'
+    company_name: "Nike",
+    email: "nike@gmail.com",
+    password: "password_2",
+    role: "company",
   },
   {
-    name: 'Google',
-    session_id: '3',
-    email: 'google@gmail.com',
-    password: 'password_3'
+    company_name: "Google",
+    email: "google@gmail.com",
+    password: "password_3",
+    role: "company",
   },
   {
-    name: 'Cigna',
-    session_id: '4',
-    email: 'cigna@gmail.com',
-    password: 'password_4'
+    company_name: "Cigna",
+    email: "cigna@gmail.com",
+    password: "password_4",
+    role: "company",
   },
   {
-    name: 'Chubb',
-    session_id: '5',
-    email: 'chubb@gmail.com',
-    password: 'password_5'
-  }
+    company_name: "Chubb",
+    email: "chubb@gmail.com",
+    password: "password_5",
+    role: "company",
+  },
 ];
 
 async function main() {
-  console.log('Start seeding...');
+  console.log("Start seeding...");
 
   for (let i = 0; i < companies.length; i++) {
-    const company = await prisma.Company.create({
-      data: companies[i]
-    })
-    console.log(`Created user with id: ${company.id}`)
+    const company = await prisma.User.create({
+      data: companies[i],
+    });
+    console.log(`Created user with id: ${company.id}`);
   }
-
 }
 
 main()
   .then(async () => {
-    await prisma.$disconnect()
+    await prisma.$disconnect();
   })
   .catch(async (e) => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1)
-  })
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });

@@ -9,20 +9,20 @@ import Checkbox from '@mui/material/Checkbox';
 const { useState, useEffect } = React;
 
 const Education = ({index, eds}) => {
-  const [school, updateSchool] = useState(eds[index].school);
-  const [location, updateLocation] = useState(eds[index].location);
-  const [degree, updateDegree] = useState(eds[index].degree);
-  const [major, updateMajor] = useState(eds[index].major);
+  const [school, updateSchool] = useState(eds[index].school || '');
+  const [location, updateLocation] = useState(eds[index].location || '');
+  const [degree, updateDegree] = useState(eds[index].degree || '');
+  const [major, updateMajor] = useState(eds[index].major || '');
   const [graduated, updateGraduated] = useState(eds[index].graduated || true);
-  const [gradDate, updateGradDate] = useState(eds[index].gradDate);
+  const [gradDate, updateGradDate] = useState(new Date(eds[index].graduation_date));
 
   useEffect(() => {
     eds[index].school = school;
     eds[index].location = location;
     eds[index].degree = degree;
     eds[index].major = major;
-    eds[index].graduated = graduated;
-    eds[index].gradDate = gradDate;
+    eds[index].graduate = graduated;
+    eds[index].graduation_date = gradDate.toString();
   }, [school, location, degree, major, graduated, gradDate, eds, index])
 
   const inputStyle={
@@ -35,6 +35,7 @@ const Education = ({index, eds}) => {
       <div style={{width: '100%', display: 'flex', justifyContent: 'space-evenly'}}>
       <TextField
             sx={inputStyle}
+            value={school}
             label='School'
             required
             variant="filled"
@@ -45,6 +46,7 @@ const Education = ({index, eds}) => {
             sx={inputStyle}
             label='Location'
             required
+            value={location}
             variant="filled"
             size="small"
             onChange={e => updateLocation(e.target.value)}
@@ -53,6 +55,7 @@ const Education = ({index, eds}) => {
       <div style={{width: '100%', display: 'flex', justifyContent: 'space-evenly'}}>
       <TextField
             sx={inputStyle}
+            value={degree}
             label='Degree'
             required
             variant="filled"
@@ -62,6 +65,7 @@ const Education = ({index, eds}) => {
       <TextField
             sx={inputStyle}
             label='Major'
+            value={major}
             required
             variant="filled"
             size="small"
@@ -70,7 +74,7 @@ const Education = ({index, eds}) => {
       </div>
       <div style={{width: '100%', display: 'flex', justifyContent: 'space-evenly', marginTop: '10px'}}>
       <div >
-        Graduated <Checkbox onClick={e => updateGraduated(e.target.checked)} defaultChecked />
+        Graduated <Checkbox value={graduated} onClick={e => updateGraduated(e.target.checked)} defaultChecked />
       </div>
       {graduated && <div style={{marginTop: '10px'}}><LocalizationProvider dateAdapter={AdapterDayjs}>
       <DesktopDatePicker

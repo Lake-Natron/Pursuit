@@ -18,8 +18,7 @@ import Image from 'next/image';
 import ResumeForm from './resume/resumeForm.jsx';
 import Link from 'next/link';
 import Notifications from './notifications.jsx';
-import { useSession } from "next-auth/react";
-
+import axios from 'axios';
 
 // Navigation Link
 const pages = [['Home', '/'], ['Job Board', '/'], ['My Jobs', '/homeJobSeeker']];
@@ -31,10 +30,8 @@ const settings = [['Job Seeker Home', '/homeJobSeeker'], ['Employer Home', '/hom
 const logoUrl = '';
 
 const NavBar = ({ page }) => {
-  const [notifications, setNotifications] = useState(data);
-  // const [pages, setPages] = useState(['Home', 'Job Board', 'My Jobs']);
-  // const [settings, setSettings] = useState(['My Jobs', 'Logout']);
-  // const { status, data: session } = useSession();
+  const [notifications, setNotifications] = useState([]);
+  //TODO: Routinely pull down items for user for notifications:
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -42,11 +39,6 @@ const NavBar = ({ page }) => {
   const [showNotifications, updateShowNotifications] = useState(false);
 
   // TODO: Routinely pull down items from user for notifications:
-  // console.log(status, data.user.id);
-
-  useEffect(() => {
-
-  }, []);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -64,6 +56,12 @@ const NavBar = ({ page }) => {
     setAnchorElUser(null);
 
   };
+
+  useEffect(() => {
+    axios.get('http://localhost:3001/notifications', {params: {user_id: 2}})
+      .then(res => setNotifications(res.data))
+      .catch(err => console.log(data))
+  }, [])
 
   return (
     <AppBar position='static' sx={{ bgcolor: '#E44F48' }}>
@@ -178,19 +176,3 @@ const NavBar = ({ page }) => {
 };
 
 export default NavBar;
-
-
-let data = [
-  {
-    type: 'Meeting Scheduled',
-    details: 'P&G has scheduled a meeting with you at 10:30PM'
-  },
-  {
-    type: 'Meeting Cancelled',
-    details: 'Your meeting with P&G has been cancelled'
-  },
-  {
-    type: 'New Jobs Available',
-    details: 'You have 5 new jobs available'
-  }
-]

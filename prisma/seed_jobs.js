@@ -5,7 +5,7 @@ let jobs = [
   {
     name: 'Technical Recruiter',
     company_id: 7,
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    description: 'Lorem ipsum dolor sit amet',
     salary: 80000,
     location: '27540',
     close_date: new Date('2023-01-31'),
@@ -16,7 +16,7 @@ let jobs = [
   {
     name: 'Software Engineer',
     company_id: 9,
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    description: 'Lorem ipsum dolor sit amet',
     salary: 100000,
     location: '37421',
     close_date: new Date('2023-01-31'),
@@ -27,7 +27,7 @@ let jobs = [
   {
     name: 'HR Generalist',
     company_id: 10,
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    description: 'Lorem ipsum dolor sit amet',
     salary: 65000,
     location: '11791',
     close_date: new Date('2023-01-31'),
@@ -38,7 +38,7 @@ let jobs = [
   {
     name: 'Corporate Trainer',
     company_id: 10,
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    description: 'Lorem ipsum dolor sit amet',
     salary: 70000,
     location: '43512',
     close_date: new Date('2023-01-31'),
@@ -49,7 +49,7 @@ let jobs = [
   {
     name: 'Front End Developer',
     company_id: 9,
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    description: 'Lorem ipsum dolor sit amet',
     salary: 90000,
     location: '11111',
     close_date: new Date('2023-01-31'),

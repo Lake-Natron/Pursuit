@@ -12,13 +12,13 @@ let seekers = [
     city: 'New York City',
     state: 'New York',
     zip_code: '10001',
-    password: 'password_9',
+    password: 'password_1234',
   },
   {
     first_name: 'John',
     last_name: 'Doe',
     email: 'johndoe@gmail.com',
-    password: 'password_5',
+    password: 'password_54325',
     image_url: 'https://media.istockphoto.com/id/523761634/photo/cute-panda-bear-climbing-in-tree.jpg?s=612x612&w=0&k=20&c=TxsmORsbuY1LpxQsc6T8fpWJo7lBwncciYhroAr8rXI=',
     role: 'seeker',
     address: '1234 Fake Dr',
@@ -36,7 +36,7 @@ let seekers = [
     city: 'New York City',
     state: 'New York',
     zip_code: '10001',
-    password: 'password_6'
+    password: 'password_624536'
   },
   {
     first_name: 'Oprah',
@@ -48,7 +48,7 @@ let seekers = [
     city: 'New York City',
     state: 'New York',
     zip_code: '10001',
-    password: 'password_7'
+    password: 'password_536456'
   },
   {
     first_name: 'Brad',
@@ -60,7 +60,7 @@ let seekers = [
     city: 'New York City',
     state: 'New York',
     zip_code: '10001',
-    password: 'password_8'
+    password: 'password_634563'
   }
 ];
 

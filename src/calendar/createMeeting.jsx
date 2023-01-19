@@ -8,7 +8,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-
+import axios from 'axios';
 
 const { useState, useEffect } = React;
 
@@ -19,9 +19,20 @@ const CreateMeeting = ({ visible, updateVisible, application_id, seeker_id}) => 
   let [title, updateTitle] = useState(title);
 
   const save = () => {
-    if (newStart.toString() !== '[object Object]' && newEnd.toString() !== '[object Object]' && newTitle !== '') {
+    if (start.toString() !== '[object Object]' && end.toString() !== '[object Object]' && title !== '') {
       // Send request before updating visibility
-
+      let params = {
+        start_time: start.toString(),
+        end_time: end.toString(),
+        description: description,
+        title: title,
+        application_id: 1,
+        seeker_id: 2,
+        company_id: 9
+      }
+      axios.post('http://localhost:3001/meeting', params)
+        .catch(err => console.log(err))
+      updateVisible(false);
     }
   }
 

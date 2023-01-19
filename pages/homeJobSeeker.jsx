@@ -14,40 +14,49 @@ const HomeJobSeeker = () => {
   const [very, setVery] = useState([]);
   const [interested, setInterested] = useState([]);
 
+  //need seeker_id from session info
   useEffect(() => {
-    axios.get('http://localhost:3002/jobs/applied')
-    .then((res) => {setJobListings(res.data)})
-    .then(() => {
-
+    axios.get(`http://localhost:3002/jobs/applied?seeker_id=6`)
+    .then(res => {
+      const extreme = res.data.filter(item =>
+        item.seeker_interest_level === 'Extremely Interested'
+      );
+      setExtreme(extreme);
+      const very = res.data.filter(item =>
+        item.seeker_interest_level === 'Very Interested'
+      );
+      setVery(very);
+      const interested = res.data.filter(item =>
+        item.seeker_interest_level === 'Interested'
+      );
+      setInterested(interested);
     })
     .catch(err => {console.log(err)})
   }, [])
 
+
   return (
     <>
     <NavBar />
-    <Box sx={{width: '100%', minWidth: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid'}}>
+    <Box sx={{width: '100%', minWidth: 480, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
       <nav aria-label="job-list-container">
         <h2>Extremely Interested</h2>
         <List sx={{mt: -1}}>
-          {jobListings.map((listing, index) =>
+          {extreme.map((listing, index) =>
             <JobSeekerJobListCard listing={listing} key={index} />
           )}
-          <JobSeekerJobListCard />
-          <JobSeekerJobListCard />
-          <JobSeekerJobListCard />
         </List>
         <h2>Very Interested</h2>
         <List sx={{mt: -1}}>
-          <JobSeekerJobListCard />
-          <JobSeekerJobListCard />
-          <JobSeekerJobListCard />
+          {very.map((listing, index) =>
+            <JobSeekerJobListCard listing={listing} key={index} />
+          )}
         </List>
         <h2>Interested</h2>
         <List sx={{mt: -1}}>
-          <JobSeekerJobListCard />
-          <JobSeekerJobListCard />
-          <JobSeekerJobListCard />
+          {interested.map((listing, index) =>
+            <JobSeekerJobListCard listing={listing} key={index} />
+          )}
         </List>
       </nav>
     </Box>

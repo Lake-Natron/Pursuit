@@ -68,8 +68,6 @@ const Calendar = () => {
   let [startTime, updateStartTime] = useState({});
   let [endTime, updateEndTime] = useState({});
   let [whom, updateWhom] = useState('');
-  //let [application_id, updateApplication_id] = useState(0);
-  //let [company_id, updateCompany_id] = useState(0);
 
   const loadEvents = () => {
     let params = {};
@@ -107,10 +105,10 @@ const Calendar = () => {
 
   useEffect(() => {
     if (event._def) {
-      if (!event._def.extendedProps.job) {
+      if (!event._def.extendedProps.application_id) {
         updateJob('');
       } else {
-        updateJob(event._def.extendedProps.job);
+        updateJob(event._def.extendedProps.application_id);
       }
       if (!event._def.extendedProps.description) {
         updateDescription('');
@@ -284,8 +282,8 @@ const Calendar = () => {
           <p>{date}</p>
           <h2>Time:</h2>
           <p>{start + ' - ' + end}</p>
-          {job !== '' && <h2>Related Job:</h2>}
-          {job !== '' && <p>{job}</p>}
+          {/* {job !== '' && <h2>Related Job:</h2>}
+          {job !== '' && <p>{job}</p>} */}
           <h2 style={sidebarTitle}>Description</h2>
           <p style={sidebarText}>{description}</p>
           {job !== '' && <h2 style={sidebarTitle}>Application Notes</h2>}
@@ -316,47 +314,4 @@ const Calendar = () => {
 }
 
 export default Calendar;
-
-const data = [
-  {
-    description: 'Hello Jeff, we will use to time to interview for the role of product manager',
-    title: 'Jeff Franky', //Name of company/person meeting with
-    job: 'Product Manager',
-    start: new Date(),//'2023-01-01T10:30:00',
-    end: new Date(),//'2023-01-01T11:30:00',
-    notes: 'Jeff has no experience. Do NOT hire him.',
-    canceled: false,
-    seeker_accepted: false,
-    change_requested: false,
-    request_notes: 'test',
-    id: 1,
-    with: 'Grace Andrews'
-  },
-  {
-    description: 'Let\'s use this time to chat about an opportunity I have for you',
-    title: 'Grace Andrews', //Name of company/person meeting with
-    job: 'Software Developer',
-    start: new Date(),//'2023-01-01T10:30:00',
-    end: new Date(),//'2023-01-01T11:30:00',
-    notes: 'Grace has experience through a boot camp.',
-    canceled: false,
-    seeker_accepted: true,
-    change_requested: false,
-    request_notes: 'test',
-    id: 2,
-    with: 'Grace Andrews'
-  },
-  {
-    description: 'Let\'s use this time to chat about an opportunity I have for you',
-    title: 'Time Reserved',
-    start: new Date(),//'2023-01-01T10:30:00',
-    end: new Date(),//'2023-01-01T11:30:00',
-    notes: 'Grace has experience through a boot camp.',
-    canceled: false,
-    seeker_accepted: true,
-    private: true,
-    id: 3,
-    with: 'Grace Andrews'
-  }
-]
 

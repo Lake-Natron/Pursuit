@@ -19,10 +19,11 @@ import ResumeForm from './resume/resumeForm.jsx';
 import Link from 'next/link';
 import Notifications from './notifications.jsx';
 import axios from 'axios';
+import { useSession, signOut } from "next-auth/react";
 
 // Navigation Link
 const pages = [['Home', '/'], ['Job Board', '/jobSearch'], ['My Jobs', '/homeJobSeeker']];
-const settings = [['Job Seeker Home', '/homeJobSeeker'], ['Employer Home', '/homeEmployer'] ,['Logout', '/'], ['Post Job', '/postJob']];
+const settings = [['Job Seeker Home', '/homeJobSeeker'], ['Employer Home', '/homeEmployer'], ['Post Job', '/postJob']];
 
 // TODO: Conditionally Add Login Page
 // TODO: Conditionally change pages based on whether the user is logged in.
@@ -163,6 +164,9 @@ const NavBar = ({ page }) => {
               </MenuItem>
               <MenuItem key={'upload'} onClick={e => updateImportingResume(true)}>
                 <Typography textAlign="center">Upload Resume</Typography>
+              </MenuItem>
+              <MenuItem key={'signout'} onClick={e => signOut()}>
+                <Typography textAlign="center">Sign out</Typography>
               </MenuItem>
             </Menu>
           </Box>

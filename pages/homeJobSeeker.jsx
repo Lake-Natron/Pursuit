@@ -5,12 +5,11 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import JobSeekerJobListCard from '../src/jobSeekerJobListCard';
+import JobSeekerJobListCard from '../src/JobSeekerJobListCard';
 import NavBar from '../src/navBar';
 import JobDetails from '../src/jobDetails.jsx';
 import { useSession, signOut } from "next-auth/react";
 import Router from 'next/router'
-
 
 const HomeJobSeeker = () => {
   const [jobListings, setJobListings] = useState([]);
@@ -50,10 +49,6 @@ const HomeJobSeeker = () => {
     setDetailsOf(detailsId);
   };
 
-  useEffect(() => {
-    if (status === "unauthenticated" || data?.user.role !== 'seeker') Router.replace("/login");
-  }, [status])
-
   return (
     <>
     <NavBar />
@@ -79,7 +74,6 @@ const HomeJobSeeker = () => {
         </List>
       </nav>
       {detailsVisibility && <JobDetails id={detailsOf} jobVisible={detailsVisibility} setVisible={seeJobDeets}/>}
-      <button onClick={() => signOut()}>Sign Out</button>
     </Box>
     </>
 

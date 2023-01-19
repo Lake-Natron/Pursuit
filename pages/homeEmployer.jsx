@@ -13,7 +13,7 @@ import Router from 'next/router'
 const HomeEmployer = () => {
   const [jobListings, setJobListings] = useState([]);
   const [companyName, setCompanyName] = useState('');
-  const { status, data } = useSession()
+  const { status, data } = useSession();
   //need session info for company id
   const company_id = '1';
 

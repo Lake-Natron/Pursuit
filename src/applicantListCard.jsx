@@ -11,9 +11,10 @@ import CreateMeeting from '../src/calendar/createMeeting';
 import EmployerAddNote from '../src/employerAddNote';
 
 
-const ApplicantListCard = () => {
+const ApplicantListCard = ({ applicant }) => {
   const [visible, updateVisible] = useState(false);
   const [notesVisible, updateNotesVisible] = useState(false);
+  const [applicantDetails, setApplicantsDetails] = useState([]);
 
   const handleInterestedClick = (e) => {
     e.preventDefault();
@@ -38,7 +39,9 @@ const ApplicantListCard = () => {
     e.stopPropagation()
     updateNotesVisible(!notesVisible);
   }
+  console.log(applicant)
 
+  //need useeffect and get request to pull applicant details
   return (
     <>
       <Accordion sx={{width: '60vw', border:'1px solid grey'}}>
@@ -47,8 +50,8 @@ const ApplicantListCard = () => {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography>Applicant Name</Typography>
-          <Box sx={{ml: '50%'}}>
+          <Typography>{applicant.User.first_name} {applicant.User.last_name}</Typography>
+          <Box sx={{ml: '50%', border: '1px solid'}}>
             <Button variant="contained" sx={{mr: '1em'}} onClick={handleInterestedClick}>Interested</Button>
             <Button variant="contained" onClick={handleNotInterestedClick}>Not Interested</Button>
           </Box>
@@ -60,9 +63,9 @@ const ApplicantListCard = () => {
             Other Info: <br/>
             Notes:
           </Typography>
-          <Box sx={{ml: '60%'}}>
-            <Button sx={{mt:2, mr: '1em'}} variant="contained" onClick={handleVisibleClick}>Create Meeting</Button>
-            <Button sx={{mt:2}} variant="contained" onClick={handleNotesVisibleClick}>Edit Notes</Button>
+          <Box sx={{mt: 2, ml: '60%', border: '1px solid'}}>
+            <Button sx={{mr: '1em'}} variant="contained" onClick={handleVisibleClick}>Create Meeting</Button>
+            <Button variant="contained" onClick={handleNotesVisibleClick}>Edit Notes</Button>
           </Box>
         </AccordionDetails>
       </Accordion>

@@ -6,6 +6,7 @@ const { getUser, getAllUsers, addUser } = require('../prisma/controllers/users.j
 const { applyToJob, getJobsAppliedTo, getApplicants, updateSeekerInterest, updateCompanyInterest, updateSeekerNotes, updateCompanyNotes } = require('../prisma/controllers/applications.js');
 const { addEducation, getEducation, deleteEducation, addWorkExperience, getWorkExperience, deleteWorkExperience, updateEducation, updateWorkExperience, addSkills, getSkills } = require('../prisma/controllers/resumes.js');
 const { createMeeting, getMeetings, editMeeting } = require('../prisma/controllers/meetings.js');
+const { createNotification, getNotifications, markNotificationRead } = require('../prisma/controllers/notifications.js');
 
 let app = express();
 
@@ -95,5 +96,14 @@ app.get('/meetings', getMeetings);
 
 // edit meeting
 app.patch('/meeting', editMeeting);
+
+// create a notification
+app.post('/notification', createNotification);
+
+// get a user's notifications
+app.get('/notifications', getNotifications);
+
+// mark a specific notification read
+app.patch('/notification', markNotificationRead);
 
 app.listen(process.env.PORT, () => console.log('Listening on port ' + process.env.PORT));

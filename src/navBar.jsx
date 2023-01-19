@@ -57,7 +57,7 @@ const NavBar = ({ page }) => {
   useEffect(() => {
     axios.get('http://localhost:3001/notifications', {params: {user_id: 2}})
       .then(res => setNotifications(res.data))
-      .catch(err => console.log(data))
+      .catch(err => console.log(err))
   }, [])
 
   return (

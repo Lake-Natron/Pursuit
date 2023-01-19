@@ -10,6 +10,7 @@ import NavBar from '../src/navBar';
 import JobDetails from '../src/jobDetails.jsx';
 import { useSession, signOut } from "next-auth/react";
 import Router from 'next/router';
+import { Typography } from '@mui/material';
 
 const HomeJobSeeker = () => {
   const [jobListings, setJobListings] = useState([]);
@@ -20,11 +21,10 @@ const HomeJobSeeker = () => {
   const [interested, setInterested] = useState([]);
   const { status, data } = useSession();
 
-  //need seeker_id from session info
   useEffect(() => {
     if (status === "unauthenticated" || data?.user.role !== 'seeker') Router.replace("/login");
 
-    axios.get(`http://localhost:3001/jobs/applied?seeker_id=6`)
+    axios.get(`http://localhost:3001/jobs/applied?seeker_id=${data?.user.id}`)
     .then(res => {
       const extreme = res.data.filter(item =>
         item.seeker_interest_level === 'Extremely Interested'
@@ -53,19 +53,22 @@ const HomeJobSeeker = () => {
     <NavBar />
     <Box sx={{width: '100%', minWidth: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '2em'}}>
       <nav aria-label="job-list-container">
-        <h2>Extremely Interested</h2>
+        <Typography>
+        {extreme.length === 0 && very.length === 0 && interested.length === 0 && <h1>Please Visit the Job Board to Apply</h1>}
+        </Typography>
+        {extreme.length >= 1 && <h2>Extremely Interested</h2>}
         <List sx={{mt: -1}}>
           {extreme.map((listing, index) =>
             <JobSeekerJobListCard listing={listing} key={index} seeDetailsVisibility={setDetailsVisibility}/>
           )}
         </List>
-        <h2>Very Interested</h2>
+        {very.length >= 1 && <h2>Very Interested</h2>}
         <List sx={{mt: -1}}>
           {very.map((listing, index) =>
             <JobSeekerJobListCard listing={listing} key={index} seeDetailsVisibility={setDetailsVisibility}/>
           )}
         </List>
-        <h2>Interested</h2>
+        {interested.length >= 1 && <h2>Interested</h2>}
         <List sx={{mt: -1}}>
           {interested.map((listing, index) =>
             <JobSeekerJobListCard listing={listing} key={index} seeDetailsVisibility={setDetailsVisibility}/>

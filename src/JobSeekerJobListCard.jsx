@@ -21,24 +21,16 @@ const JobSeekerJobListCard = ({listing, seeDetailsVisibility}) => {
     console.log('Click')
   }
 
-  //make sure to change port at some point
-  //need a route to get company name
-  //getUser
   useEffect(() => {
-    console.log('id', listing.Job.company_id)
-    const getCompanyName = async () => {
-      await axios.get(`http://localhost:3001/user?id=${listing.Job.company_id}`)
-      .then(res => {console.log('2', res.data.company_name); setCompanyName(res.data.company_name)})
-      .catch(err => {console.log(err)})
-    }
-
     const getJobDetails = async () => {
       await axios.get(`http://localhost:3001/job?job_id=${job_id}`)
-      .then(res => {console.log(res)})
+      .then(res => {
+        console.log(res.data)
+        setCompanyName(res.data.User.company_name)
+      })
       .catch(err => {console.log(err)})
     }
 
-    getCompanyName();
     getJobDetails();
   })
 

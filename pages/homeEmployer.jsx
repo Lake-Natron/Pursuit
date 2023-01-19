@@ -14,8 +14,6 @@ const HomeEmployer = () => {
   const [jobListings, setJobListings] = useState([]);
   const [companyName, setCompanyName] = useState('');
   const { status, data } = useSession();
-  //need session info for company id
-  const company_id = '1';
 
   useEffect(() => {
     if (status === "unauthenticated" || data?.user.role !== 'employer') Router.replace("/login");
@@ -48,7 +46,6 @@ const HomeEmployer = () => {
           )}
         </List>
       </nav>
-      <button onClick={() => signOut()}>Sign Out</button>
     </Box>
     </>
   )

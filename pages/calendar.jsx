@@ -75,13 +75,11 @@ const Calendar = () => {
   const { status, data } = useSession();
 
   const loadEvents = () => {
-    console.log(data);
     let params = {};
-    console.log('Loading Events for User: ' + data.user.id);
     if (companyLogin) {
-      params.company_id = data.user.id;
+      params.company_id = data?.user.id;
     } else {
-      params.seeker_id = data.user.id;
+      params.seeker_id = data?.user.id;
     }
     axios.get('http://localhost:3001/meetings', { params })
       .then(res => res.data)
@@ -107,8 +105,11 @@ const Calendar = () => {
   }
 
   useEffect(() => {
-    loadEvents()
-  }, []);
+    loadEvents();
+    if (data?.user.role === 'employer') {
+      updateCompanyLogin(true);
+    }
+  }, [data]);
 
   useEffect(() => {
     if (event._def) {

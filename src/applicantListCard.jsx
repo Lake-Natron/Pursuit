@@ -21,7 +21,7 @@ const ApplicantListCard = ({ applicant }) => {
   const handleInterestedClick = (e) => {
     e.preventDefault();
     e.stopPropagation()
-    axios.patch('http://localhost:3002/updateCompanyInterest', {
+    axios.patch('http://localhost:3001/updateCompanyInterest', {
       'application_id': applicant.id,
       'company_interest_level': 'Interested'
     })
@@ -31,7 +31,7 @@ const ApplicantListCard = ({ applicant }) => {
   const handleNotInterestedClick = (e) => {
     e.preventDefault();
     e.stopPropagation()
-    axios.patch('http://localhost:3002/updateCompanyInterest', {
+    axios.patch('http://localhost:3001/updateCompanyInterest', {
       'application_id': applicant.id,
       'company_interest_level': 'Not Interested'
     })

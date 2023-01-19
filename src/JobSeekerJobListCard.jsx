@@ -26,7 +26,7 @@ const JobSeekerJobListCard = ({listing, seeDetailsVisibility}) => {
   //getUser
   useEffect(() => {
     console.log(job_id)
-    axios.get(`http://localhost:3002/job?job_id=${job_id}`)
+    axios.get(`http://localhost:3001/job?job_id=${job_id}`)
     .then(res => {console.log(res)})
     .catch(err => {console.log(err)})
   })

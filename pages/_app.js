@@ -6,7 +6,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 const lora = require("@fontsource/lora");
 const montserrat = require("@fontsource/montserrat");
-import theme from "../src/theme";
+import theme from "../src/Theme";
 
 // export default function MyApp({ Component, pageProps: {session, ...pageProps}, }) {
 //   return (

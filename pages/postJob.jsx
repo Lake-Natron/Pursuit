@@ -108,9 +108,8 @@ const PostJob = () => {
       setIsFormValid(false);
     } else {
       setIsFormValid(true);
-      //need to change port hardcode, also figure out where company_id comes from
-      //do we want to reroute to home page
-      axios.post('http://localhost:3002/jobs', {
+      //need company_id from session
+      axios.post('http://localhost:3001/jobs', {
         title: title,
         closeDate: closeDate,
         jobDescription: jobDescription,

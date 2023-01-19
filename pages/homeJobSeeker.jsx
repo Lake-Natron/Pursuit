@@ -9,7 +9,7 @@ import JobSeekerJobListCard from '../src/JobSeekerJobListCard';
 import NavBar from '../src/navBar';
 import JobDetails from '../src/jobDetails.jsx';
 import { useSession, signOut } from "next-auth/react";
-import Router from 'next/router'
+import Router from 'next/router';
 
 const HomeJobSeeker = () => {
   const [jobListings, setJobListings] = useState([]);
@@ -21,11 +21,10 @@ const HomeJobSeeker = () => {
   const { status, data } = useSession();
 
   //need seeker_id from session info
-  //need to change port at some point
   useEffect(() => {
     if (status === "unauthenticated" || data?.user.role !== 'seeker') Router.replace("/login");
 
-    axios.get(`http://localhost:3002/jobs/applied?seeker_id=6`)
+    axios.get(`http://localhost:3001/jobs/applied?seeker_id=6`)
     .then(res => {
       const extreme = res.data.filter(item =>
         item.seeker_interest_level === 'Extremely Interested'

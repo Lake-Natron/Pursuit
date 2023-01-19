@@ -19,7 +19,7 @@ const HomeJobSeeker = () => {
   const { status, data } = useSession();
 
   useEffect(() => {
-    axios.get('http://localhost:3002/jobs/applied')
+    axios.get('http://localhost:3001/jobs/applied')
     .then((res) => {setJobListings(res.data)})
     .then(() => {
 

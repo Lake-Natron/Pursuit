@@ -86,15 +86,15 @@ const Calendar = () => {
     }
     axios.get('http://localhost:3001/meetings', { params })
       .then(res => res.data)
-      .then(data => {
-        data.forEach(event => {
+      .then(res=> {
+        res.forEach(event => {
           event.start = new Date(event.start_time);
           event.end = new Date(event.end_time);
           event.read_start = event.start;
           event.read_end = event.end;
           event.meeting_id = event.id;
           if (event.Application) {
-            if (companyLogin) {
+            if (data?.user.role === 'employer') {
               event.notes = event.Application.company_notes;
               event.whom = event.Application.User.first_name + ' ' + event.Application.User.last_name;
             } else {
@@ -102,7 +102,7 @@ const Calendar = () => {
             }
           }
         })
-        updateEvents(data);
+        updateEvents(res);
       })
       .catch(err => console.log(err));
   }

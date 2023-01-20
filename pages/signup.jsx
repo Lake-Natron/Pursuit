@@ -20,6 +20,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import FormHelperText from '@mui/material/FormHelperText';
 import axios from 'axios';
 
+import Router from 'next/router'
 
 import EmployerSignup from '../src/employerSignup.jsx';
 import SeekerSignup from '../src/seekerSignup.jsx';
@@ -118,6 +119,20 @@ const Signup = () => {
       const response = await axios.post('http://localhost:3001/user', formFields)
 
       setSuccessMsg(response.data.success)
+      setFormFields({
+        company_name: null,
+        first_name: null,
+        last_name: null,
+        image_url: null,
+        role: null,
+        email: null,
+        password: null,
+        address: '',
+        address_2: '',
+        city: '',
+        state: '',
+        zip_code: '',
+      });
 
     } catch (err) {
       if (!err?.response) {
@@ -127,20 +142,22 @@ const Signup = () => {
         console.log(err.response.data.message)
       }
     }
-    setFormFields({
-      company_name: null,
-      first_name: null,
-      last_name: null,
-      image_url: null,
-      role: null,
-      email: null,
-      password: null,
-      address: '',
-      address_2: '',
-      city: '',
-      state: '',
-      zip_code: '',
-    });
+  }
+
+  if (successMsg) {
+    return (
+      <Container maxWidth='xs'>
+        <Box sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}>
+          {successMsg}
+          <Button sx={{color: "#E44F48"}} onClick={()=> Router.replace("/login")}>Go to Login</Button>
+        </Box>
+      </Container>
+    )
   }
 
 
@@ -161,7 +178,7 @@ const Signup = () => {
             justifyContent: 'space-around'
           }}>
           {successMsg && <Grid>{successMsg}</Grid>}
-          {errMsg && <Grid>{errMsg}</Grid>}
+          {errMsg && <Grid sx={{backgroundColor: "#E44F48", color: "white", borderRadius: "10px", padding: "5px", textAlign: "center", margin: "5px", fontFamily: "Lora"}}>{errMsg}</Grid>}
           <Button variant="contained" sx={{ margin: '10px' }} onClick={() => {
             setFormFields({
               ...formFields,

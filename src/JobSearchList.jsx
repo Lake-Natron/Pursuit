@@ -15,11 +15,11 @@ const JobSearchList = ({handleJob,job}) => {
             <ListItem sx={{ mb: '5px', borderRadius: '16px', bgcolor: '#CFCFCF'}}>
             <ListItemButton onClick={(e) => handleJob(job,e)} sx ={{ mb: '5px'}}  > 
               <ListItemText>
-               <Typography align="left" variant="body2">
+               <Typography align="left" variant="body1">
                {job.name}
              </Typography>
-             <Typography align="left" variant="body1">
-               {job.company_name}
+             <Typography align="left" variant="body2">
+               {job.User.company_name}
              </Typography>
              <Typography align="left" variant="body1" color="secondary">
                {job.location}

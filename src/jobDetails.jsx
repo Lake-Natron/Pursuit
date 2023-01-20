@@ -85,8 +85,10 @@ const JobDetails = ({jobDetails, jobVisible, setVisible}) => {
   <>
     {jobDetails && <Modal sx={{ top: '20%' }} open={jobVisible}>
       <Box sx={boxStyle}>
-        <Box display="flex" justifyContent="flex-end" sx={{
+        <Box sx={{
           // backgroundColor: 'primary.dark',
+          display: 'flex',
+          justifyContent: 'flex-end',
           backgroundImage: `url(${coverImage})`,
           backgroundRepeat: 'cover',
           backgroundPosition: 'center',
@@ -112,7 +114,9 @@ const JobDetails = ({jobDetails, jobVisible, setVisible}) => {
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
           {jobDetails.jobsite} {bull} {jobDetails['employment_type']} {bull} {jobDetails['experience_type']}
         </Typography>
-        <Box diplay="flex" justifyContents="flex-center" sx={{
+        <Box sx={{
+          display: 'flex',
+          justifyContents: 'flex-center',
           marginTop: '1vh',
           marginBottom: '1vh',
           minHeight: '80px',
@@ -134,7 +138,7 @@ const JobDetails = ({jobDetails, jobVisible, setVisible}) => {
           <>
             {notes}
             <br />
-            <Box display="flex" justifyContent="flex-end">
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
               <Fab color="secondary" aria-label="edit note"
                 onClick={() => {setCanEditNote(true)}}
                 sx={{ m:2}}

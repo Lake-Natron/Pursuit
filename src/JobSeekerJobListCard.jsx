@@ -11,11 +11,10 @@ import Link from 'next/link';
 import { Typography } from '@mui/material';
 
 const JobSeekerJobListCard = ({listing, seeDetailsVisibility}) => {
-  const [companyName, setCompanyName] = useState('')
+  const [companyName, setCompanyName] = useState('');
+  const [jobDetails, setJobDetails] = useState('');
   const closeDate = listing.Job.close_date.slice(0, 10);
   const job_id = listing.job_id;
-
-  let jobDetails = {};
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -27,11 +26,11 @@ const JobSeekerJobListCard = ({listing, seeDetailsVisibility}) => {
     const getJobDetails = async () => {
       await axios.get(`http://localhost:3001/job?job_id=${job_id}`)
       .then(res => {
-        console.log(res.data)
-        jobDetails = res.data;
-        setCompanyName(res.data.User.company_name)
+        console.log(res.data);
+        setJobDetails(res.data);
+        setCompanyName(res.data.User.company_name);
       })
-      .catch(err => {console.log(err)})
+      .catch(err => {console.log(err)});
     }
 
     getJobDetails();

@@ -173,6 +173,12 @@ const Calendar = () => {
         canceled: true
       })
     .then(() => loadEvents())
+    axios.post('http://localhost:3001/notification', {
+        user_id: notificationUser,
+        type: 'Meeting Accepted',
+        details: 'Your meeting for ' + title + 'has been accepted'
+      })
+        .catch(err => console.log(err));
   }
 
   const acceptMeeting = () => {
@@ -186,7 +192,13 @@ const Calendar = () => {
       canceled: false
     }
     axios.patch('http://localhost:3001/meeting', params)
-    .then(() => loadEvents())
+      .then(() => loadEvents())
+    axios.post('http://localhost:3001/notification', {
+        user_id: notificationUser,
+        type: 'Meeting Declined',
+        details: 'Your meeting for ' + title + 'has been declined'
+      })
+        .catch(err => console.log(err));
   }
 
   const pageStyle = {

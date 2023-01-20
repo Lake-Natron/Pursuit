@@ -18,8 +18,11 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import FormHelperText from '@mui/material/FormHelperText';
+import Avatar from '@mui/material/Avatar';
 import axios from 'axios';
+import NavBar from '../src/navBar';
 
+import Router from 'next/router'
 
 import EmployerSignup from '../src/employerSignup.jsx';
 import SeekerSignup from '../src/seekerSignup.jsx';
@@ -29,6 +32,7 @@ const Signup = () => {
   const [errMsg, setErrMsg] = useState('');
   const [signUpAs, setSignUpAs] = useState(null);
   const [showPassword, setShowPassword] = useState(false)
+  const [profilePhoto, setProfilePhoto] = useState(null);
   const [err, setErr] = useState({
     company_name: '',
     first_name: '',
@@ -70,6 +74,8 @@ const Signup = () => {
     })
   }
 
+
+
   let form = <></>;
   switch (signUpAs) {
     case 'seeker':
@@ -108,6 +114,27 @@ const Signup = () => {
     e.preventDefault();
   }
 
+  // Profile Photo Upload
+  const handleFile = async (event) => {
+    let files = Array.from(event.target.files)
+    // handle case of no file being clicked after upload.
+    if (files.length === 0) {
+      return;
+    }
+    const formData = new FormData();
+    formData.append("file", files[0]);
+    formData.append("upload_preset", 'wjuxohsi');
+
+    const result = await axios.post(`https://api.cloudinary.com/v1_1/dq6rqplja/image/upload`, formData)
+    console.log(result);
+    console.log(result.data.url);
+    setProfilePhoto(() => result.data.url);
+    setFormFields({
+      ...formFields,
+      image_url: result.data.url
+    })
+  }
+
   const onSubmitForm = async (e) => {
     e.preventDefault();
     //TODO: Submit form for Auth and Add to Server
@@ -118,6 +145,20 @@ const Signup = () => {
       const response = await axios.post('http://localhost:3001/user', formFields)
 
       setSuccessMsg(response.data.success)
+      setFormFields({
+        company_name: null,
+        first_name: null,
+        last_name: null,
+        image_url: null,
+        role: null,
+        email: null,
+        password: null,
+        address: '',
+        address_2: '',
+        city: '',
+        state: '',
+        zip_code: '',
+      });
 
     } catch (err) {
       if (!err?.response) {
@@ -127,24 +168,31 @@ const Signup = () => {
         console.log(err.response.data.message)
       }
     }
-    setFormFields({
-      company_name: null,
-      first_name: null,
-      last_name: null,
-      image_url: null,
-      role: null,
-      email: null,
-      password: null,
-      address: '',
-      address_2: '',
-      city: '',
-      state: '',
-      zip_code: '',
-    });
+  }
+
+  if (successMsg) {
+    return (
+      <Container maxWidth='xs'>
+        <Box sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}>
+          {successMsg}
+          <Button sx={{color: "#E44F48"}} onClick={()=> Router.replace("/login")}>Go to Login</Button>
+        </Box>
+      </Container>
+    )
   }
 
 
+
+
+
   return (
+    <>
+    <NavBar />
     <Container maxWidth='xs'>
       <Box
         sx={{
@@ -161,7 +209,7 @@ const Signup = () => {
             justifyContent: 'space-around'
           }}>
           {successMsg && <Grid>{successMsg}</Grid>}
-          {errMsg && <Grid>{errMsg}</Grid>}
+          {errMsg && <Grid sx={{backgroundColor: "#E44F48", color: "white", borderRadius: "10px", padding: "5px", textAlign: "center", margin: "5px", fontFamily: "Lora"}}>{errMsg}</Grid>}
           <Button variant="contained" sx={{ margin: '10px' }} onClick={() => {
             setFormFields({
               ...formFields,
@@ -182,8 +230,14 @@ const Signup = () => {
         </Box>
       </Box>
 
+      <Box sx={{ display:'flex', flexDirection: 'row', justifyContent: 'center' }}>
+          {profilePhoto &&
+          <Avatar src={profilePhoto} sx={{ width: 155, height: 155, boxShadow: 5, m: 3}}/>}
+      </Box>
+
       {signUpAs &&
       <Container>
+
         {form}
         <TextField
           variant="outlined"
@@ -224,9 +278,21 @@ const Signup = () => {
           variant="outlined"
           required
           fullWidth
+          name="address"
+          label="Address"
+          type="text"
+          id="address_1"
+          onChange={handleOnChange}
+          sx={{ m: 1 }}
+        />
+
+        <TextField
+          variant="outlined"
+          required
+          fullWidth
           name="address_2"
-          label="Address_2"
-          type="address"
+          label="Street"
+          type="text"
           id="address_2"
           onChange={handleOnChange}
           sx={{ m: 1 }}
@@ -254,8 +320,21 @@ const Signup = () => {
           />
         </Box>
 
+        <Box sx={{ display:'flex', flexDirection: 'row', justifyContent: 'center', marginTop: 2 }}>
+          <Button
+            variant="contained"
+            component="label"
+            onChange={handleFile}
+          >
+            Upload Profile Photo
+            <input
+              type="file"
+              hidden
+            />
+          </Button>
+        </Box>
 
-        <FormControl sx={{ m: 1, width: '100%' }}>
+        <FormControl sx={{ m: 2, width: '100%' }}>
           <TextField
             variant="outlined"
             required
@@ -272,20 +351,23 @@ const Signup = () => {
           />
         </FormControl>
 
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          onClick={onSubmitForm}
-        >
-          Sign Up
-        </Button>
+        <Box sx={{ display:'flex', flexDirection: 'row', justifyContent: 'center', marginTop: 2 }}>
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            color="primary"
+            onClick={onSubmitForm}
+          >
+               Sign Up
+          </Button>
+        </Box>
 
       </Container>
       }
 
     </Container>
+    </>
   );
 };
 

@@ -12,14 +12,13 @@ import Link from 'next/link';
 const EmployerJobListCard = ({listing}) => {
   const closeDate = listing.close_date.slice(0, 10);
 
-  //need to pass the job ID to viewApplicants so applicants can be pulled
   return (
     <>
     <ListItem sx={{border:'1px solid grey', width:'60vw', minHeight:'7em', marginBottom: '1em', borderRadius: '8px', overflow: 'hidden'}}>
       <ListItemText primary={listing.name} secondary={`Close Date: ${closeDate}`}/>
 
         <Link style={{ textDecoration: 'none', color: 'white' }}
-        href="/viewApplicants" as={`/viewApplicants?job_id=${listing.id}`}
+        href={{pathname: "/viewApplicants", query: {job_id: listing.id}}}
         >
           <Button variant="contained">View Applicants</Button>
         </Link>

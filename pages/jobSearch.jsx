@@ -11,7 +11,7 @@ import { Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import NavBar from '../src/navBar';
 import axios from 'axios';
-import Modal from '@mui/material/Modal';
+import NavBar from '../src/navBar';import Modal from '@mui/material/Modal';
 import { useSession, signOut } from "next-auth/react";
 import CloseIcon from '@mui/icons-material/Close';
 import InputLabel from '@mui/material/InputLabel';
@@ -182,10 +182,7 @@ const Jobs =  () => {
         </Grid> 
         </Box>
         </div>
-
-    )
-
-      
+    ) 
     }
     
 

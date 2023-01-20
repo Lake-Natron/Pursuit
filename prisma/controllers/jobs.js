@@ -78,6 +78,14 @@ const getAllJobs = async (req, res) => {
         },
       },
     },
+    include: {
+      User: {
+        select: {
+          company_name: true,
+          email: true,
+        },
+      },
+    },
   });
   res.send(jobs);
 };

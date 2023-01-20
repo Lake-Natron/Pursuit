@@ -11,32 +11,37 @@ import Link from 'next/link';
 import { Typography } from '@mui/material';
 
 const JobSeekerJobListCard = ({listing, seeDetailsVisibility}) => {
-  const [companyName, setCompanyName] = useState('')
+  const [companyName, setCompanyName] = useState('');
+  const [jobDetails, setJobDetails] = useState('');
   const closeDate = listing.Job.close_date.slice(0, 10);
   const job_id = listing.job_id;
 
   const handleClick = (e) => {
     e.preventDefault();
-    seeDetailsVisibility(true, listing);
+    seeDetailsVisibility(true, jobDetails);
     console.log('Click')
   }
 
-  //make sure to change port at some point
-  //need a route to get company name
-  //getUser
   useEffect(() => {
-    console.log(job_id)
-    axios.get(`http://localhost:3001/job?job_id=${job_id}`)
-    .then(res => {console.log(res)})
-    .catch(err => {console.log(err)})
-  })
+    const getJobDetails = async () => {
+      await axios.get(`http://localhost:3001/job?job_id=${job_id}`)
+      .then(res => {
+        console.log(res.data);
+        setJobDetails(res.data);
+        setCompanyName(res.data.User.company_name);
+      })
+      .catch(err => {console.log(err)});
+    }
+
+    getJobDetails();
+  }, [])
 
   return (
     <>
     <ListItem sx={{border:'1px solid grey', width:'60vw', minHeight:'7em', marginBottom: '1em', borderRadius: '8px', overflow: 'hidden'}}>
       <ListItemText primary={listing.Job.name} secondary={
         <Typography variant="body2" component="p" sx={{marginTop:'0.25em'}}>
-            Company Name
+            {companyName}
             <br/>
             Close Date: {closeDate}
         </Typography>

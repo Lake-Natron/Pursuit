@@ -14,15 +14,13 @@ const HomeEmployer = () => {
   const [jobListings, setJobListings] = useState([]);
   const [companyName, setCompanyName] = useState('');
   const { status, data } = useSession();
-  //need session info for company id
-  const company_id = '1';
 
   useEffect(() => {
     if (status === "unauthenticated" || data?.user.role !== 'employer') Router.replace("/login");
 
     const getCompanyName = async () => {
       await axios.get(`http://localhost:3001/user?id=${data?.user.id}`)
-      .then(res => {console.log('2', res.data); setCompanyName(res.data.company_name)})
+      .then(res => {setCompanyName(res.data.company_name)})
       .catch(err => {console.log(err)})
     }
 
@@ -32,8 +30,10 @@ const HomeEmployer = () => {
       .catch(err => {console.log(err)})
     }
 
-    getCompanyName();
-    getCompanyJobListings();
+    if (data?.user.id) {
+      getCompanyName();
+      getCompanyJobListings();
+    }
   }, [])
 
   return (
@@ -48,7 +48,8 @@ const HomeEmployer = () => {
           )}
         </List>
       </nav>
-      <button onClick={() => signOut()}>Sign Out</button>
+      {/* <nav>{data?.user.id}</nav>
+      <button onClick={() => signOut()}>Sign Out</button> */}
     </Box>
     </>
   )

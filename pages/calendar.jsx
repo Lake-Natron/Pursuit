@@ -1,7 +1,7 @@
 import React from 'react'
-import FullCalendar from '@fullcalendar/react' // must go before plugins
-import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
-import timeGridPlugin from '@fullcalendar/timegrid' // a plugin!
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
 import HelpIcon from '@mui/icons-material/Help';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Button from '@mui/material/Button';
@@ -14,6 +14,8 @@ import NavBar from '../src/navBar';
 import axios from 'axios';
 
 import { useSession } from "next-auth/react";
+import Router from 'next/router'
+
 
 Date.prototype.monthNames = [
   "January", "February", "March",
@@ -75,8 +77,11 @@ const Calendar = () => {
   const { status, data } = useSession();
 
   const loadEvents = () => {
+    if (!data?.user.id) {
+      return;
+    }
     let params = {};
-    if (companyLogin) {
+    if (data?.user.role === 'employer') {
       params.company_id = data?.user.id;
     } else {
       params.seeker_id = data?.user.id;
@@ -105,6 +110,7 @@ const Calendar = () => {
   }
 
   useEffect(() => {
+    if (status === "unauthenticated") Router.replace("/login");
     loadEvents();
     if (data?.user.role === 'employer') {
       updateCompanyLogin(true);
@@ -295,8 +301,6 @@ const Calendar = () => {
           <p>{date}</p>
           <h2>Time:</h2>
           <p>{start + ' - ' + end}</p>
-          {/* {job !== '' && <h2>Related Job:</h2>}
-          {job !== '' && <p>{job}</p>} */}
           <h2 style={sidebarTitle}>Description</h2>
           <p style={sidebarText}>{description}</p>
           {job !== '' && <h2 style={sidebarTitle}>Application Notes</h2>}
@@ -304,7 +308,7 @@ const Calendar = () => {
         </div>
         }
       </div>
-      <PrivateEvent visible={creatingEvent} updateVisible={updateCreating} updateEvents={loadEvents}/>
+      <PrivateEvent visible={creatingEvent} updateVisible={updateCreating} updateEvents={loadEvents} companyLogin={companyLogin}/>
       <EditMeeting visible={editMode} updateVisible={updateEditMode}
       eventId={eventId}
       description={description}
@@ -321,6 +325,7 @@ const Calendar = () => {
       endTime={endTime}
       seeker_id={notificationUser}
       company={companyLogin}
+      privateEvent={privateEvent}
       updateEvents={loadEvents}/>
       <Request visible={requestMode} updateVisible={updateRequestMode} company_id={notificationUser} title={title}/>
     </div>

@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import axios from 'axios';
-import NavBar from '../src/navBar';
+
 
 const Jobs =  () => {
 
@@ -31,7 +31,6 @@ useEffect(() => {
 
     return (
       <div>
-        <NavBar />
       <Box height="100vh" display="flex" flexDirection="column">
       <TextField
           id="search"

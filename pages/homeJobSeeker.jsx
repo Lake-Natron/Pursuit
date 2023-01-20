@@ -49,7 +49,6 @@ const HomeJobSeeker = () => {
     }
   }, [])
 
-  // sets State to make popup modal visible
   const seeJobDeets = (visibility, jobDetails = '') => {
     setDetailsVisibility(() => !detailsVisibility);
     setDetailsOf(jobDetails);
@@ -65,7 +64,6 @@ const HomeJobSeeker = () => {
           <Link style={{ textDecoration: 'none', color: 'inherit' }} contained href="/jobSearch">Job Board</Link>
         </Button>
       </Box>
-
       </>
     )
   }
@@ -97,7 +95,6 @@ const HomeJobSeeker = () => {
       {detailsVisibility && <JobDetails jobDetails={detailsOf} jobVisible={detailsVisibility} setVisible={seeJobDeets}/>}
     </Box>
     </>
-
   )
 }
 

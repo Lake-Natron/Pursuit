@@ -15,7 +15,7 @@ import Router from 'next/router';
 
 const ViewApplicants = () => {
   const [applicantList, setApplicantList] = useState([]);
-  const [jobName, setJobName] = useState('')
+  const [jobName, setJobName] = useState('');
   const router = useRouter();
   const { job_id } = router.query;
   const { status, data } = useSession();

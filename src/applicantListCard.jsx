@@ -42,6 +42,7 @@ const ApplicantListCard = ({ applicant }) => {
       'application_id': applicant.id,
       'company_interest_level': 'Not Interested'
     })
+    .then(() => {setLoaded()})
     .catch(err => {console.log(err)})
   }
 
@@ -87,9 +88,6 @@ const ApplicantListCard = ({ applicant }) => {
   }, [])
 
   console.log('here', applicant)
-  console.log('exp', experience)
-  console.log('skil', skills)
-  console.log('edu', education)
   //console.log(applicant.company_interest_level)
 
   const skillsList = skills.map(skill => {
@@ -149,29 +147,3 @@ const ApplicantListCard = ({ applicant }) => {
 }
 
 export default ApplicantListCard;
-
-
-// degree
-// :
-// "test"
-// graduate
-// :
-// true
-// graduation_date
-// :
-// "2023-01-10T00:00:00.000Z"
-// id
-// :
-// 5
-// location
-// :
-// "teest"
-// major
-// :
-// "test"
-// school
-// :
-// "test"
-// seeker_id
-// :
-// 20

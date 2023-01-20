@@ -22,11 +22,6 @@ const HomeJobSeeker = () => {
   const { status, data } = useSession();
 
   useEffect(() => {
-<<<<<<< HEAD
-    axios.get('http://localhost:3001/jobs/applied')
-    .then((res) => {setJobListings(res.data)})
-    .then(() => {
-=======
     if (status === "unauthenticated" || data?.user.role !== 'seeker') Router.replace("/login");
     const getJobListings = async () => {
       await axios.get(`http://localhost:3001/jobs/applied?seeker_id=${data?.user.id}`)
@@ -46,7 +41,6 @@ const HomeJobSeeker = () => {
       })
       .catch(err => {console.log(err)})
     }
->>>>>>> dev
 
     if (data?.user.id) {
       getJobListings();

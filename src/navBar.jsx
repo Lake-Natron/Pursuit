@@ -20,6 +20,7 @@ import Link from 'next/link';
 import Notifications from './notifications.jsx';
 import axios from 'axios';
 import { useSession, signOut } from "next-auth/react";
+import Router from 'next/router'
 
 // Navigation Link
 const pages = [['Home', '/'], ['Job Board', '/jobSearch'], ['My Jobs', '/homeJobSeeker']];
@@ -58,6 +59,12 @@ const NavBar = ({ page }) => {
 
   };
 
+  const handleSignOut = (e) => {
+    e.preventDefault();
+    signOut();
+    console.log('reroute')
+    Router.replace("/login");
+  }
   useEffect(() => {
     if (!data) {
       return;
@@ -168,7 +175,7 @@ const NavBar = ({ page }) => {
               <MenuItem key={'upload'} onClick={e => updateImportingResume(true)}>
                 <Typography textAlign="center">Upload Resume</Typography>
               </MenuItem>
-              <MenuItem key={'signout'} onClick={e => signOut()}>
+              <MenuItem key={'signout'} onClick={handleSignOut}>
                 <Typography textAlign="center">Sign out</Typography>
               </MenuItem>
             </Menu>

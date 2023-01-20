@@ -18,11 +18,6 @@ const HomeEmployer = () => {
   useEffect(() => {
     if (status === "unauthenticated" || data?.user.role !== 'employer') Router.replace("/login");
 
-<<<<<<< HEAD
-    axios.get(`http://localhost:3001/jobs?company_id=${data?.user.id}`)
-    .then((res) => {setJobListings(res.data)})
-    .catch(err => {console.log(err)})
-=======
     const getCompanyName = async () => {
       await axios.get(`http://localhost:3001/user?id=${data?.user.id}`)
       .then(res => {console.log('2', res.data); setCompanyName(res.data.company_name)})
@@ -39,7 +34,6 @@ const HomeEmployer = () => {
       getCompanyName();
       getCompanyJobListings();
     }
->>>>>>> dev
   }, [])
 
   return (
@@ -54,11 +48,8 @@ const HomeEmployer = () => {
           )}
         </List>
       </nav>
-<<<<<<< HEAD
-      <nav>{data?.user.id}</nav>
-      <button onClick={() => signOut()}>Sign Out</button>
-=======
->>>>>>> dev
+      {/* <nav>{data?.user.id}</nav>
+      <button onClick={() => signOut()}>Sign Out</button> */}
     </Box>
     </>
   )

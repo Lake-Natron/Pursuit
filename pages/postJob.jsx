@@ -58,7 +58,6 @@ const PostJob = () => {
   const [employmentType, setEmploymentType] = useState('');
   const [isFormValid, setIsFormValid] = useState(false)
   const { status, data } = useSession();
-  const [submitted, setSubmitted] = useState(false)
 
   useEffect(() => {
     if (status === "unauthenticated" || data?.user.role !== 'employer') Router.replace("/login");
@@ -68,8 +67,8 @@ const PostJob = () => {
     const local = e.target.value;
     setLocation(local);
 
-    if (!local.match(/^[A-Za-z\s]+,\s[A-Za-z]{2},\s\d{5}$/)) {
-      setError('Please enter a valid location in the format "Dallas, TX, 75201"');
+    if (!local.match(/^\d{5}$/)) {
+      setError('Please enter a valid 5 digit zipcode"');
     } else {
       setError('');
     }
@@ -128,7 +127,6 @@ const PostJob = () => {
         company_id: data?.user.id
       })
       .catch(err => {console.log(err)})
-      setSubmitted(!submitted);
     }
   }
 

@@ -35,7 +35,8 @@ const Notifications = ({ notifications, visible, updateVisible, setNotifications
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     paddingRight: '20px',
-    paddingLeft: '20px'
+    paddingLeft: '20px',
+    paddingBottom: '20px'
   }
 
   return (
@@ -47,10 +48,10 @@ const Notifications = ({ notifications, visible, updateVisible, setNotifications
               <h3>{notification.type}</h3>
               <p>{notification.details}</p>
             </div>
-            <Button onClick={e => removeNotification(i)}>Remove</Button>
+            <Button sx={{height: '5vh', marginTop: 'auto', marginBottom: 'auto'}} variant="contained" onClick={e => removeNotification(i)}>Remove</Button>
           </div>)
         })}
-        <Button onClick={e => updateVisible(false)}>Close</Button>
+        <Button variant="contained"  onClick={e => updateVisible(false)}>Close</Button>
       </Box>
     </Modal>
 

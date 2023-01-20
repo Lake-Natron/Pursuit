@@ -15,7 +15,6 @@ const JobSeekerJobListCard = ({listing, seeDetailsVisibility}) => {
   const [jobDetails, setJobDetails] = useState('');
   const [closeDate,setCloseDate] = useState('');
   const job_id = listing.job_id;
-
   const handleClick = (e) => {
     e.preventDefault();
     seeDetailsVisibility(true, jobDetails);

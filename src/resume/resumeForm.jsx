@@ -143,16 +143,16 @@ const ResumeForm = ({ visible, updateVisible }) => {
             return <WorkExperience index={i} works={works} key={i} />
           })}
           <div style={buttonBox}>
-            <Button onClick={addWork}>Add Work Experience</Button>
-            {works.length > 0 && <Button onClick={removeWork}>Remove Work Experience</Button>}
+            <Button variant={'contained'} onClick={addWork}>Add Work Experience</Button>
+            {works.length > 0 && <Button variant={'contained'} onClick={removeWork}>Remove Work Experience</Button>}
           </div>
           <h2 style={{ color: '#E44F48', fontFamily: 'Montserrat' }}>Education</h2>
           {eds.map((ed, i) => {
             return <Education key={i} index={i} eds={eds} />
           })}
           <div style={buttonBox}>
-            <Button onClick={addEds}>Add Education</Button>
-            {eds.length > 0 && <Button onClick={removeEd}>Remove Education</Button>}
+            <Button variant={'contained'} onClick={addEds}>Add Education</Button>
+            {eds.length > 0 && <Button variant={'contained'} onClick={removeEd}>Remove Education</Button>}
           </div>
           <h2 style={{ color: '#E44F48', fontFamily: 'Montserrat' }}>Skills</h2>
           <div style={buttonBox}>
@@ -166,8 +166,8 @@ const ResumeForm = ({ visible, updateVisible }) => {
             />
           </div>
           <div style={buttonBox}>
-            <Button type='submit'>Submit</Button>
-            <Button onClick={e => {
+            <Button variant={'contained'} type='submit'>Submit</Button>
+            <Button variant={'contained'} onClick={e => {
               updateVisible(false);
             }}>Close</Button>
           </div>

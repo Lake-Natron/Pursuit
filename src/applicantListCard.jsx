@@ -87,9 +87,6 @@ const ApplicantListCard = ({ applicant }) => {
     }
   }, [])
 
-  console.log('here', applicant)
-  //console.log(applicant.company_interest_level)
-
   const skillsList = skills.map(skill => {
     return {
       skill: skill.skill,

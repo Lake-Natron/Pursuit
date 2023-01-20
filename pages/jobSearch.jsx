@@ -4,8 +4,6 @@ import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import JobSearchList from '../src/JobSearchList.jsx'
 import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
-import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
@@ -18,6 +16,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Router from 'next/router'
+import SearchBar from '../src/SearchBar.jsx'
 
 
 const style = {
@@ -40,11 +39,18 @@ const Jobs =  () => {
   const [currentJob, setCurrentJob] = useState({})
   const [companyName, setCompanyName] = useState("")
   const [interestLevel,setInterestLevel] = useState("")
+  const [searchParams, setSearchParams] = useState({})
   const { status, data } = useSession();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
+  const [clear, setClear] = useState(false);
+  const [originalJobs,setOriginalJobs] = useState([])
+  
+  const handleClear = () => {
+    setClear(false);
+    setJobs(originalJobs)
+  }
   const handleJob = (job, event) => {
     setCurrentJob(job)
     setCompanyName(job.User.company_name)
@@ -63,13 +69,19 @@ const Jobs =  () => {
     handleClose()
   }
 
+  
   const handleSearch = (e) => {
-    axios.get('http://localhost:3001/jobs')
+    console.log(searchParams)
+    axios.get('http://localhost:3001/jobs/search/',{params: {
+     employment_type: searchParams.employment_type,
+     description: searchParams.description,
+     job_site: searchParams.job_site
+    }})
     .then((res) => {
       setJobs(res.data)
-      setCurrentJob(res.data[0])
-      setCompanyName(res.data[0].User.company_name)
+      setClear(true)
     })
+
   }
 
   const numberWithCommas = (x) => {
@@ -80,6 +92,7 @@ const Jobs =  () => {
     if (status === "unauthenticated" || data?.user.role !== 'seeker') Router.replace("/login");
     axios.get('http://localhost:3001/jobs')
       .then((res) => {
+        setOriginalJobs(res.data)
         setJobs(res.data)
         setCurrentJob(res.data[0])
         setCompanyName(res.data[0].User.company_name)
@@ -89,23 +102,8 @@ const Jobs =  () => {
     return(
         <div>
           <NavBar />
-        <Box height="100vh" display="flex" flexDirection="column"> 
-        <TextField 
-            id="search"
-            label="Search"
-            onInput={handleSearch}
-            type="search"
-            variant="outlined"
-            color="secondary"
-            sx={{ m: '18px'}}
-            InputProps={{
-              endAdornment: (
-                <IconButton>
-                  <SearchIcon />
-                </IconButton>
-              ),
-            }}
-            />
+         <Box height="100vh" display="flex" flexDirection="column"> 
+        <SearchBar clear = {clear} handleSearch = {handleSearch} handleClear={handleClear} setSearchParams={setSearchParams} searchParams={searchParams}/>
         <Grid container spacing={2} columns={16} sx={{ m: '5px'}}>
           <Grid item xs={5}>
             <List>
@@ -120,9 +118,9 @@ const Jobs =  () => {
           <Divider orientation="vertical"  sx={{ m: '18px'}} />
           <Grid item xs={9.8} sx={{ mt: '8px', borderRadius: '16px', bgcolor: '#CFCFCF'}}>
             <Typography variant = "h1">{currentJob.name}</Typography>
-            <Typography variant = "h2">{companyName}</Typography> 
+            <Typography variant = "h2">{companyName}</Typography>
             <Typography variant = "body4">${numberWithCommas(currentJob.salary)} a year • {
-            currentJob.employment_type} • {currentJob.location}</Typography> 
+            currentJob.employment_type} • {currentJob.location}</Typography>
             <span>&nbsp;&nbsp;&nbsp;</span>
             <Button onClick={handleOpen} variant="contained" size="large" color="secondary">Apply</Button>
             <Modal
@@ -135,13 +133,13 @@ const Jobs =  () => {
                             <CloseIcon />
                       </IconButton>
             <Typography id="modal-modal-title" variant="h1" component="h2">
-            Application Submission: 
+            Application Submission:
             </Typography>
             <Typography variant='h2'> {currentJob.name}, {companyName}</Typography>
             <br></br>
             <Typography id="modal-modal-description" variant='body3'sx={{ mt: 2 }}>
-            My interest level: 
-            </Typography> 
+            My interest level:
+            </Typography>
             <br/>
 
             <br/>
@@ -176,12 +174,12 @@ const Jobs =  () => {
             {currentJob.description}
             </Typography>
             <br/>
-          </Grid> 
-        </Grid> 
+          </Grid>
+        </Grid>
         </Box>
         </div>
-    ) 
+    )
     }
-    
+
 
 export default Jobs;

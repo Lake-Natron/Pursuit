@@ -43,6 +43,7 @@ const JobDetails = ({id, jobVisible, setVisible}) => {
 
   useEffect(() => {
     // TODO: GET THE JOB DETAILS
+    console.log('Job Details', JobDetails);
   }, []);
 
   const handleClose = () => {

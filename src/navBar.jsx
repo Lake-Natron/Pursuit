@@ -29,15 +29,19 @@ import Router from 'next/router'
 // TODO: Conditionally Add Login Page
 // TODO: Conditionally change pages based on whether the user is logged in.
 
+let userImage = 'https://upload.wikimedia.org/wikipedia/commons/3/34/Elon_Musk_Royal_Society_%28crop2%29.jpg';
+let companyImage = 'https://pbs.twimg.com/profile_images/1488548719062654976/u6qfBBkF_400x400.jpg';
+
 const NavBar = ({ page }) => {
   const [notifications, setNotifications] = useState([]);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [importingResume, updateImportingResume] = useState(false);
   const [showNotifications, updateShowNotifications] = useState(false);
-  const [pages, setPages] = useState([['Job Board', '/jobSearch'], ['Log In', '/login'] ]);
+  const [pages, setPages] = useState([['Job Board', '/jobSearch'], ['Log In', '/login']]);
   const [settings, setSettings] = useState([['Job Seeker Home', '/homeJobSeeker'], ['Employer Home', '/homeEmployer'], ['Post Job', '/postJob'],  ['Calendar', '/calendar']]);
   const { status, data } = useSession();
+  const [avatarImage, setAvatarImage] = useState('')
 
   // TODO: Routinely pull down items from user for notifications:
 
@@ -55,7 +59,6 @@ const NavBar = ({ page }) => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
-
   };
 
   const handleSignOut = (e) => {
@@ -78,7 +81,7 @@ const NavBar = ({ page }) => {
       .catch(err => console.log(err))
     };
 
-    const interval = setInterval(apiNotifications, 30000);
+    const interval = setInterval(apiNotifications, 60000);
 
     return () => clearInterval(interval);
   }, [])
@@ -97,11 +100,13 @@ const NavBar = ({ page }) => {
       let s = [['Job Seeker Home', '/homeJobSeeker']];
       setPages(p);
       setSettings(s);
+      setAvatarImage(userImage)
     } else if (data?.user.role === 'employer') {
-      let p = [['Job Board', '/jobSearch'], ['My Jobs', '/homeJobSeeker']];
-      let s = [['Job Seeker Home', '/homeJobSeeker'], ['Post Job', '/postJob'],  ['Calendar', '/calendar']];
+      let p = [['Job Board', '/jobSearch'], ['My Jobs', '/homeEmployer'], ['Post Job', '/postJob'], ['Calendar', '/calendar']];
+      let s = [['Employer', '/homeEmployer'], ['Post Job', '/postJob']];
       setPages(p);
       setSettings(s);
+      setAvatarImage(companyImage)
     }
     // return () => {}
   }, []);
@@ -141,11 +146,11 @@ const NavBar = ({ page }) => {
               }}
             >
               {pages.map((apage) => (
-                <MenuItem key={apage} onClick={handleCloseNavMenu}>
-                   <Link key={apage[1]} href={apage[1]} passHref style={{ textDecoration: 'none', color: 'black' }}>
+                <Link key={apage[1]} href={apage[1]} passHref style={{ textDecoration: 'none', color: 'black' }}>
+                  <MenuItem key={apage} onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">{apage[0]}</Typography>
-                   </Link>
-                </MenuItem>
+                  </MenuItem>
+                </Link>
               ))}
             </Menu>
           </Box>
@@ -156,22 +161,23 @@ const NavBar = ({ page }) => {
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Button
+
+              <Link key={page[1]} href={page[1]} passHref style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Button
                 key={page}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                <Link key={page[1]} href={page[1]} passHref style={{ textDecoration: 'none', color: 'inherit' }}>
+                >
                   <Typography textAlign="center">{page[0]}</Typography>
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="user" src={avatarImage} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -191,22 +197,23 @@ const NavBar = ({ page }) => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                  <MenuItem key={setting[0]} onClick={handleCloseUserMenu} >
-                    <Link key={setting[1]} href={setting[1]} passHref style={{ textDecoration: 'none', color: 'black' }}>
-                    <Typography textAlign="center" underline='none'>{setting[0]}</Typography>
-                    </Link>
-                  </MenuItem>
+
+                  <Link key={setting[1]} href={setting[1]} passHref style={{ textDecoration: 'none', color: 'black' }}>
+                    <MenuItem key={setting[0]} onClick={handleCloseUserMenu} >
+                      <Typography textAlign="center" underline='none'>{setting[0]}</Typography>
+                    </MenuItem>
+                  </Link>
               ))}
               <MenuItem key={'notifications'} onClick={event => {
                 updateShowNotifications(true)}}>
                 <Typography textAlign="center">Notifications {'(' + notifications.length + ')'}</Typography>
               </MenuItem>
-              <MenuItem key={'upload'} onClick={e => updateImportingResume(true)}>
+              {data?.user.role === 'seeker' && <MenuItem key={'upload'} onClick={e => updateImportingResume(true)}>
                 <Typography textAlign="center">Upload Resume</Typography>
-              </MenuItem>
-              <MenuItem key={'signout'} onClick={handleSignOut}>
+              </MenuItem>}
+              {data?.user.role && <MenuItem key={'signout'} onClick={handleSignOut}>
                 <Typography textAlign="center">Sign out</Typography>
-              </MenuItem>
+              </MenuItem>}
             </Menu>
           </Box>
         </Toolbar>

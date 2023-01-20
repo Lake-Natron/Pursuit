@@ -50,10 +50,14 @@ const HomeJobSeeker = () => {
   }, [])
 
   // sets State to make popup modal visible
-  const seeJobDeets = (visibility, detailsId = '') => {
+  const seeJobDeets = (visibility, jobDetails = '') => {
     setDetailsVisibility(() => !detailsVisibility);
-    setDetailsOf(detailsId);
+    setDetailsOf(jobDetails);
   };
+
+  // const setJobDetails = (jobObject) => {
+  //   setDetailsOf(jobObject)
+  // };
 
   if (extreme.length === 0 && very.length === 0 && interested.length === 0) {
     return (

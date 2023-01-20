@@ -32,6 +32,9 @@ let companyImages = [
   'https://werqwise.com/wp-content/uploads/2021/04/perks-1024x576.jpg'
 ];
 
+let randomIndex = Math.floor(Math.random() * 5);
+const coverImage = companyImages[randomIndex];
+
 const JobDetails = ({jobDetails, jobVisible, setVisible}) => {
   const [notes, setNotes] = useState('Email arrives immediately, assuming you have the correct email address and your message does not get caught in a spam filter. So, unless the employer really seems to dislike technology (and you didn’t receive an email from anyone at this employer setting up the interview or see anyone using a computer while you were there), often the best strategy is start with email and follow-up with a formal paper thank you note If appropriate, send the email thank you as soon as you get home. Then, follow up with the formal thank you as soon as possible after that.');
   // const [company, setJobCompany] = useState('Nike');
@@ -76,8 +79,7 @@ const JobDetails = ({jobDetails, jobVisible, setVisible}) => {
     paddingBottom: '30px'
   }
 
-  let randomIndex = Math.floor(Math.random() * 5);
-  const coverImage = companyImages[randomIndex];
+
 
   return (
   <>

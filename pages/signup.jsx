@@ -20,6 +20,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import FormHelperText from '@mui/material/FormHelperText';
 import Avatar from '@mui/material/Avatar';
 import axios from 'axios';
+import NavBar from '../src/navBar';
 
 import Router from 'next/router'
 
@@ -190,6 +191,8 @@ const Signup = () => {
 
 
   return (
+    <>
+    <NavBar />
     <Container maxWidth='xs'>
       <Box
         sx={{
@@ -364,6 +367,7 @@ const Signup = () => {
       }
 
     </Container>
+    </>
   );
 };
 

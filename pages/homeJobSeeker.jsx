@@ -10,6 +10,7 @@ import NavBar from '../src/navBar';
 import JobDetails from '../src/jobDetails.jsx';
 import { useSession, signOut } from "next-auth/react";
 import Router from 'next/router';
+import { Typography } from '@mui/material';
 
 const HomeJobSeeker = () => {
   const [jobListings, setJobListings] = useState([]);
@@ -20,26 +21,30 @@ const HomeJobSeeker = () => {
   const [interested, setInterested] = useState([]);
   const { status, data } = useSession();
 
-  //need seeker_id from session info
   useEffect(() => {
     if (status === "unauthenticated" || data?.user.role !== 'seeker') Router.replace("/login");
+    const getJobListings = async () => {
+      await axios.get(`http://localhost:3001/jobs/applied?seeker_id=${data?.user.id}`)
+      .then(res => {
+        const extreme = res.data.filter(item =>
+          item.seeker_interest_level === 'Extremely Interested'
+        );
+        setExtreme(extreme);
+        const very = res.data.filter(item =>
+          item.seeker_interest_level === 'Very Interested'
+        );
+        setVery(very);
+        const interested = res.data.filter(item =>
+          item.seeker_interest_level === 'Interested'
+        );
+        setInterested(interested);
+      })
+      .catch(err => {console.log(err)})
+    }
 
-    axios.get(`http://localhost:3001/jobs/applied?seeker_id=6`)
-    .then(res => {
-      const extreme = res.data.filter(item =>
-        item.seeker_interest_level === 'Extremely Interested'
-      );
-      setExtreme(extreme);
-      const very = res.data.filter(item =>
-        item.seeker_interest_level === 'Very Interested'
-      );
-      setVery(very);
-      const interested = res.data.filter(item =>
-        item.seeker_interest_level === 'Interested'
-      );
-      setInterested(interested);
-    })
-    .catch(err => {console.log(err)})
+    if (data?.user.id) {
+      getJobListings();
+    }
   }, [])
 
   // sets State to make popup modal visible
@@ -53,19 +58,19 @@ const HomeJobSeeker = () => {
     <NavBar />
     <Box sx={{width: '100%', minWidth: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', mt: '2em'}}>
       <nav aria-label="job-list-container">
-        <h2>Extremely Interested</h2>
+        {extreme.length >= 1 && <h2>Extremely Interested</h2>}
         <List sx={{mt: -1}}>
           {extreme.map((listing, index) =>
             <JobSeekerJobListCard listing={listing} key={index} seeDetailsVisibility={setDetailsVisibility}/>
           )}
         </List>
-        <h2>Very Interested</h2>
+        {very.length >= 1 && <h2>Very Interested</h2>}
         <List sx={{mt: -1}}>
           {very.map((listing, index) =>
             <JobSeekerJobListCard listing={listing} key={index} seeDetailsVisibility={setDetailsVisibility}/>
           )}
         </List>
-        <h2>Interested</h2>
+        {interested.length >= 1 && <h2>Interested</h2>}
         <List sx={{mt: -1}}>
           {interested.map((listing, index) =>
             <JobSeekerJobListCard listing={listing} key={index} seeDetailsVisibility={setDetailsVisibility}/>

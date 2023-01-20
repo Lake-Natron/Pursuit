@@ -17,7 +17,6 @@ const ApplicantListCard = ({ applicant }) => {
   const [notesVisible, updateNotesVisible] = useState(false);
   const [applicantDetails, setApplicantsDetails] = useState([]);
 
-  //need to change host at some point
   const handleInterestedClick = (e) => {
     e.preventDefault();
     e.stopPropagation()
@@ -49,7 +48,7 @@ const ApplicantListCard = ({ applicant }) => {
     e.stopPropagation()
     updateNotesVisible(!notesVisible);
   }
-  console.log(applicant)
+  console.log('here', applicant)
 
   // useEffect(() => {
   //   axios.get('http://localhost:3002/updateCompanyInterest')
@@ -66,7 +65,7 @@ const ApplicantListCard = ({ applicant }) => {
           id="panel1a-header"
         >
           <Typography>{applicant.User.first_name} {applicant.User.last_name}</Typography>
-          <Box sx={{ml: '30vw', border: '1px solid', width:'20vw'}}>
+          <Box sx={{ml: '30vw', width:'20vw', position:'relative', left:'7px'}}>
             <Button variant="contained" sx={{mr: '1em'}} onClick={handleInterestedClick}>Interested</Button>
             <Button variant="contained" onClick={handleNotInterestedClick}>Not Interested</Button>
           </Box>
@@ -76,15 +75,15 @@ const ApplicantListCard = ({ applicant }) => {
             Education: <br/>
             Skills: <br/>
             Other Info: <br/>
-            Notes:
+            Notes: {applicant.company_notes}
           </Typography>
-          <Box sx={{mt: 2, ml: '30vw', border: '1px solid', width:'20vw'}}>
+          <Box sx={{mt: 2, position:'relative', left:'600px', width:'20vw'}}>
             <Button sx={{mr: '1em'}} variant="contained" onClick={handleVisibleClick}>Create Meeting</Button>
             <Button variant="contained" onClick={handleNotesVisibleClick}>Edit Notes</Button>
           </Box>
         </AccordionDetails>
       </Accordion>
-      <CreateMeeting visible={visible} updateVisible={updateVisible} application_id={1} seeker_id={1} />
+      <CreateMeeting visible={visible} updateVisible={updateVisible} application_id={applicant.id} seeker_id={applicant.seeker_id} />
       <EmployerAddNote notesVisible={notesVisible} updateNotesVisible={updateNotesVisible} application_id={1} seeker_id={1} />
     </>
   )

@@ -9,7 +9,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import NavBar from '../src/navBar';
 import axios from 'axios';
 import NavBar from '../src/navBar';import Modal from '@mui/material/Modal';
 import { useSession, signOut } from "next-auth/react";

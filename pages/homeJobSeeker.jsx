@@ -48,10 +48,14 @@ const HomeJobSeeker = () => {
   }, [])
 
   // sets State to make popup modal visible
-  const seeJobDeets = (visibility, detailsId = '') => {
+  const seeJobDeets = (visibility, jobDetails = '') => {
     setDetailsVisibility(() => !detailsVisibility);
-    setDetailsOf(detailsId);
+    setDetailsOf(jobDetails);
   };
+
+  // const setJobDetails = (jobObject) => {
+  //   setDetailsOf(jobObject)
+  // };
 
   return (
     <>
@@ -61,23 +65,23 @@ const HomeJobSeeker = () => {
         {extreme.length >= 1 && <h2>Extremely Interested</h2>}
         <List sx={{mt: -1}}>
           {extreme.map((listing, index) =>
-            <JobSeekerJobListCard listing={listing} key={index} seeDetailsVisibility={setDetailsVisibility}/>
+            <JobSeekerJobListCard listing={listing} key={index} seeDetailsVisibility={seeJobDeets}/>
           )}
         </List>
         {very.length >= 1 && <h2>Very Interested</h2>}
         <List sx={{mt: -1}}>
           {very.map((listing, index) =>
-            <JobSeekerJobListCard listing={listing} key={index} seeDetailsVisibility={setDetailsVisibility}/>
+            <JobSeekerJobListCard listing={listing} key={index} seeDetailsVisibility={seeJobDeets}/>
           )}
         </List>
         {interested.length >= 1 && <h2>Interested</h2>}
         <List sx={{mt: -1}}>
           {interested.map((listing, index) =>
-            <JobSeekerJobListCard listing={listing} key={index} seeDetailsVisibility={setDetailsVisibility}/>
+            <JobSeekerJobListCard listing={listing} key={index} seeDetailsVisibility={seeJobDeets}/>
           )}
         </List>
       </nav>
-      {detailsVisibility && <JobDetails id={detailsOf} jobVisible={detailsVisibility} setVisible={seeJobDeets}/>}
+      {detailsVisibility && <JobDetails jobDetails={detailsOf} jobVisible={detailsVisibility} setVisible={seeJobDeets}/>}
     </Box>
     </>
 

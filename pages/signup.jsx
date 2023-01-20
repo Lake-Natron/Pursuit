@@ -18,7 +18,9 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import FormHelperText from '@mui/material/FormHelperText';
+import Avatar from '@mui/material/Avatar';
 import axios from 'axios';
+import NavBar from '../src/navBar';
 
 import Router from 'next/router'
 
@@ -30,6 +32,7 @@ const Signup = () => {
   const [errMsg, setErrMsg] = useState('');
   const [signUpAs, setSignUpAs] = useState(null);
   const [showPassword, setShowPassword] = useState(false)
+  const [profilePhoto, setProfilePhoto] = useState(null);
   const [err, setErr] = useState({
     company_name: '',
     first_name: '',
@@ -71,6 +74,8 @@ const Signup = () => {
     })
   }
 
+
+
   let form = <></>;
   switch (signUpAs) {
     case 'seeker':
@@ -107,6 +112,27 @@ const Signup = () => {
 
   const handleMouseDownPassword = (e) => {
     e.preventDefault();
+  }
+
+  // Profile Photo Upload
+  const handleFile = async (event) => {
+    let files = Array.from(event.target.files)
+    // handle case of no file being clicked after upload.
+    if (files.length === 0) {
+      return;
+    }
+    const formData = new FormData();
+    formData.append("file", files[0]);
+    formData.append("upload_preset", 'wjuxohsi');
+
+    const result = await axios.post(`https://api.cloudinary.com/v1_1/dq6rqplja/image/upload`, formData)
+    console.log(result);
+    console.log(result.data.url);
+    setProfilePhoto(() => result.data.url);
+    setFormFields({
+      ...formFields,
+      image_url: result.data.url
+    })
   }
 
   const onSubmitForm = async (e) => {
@@ -161,7 +187,12 @@ const Signup = () => {
   }
 
 
+
+
+
   return (
+    <>
+    <NavBar />
     <Container maxWidth='xs'>
       <Box
         sx={{
@@ -199,8 +230,14 @@ const Signup = () => {
         </Box>
       </Box>
 
+      <Box sx={{ display:'flex', flexDirection: 'row', justifyContent: 'center' }}>
+          {profilePhoto &&
+          <Avatar src={profilePhoto} sx={{ width: 155, height: 155, boxShadow: 5, m: 3}}/>}
+      </Box>
+
       {signUpAs &&
       <Container>
+
         {form}
         <TextField
           variant="outlined"
@@ -244,7 +281,7 @@ const Signup = () => {
           name="address"
           label="Address"
           type="text"
-          id="address_2"
+          id="address_1"
           onChange={handleOnChange}
           sx={{ m: 1 }}
         />
@@ -283,8 +320,21 @@ const Signup = () => {
           />
         </Box>
 
+        <Box sx={{ display:'flex', flexDirection: 'row', justifyContent: 'center', marginTop: 2 }}>
+          <Button
+            variant="contained"
+            component="label"
+            onChange={handleFile}
+          >
+            Upload Profile Photo
+            <input
+              type="file"
+              hidden
+            />
+          </Button>
+        </Box>
 
-        <FormControl sx={{ m: 1, width: '100%' }}>
+        <FormControl sx={{ m: 2, width: '100%' }}>
           <TextField
             variant="outlined"
             required
@@ -301,20 +351,23 @@ const Signup = () => {
           />
         </FormControl>
 
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          onClick={onSubmitForm}
-        >
-          Sign Up
-        </Button>
+        <Box sx={{ display:'flex', flexDirection: 'row', justifyContent: 'center', marginTop: 2 }}>
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            color="primary"
+            onClick={onSubmitForm}
+          >
+               Sign Up
+          </Button>
+        </Box>
 
       </Container>
       }
 
     </Container>
+    </>
   );
 };
 

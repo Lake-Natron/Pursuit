@@ -10,29 +10,33 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useRouter } from 'next/router';
+import { useSession, signOut} from "next-auth/react";
+import Router from 'next/router';
 
-const ViewApplicants = () => {
+const ViewApplicants = ({query}) => {
   const [applicantList, setApplicantList] = useState([]);
   const [jobName, setJobName] = useState('')
   const router = useRouter();
   const { job_id } = router.query;
-  const [jobId, setJobId] = useState(job_id)
-  console.log('here', jobId)
+  const [jobId, setJobId] = useState({query}.query)
+  const { status, data } = useSession();
 
   useEffect(() => {
-    console.log('test', job_id)
-  }, [job_id])
+    const getApplicants = async () => {
+      console.log('jobId', jobId)
+      console.log('rerender')
+      axios.get(`http://localhost:3001/jobs/applicants?job_id=${jobId}`)
+      .then(res => {
+        setApplicantList(res.data);
+        setJobName(res.data[0].Job.name);
+      })
+      .catch(err => {console.log(err)})
+    }
 
-  //need job_id through session storage
-  useEffect(() => {
-    console.log('in here', jobId)
-    axios.get(`http://localhost:3001/jobs/applicants?job_id=${jobId}`)
-    .then((res) => {
-      setApplicantList(res.data);
-      setJobName(res.data[0].Job.name);
-    })
-    .catch(err => {console.log(err)})
-  }, [])
+    if (data?.user.id) {
+      getApplicants();
+    }
+  }, [jobId])
 
   return (
     <>
@@ -48,5 +52,17 @@ const ViewApplicants = () => {
     </>
   )
 }
+
+// ViewApplicants.getInitialProps = async ({ query }) => {
+//   console.log('asdfasdf', {query}.query.job_id)
+//   await axios.get(`http://localhost:3001/jobs/applicants?job_id=${{query}.query.job_id}`)
+//   .then((res) => {
+//     console.log('okok', res)
+//     setApplicantList(res.data);
+//     setJobName(res.data[0].Job.name);
+//   })
+//   .catch(err => {console.log(err)})
+//   return ({query}.query.job_id)
+// }
 
 export default ViewApplicants;

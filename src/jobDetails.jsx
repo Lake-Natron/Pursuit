@@ -24,10 +24,20 @@ const bull = (
   </Box>
 );
 
+let companyImages = [
+  'http://socapglobal.com/wp-content/uploads/2019/05/all-inclusive-workspace-tech.jpg',
+  'https://brightlineit.com/wp-content/uploads/2017/05/170522-Invest-New-Tech-for-Business.jpg',
+  'https://www.coxblue.com/wp-content/uploads/agile-workplace.jpg',
+  'https://workspacestrat.com/wp-content/uploads/2022/09/2022.09.14-workspace-strategies-coworking-office-spaces-management-company-preapring-success-future.jpg',
+  'https://werqwise.com/wp-content/uploads/2021/04/perks-1024x576.jpg'
+];
 
-const JobDetails = ({id, jobVisible, setVisible}) => {
+let randomIndex = Math.floor(Math.random() * 5);
+const coverImage = companyImages[randomIndex];
+
+const JobDetails = ({jobDetails, jobVisible, setVisible}) => {
   const [notes, setNotes] = useState('Email arrives immediately, assuming you have the correct email address and your message does not get caught in a spam filter. So, unless the employer really seems to dislike technology (and you didn’t receive an email from anyone at this employer setting up the interview or see anyone using a computer while you were there), often the best strategy is start with email and follow-up with a formal paper thank you note If appropriate, send the email thank you as soon as you get home. Then, follow up with the formal thank you as soon as possible after that.');
-  const [company, setJobCompany] = useState('Nike');
+  // const [company, setJobCompany] = useState('Nike');
   const [canEditNote, setCanEditNote] = useState(false);
   const [jobDeets, setJobDeets] = useState({
     name: 'Software Engineer',
@@ -42,7 +52,8 @@ const JobDetails = ({id, jobVisible, setVisible}) => {
   });
 
   useEffect(() => {
-    // TODO: GET THE JOB DETAILS
+    // TODO: GET NOTES FOR JOBS
+    // SAVE JOB TO notes STATE
   }, []);
 
   const handleClose = () => {
@@ -51,9 +62,8 @@ const JobDetails = ({id, jobVisible, setVisible}) => {
 
   const handleOnSaveClick = () => {
     setCanEditNote(!canEditNote);
+    // TODO: SAVE NOTE FOR JOBS
   }
-
-  console.log('receiving props properly: (job)id, jobvisiblem, setVisible', id, jobVisible, setVisible);
 
   const boxStyle = {
     backgroundColor: 'white',
@@ -69,10 +79,21 @@ const JobDetails = ({id, jobVisible, setVisible}) => {
     paddingBottom: '30px'
   }
 
+
+
   return (
-    <Modal sx={{ top: '20%' }} open={jobVisible}>
+  <>
+    {jobDetails && <Modal sx={{ top: '20%' }} open={jobVisible}>
       <Box sx={boxStyle}>
-        <Box display="flex" justifyContent="flex-end">
+        <Box sx={{
+          // backgroundColor: 'primary.dark',
+          display: 'flex',
+          justifyContent: 'flex-end',
+          backgroundImage: `url(${coverImage})`,
+          backgroundRepeat: 'cover',
+          backgroundPosition: 'center',
+          minHeight: '180px'
+        }}>
           <Fab color="secondary" aria-label="save note"
                 onClick={(e) => {
                   e.preventDefault();
@@ -85,17 +106,28 @@ const JobDetails = ({id, jobVisible, setVisible}) => {
         </Box>
         <Card sx={{ mb: 1.5, boxShadow: 0 }}>
         <Typography sx={{ fontSize: 18 }} color="text.secondary" gutterBottom>
-          {company}
+          {jobDetails.User.company_name}
         </Typography>
         <Typography variant="h3" component="div">
-          {jobDeets.name}
+          {jobDetails.name}
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {jobDeets.jobsite} {bull} {jobDeets['employment_type']} {bull} {jobDeets['experience_type']}
+          {jobDetails.jobsite} {bull} {jobDetails['employment_type']} {bull} {jobDetails['experience_type']}
         </Typography>
-        <Typography variant="body2">
-          {jobDeets.description}
-        </Typography>
+        <Box sx={{
+          display: 'flex',
+          justifyContents: 'flex-center',
+          marginTop: '1vh',
+          marginBottom: '1vh',
+          minHeight: '80px',
+          fontSize: 18
+        }}>
+          <Typography variant="body2" sx={{
+            fontSize: '1.2rem'
+          }}>
+            {jobDetails.description}
+          </Typography>
+        </Box>
         </Card>
         <Card sx={{ mb: 1.5, boxShadow: 0, width: '95%' }}>
           <Typography variant="h4"> Your Notes </Typography>
@@ -106,7 +138,7 @@ const JobDetails = ({id, jobVisible, setVisible}) => {
           <>
             {notes}
             <br />
-            <Box display="flex" justifyContent="flex-end">
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
               <Fab color="secondary" aria-label="edit note"
                 onClick={() => {setCanEditNote(true)}}
                 sx={{ m:2}}
@@ -121,6 +153,8 @@ const JobDetails = ({id, jobVisible, setVisible}) => {
               aria-label="empty textarea"
               placeholder={'enter your note here'}
               defaultValue={notes}
+              value={notes}
+              onChange={(e) => {setNotes(e.target.value)}}
               style={{ width: '98%' }}
             />
           <Box display="flex" justifyContent="flex-end">
@@ -136,6 +170,8 @@ const JobDetails = ({id, jobVisible, setVisible}) => {
         </Card>
       </Box>
     </Modal>
+  }
+  </>
   )
 }
 

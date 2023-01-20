@@ -29,13 +29,16 @@ import Router from 'next/router'
 // TODO: Conditionally Add Login Page
 // TODO: Conditionally change pages based on whether the user is logged in.
 
+let userImage = '';
+let companyImage = '';
+
 const NavBar = ({ page }) => {
   const [notifications, setNotifications] = useState([]);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [importingResume, updateImportingResume] = useState(false);
   const [showNotifications, updateShowNotifications] = useState(false);
-  const [pages, setPages] = useState([['Job Board', '/jobSearch'], ['Log In', '/login'] ]);
+  const [pages, setPages] = useState([['Job Board', '/jobSearch'], ['Log In', '/login']]);
   const [settings, setSettings] = useState([['Job Seeker Home', '/homeJobSeeker'], ['Employer Home', '/homeEmployer'], ['Post Job', '/postJob'],  ['Calendar', '/calendar']]);
   const { status, data } = useSession();
 
@@ -55,7 +58,6 @@ const NavBar = ({ page }) => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
-
   };
 
   const handleSignOut = (e) => {
@@ -98,8 +100,8 @@ const NavBar = ({ page }) => {
       setPages(p);
       setSettings(s);
     } else if (data?.user.role === 'employer') {
-      let p = [['Job Board', '/jobSearch'], ['My Jobs', '/homeJobSeeker']];
-      let s = [['Job Seeker Home', '/homeJobSeeker'], ['Post Job', '/postJob'],  ['Calendar', '/calendar']];
+      let p = [['Job Board', '/jobSearch'], ['My Jobs', '/homeEmployer'], ['Post Job', '/postJob'], ['Calendar', '/calendar']];
+      let s = [['Employer', '/homeEmployer'], ['Post Job', '/postJob']];
       setPages(p);
       setSettings(s);
     }
@@ -201,12 +203,12 @@ const NavBar = ({ page }) => {
                 updateShowNotifications(true)}}>
                 <Typography textAlign="center">Notifications {'(' + notifications.length + ')'}</Typography>
               </MenuItem>
-              <MenuItem key={'upload'} onClick={e => updateImportingResume(true)}>
+              {data?.user.role === 'seeker' && <MenuItem key={'upload'} onClick={e => updateImportingResume(true)}>
                 <Typography textAlign="center">Upload Resume</Typography>
-              </MenuItem>
-              <MenuItem key={'signout'} onClick={handleSignOut}>
+              </MenuItem>}
+              {data?.user.role && <MenuItem key={'signout'} onClick={handleSignOut}>
                 <Typography textAlign="center">Sign out</Typography>
-              </MenuItem>
+              </MenuItem>}
             </Menu>
           </Box>
         </Toolbar>

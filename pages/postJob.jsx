@@ -67,8 +67,8 @@ const PostJob = () => {
     const local = e.target.value;
     setLocation(local);
 
-    if (!local.match(/^[A-Za-z\s]+,\s[A-Za-z]{2},\s\d{5}$/)) {
-      setError('Please enter a valid location in the format "Dallas, TX, 75201"');
+    if (!local.match(/^\d{5}$/)) {
+      setError('Please enter a valid 5 digit zipcode"');
     } else {
       setError('');
     }

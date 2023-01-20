@@ -45,7 +45,6 @@ const Jobs =  () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-
   const handleJob = (job, event) => {
     setCurrentJob(job)
     setCompanyName(job.User.company_name)
@@ -57,7 +56,7 @@ const Jobs =  () => {
 
   const handleApply = () => {
     axios.post('http://localhost:3001/apply',{
-        job_id: currentJob.job_id,
+        job_id: currentJob.id,
         seeker_id: data.user.id,
         seeker_interest_level: interestLevel
     })

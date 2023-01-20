@@ -102,7 +102,7 @@ const NavBar = ({ page }) => {
       setSettings(s);
       setAvatarImage(data?.user.image_url)
     } else if (data?.user.role === 'employer') {
-      let p = [['Job Board', '/jobSearch'], ['My Jobs', '/homeEmployer'], ['Post Job', '/postJob'], ['Calendar', '/calendar']];
+      let p = [['My Jobs', '/homeEmployer'], ['Post Job', '/postJob'], ['Calendar', '/calendar']];
       let s = [['Employer', '/homeEmployer'], ['Post Job', '/postJob']];
       setPages(p);
       setSettings(s);

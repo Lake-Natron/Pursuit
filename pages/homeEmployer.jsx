@@ -48,6 +48,8 @@ const HomeEmployer = () => {
           )}
         </List>
       </nav>
+      {/* <nav>{data?.user.id}</nav>
+      <button onClick={() => signOut()}>Sign Out</button> */}
     </Box>
     </>
   )

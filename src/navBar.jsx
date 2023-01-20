@@ -20,25 +20,25 @@ import Link from 'next/link';
 import Notifications from './notifications.jsx';
 import axios from 'axios';
 import { useSession, signOut } from "next-auth/react";
+import Router from 'next/router'
 
 // Navigation Link
-const pages = [['Home', '/'], ['Job Board', '/jobSearch'], ['My Jobs', '/homeJobSeeker']];
-const settings = [['Job Seeker Home', '/homeJobSeeker'], ['Employer Home', '/homeEmployer'], ['Post Job', '/postJob']];
+// let pages = [['Home', '/'], ['Job Board', '/jobSearch'], ['My Jobs', '/homeJobSeeker'], ['Calendar', '/calendar']];
+// let settings = [['Job Seeker Home', '/homeJobSeeker'], ['Employer Home', '/homeEmployer'], ['Post Job', '/postJob'],  ['Calendar', '/calendar']];
 
 // TODO: Conditionally Add Login Page
 // TODO: Conditionally change pages based on whether the user is logged in.
 
-const logoUrl = '';
-
 const NavBar = ({ page }) => {
   const [notifications, setNotifications] = useState([]);
-  //TODO: Routinely pull down items for user for notifications:
-
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [importingResume, updateImportingResume] = useState(false);
   const [showNotifications, updateShowNotifications] = useState(false);
+  const [pages, setPages] = useState([['Job Board', '/jobSearch'], ['Log In', '/login'] ]);
+  const [settings, setSettings] = useState([['Job Seeker Home', '/homeJobSeeker'], ['Employer Home', '/homeEmployer'], ['Post Job', '/postJob'],  ['Calendar', '/calendar']]);
   const { status, data } = useSession();
+
   // TODO: Routinely pull down items from user for notifications:
 
   const handleOpenNavMenu = (event) => {
@@ -58,14 +58,53 @@ const NavBar = ({ page }) => {
 
   };
 
+  const handleSignOut = (e) => {
+    e.preventDefault();
+    signOut();
+    console.log('reroute')
+    Router.replace("/login");
+  }
   useEffect(() => {
-    if (!data) {
+    if(!data) {
       return;
     }
-    axios.get('http://localhost:3001/notifications', {params: {user_id: data?.user.id}})
+
+    const apiNotifications = () => {
+      console.log('this is the user id', data?.user.id)
+      console.log('this is all stored in sesshionstorage', data?.user.role)
+      console.log('making axios call');
+      axios.get('http://localhost:3001/notifications', {params: {user_id: data?.user.id}})
       .then(res => setNotifications(res.data))
       .catch(err => console.log(err))
-  }, [data])
+    };
+
+    const interval = setInterval(apiNotifications, 30000);
+
+    return () => clearInterval(interval);
+  }, [])
+
+  //need seeker_id from session info
+  useEffect(() => {
+    // if (status === "unauthenticated" || data?.user.role !== 'seeker') Router.replace("/login");
+    if (status === 'unauthenticated' || !data?.user.role) {
+      let p = [['Job Board', '/jobSearch'], ['Log In', '/login']]
+      let s = [['Log In', '/login']];
+      setPages(p);
+      setSettings(s);
+    } else if (data?.user.role === 'seeker') {
+      console.log('changing seeker name');
+      let p = [['Job Board', '/jobSearch'], ['My Jobs', '/homeJobSeeker'],  ['Calendar', '/calendar']];
+      let s = [['Job Seeker Home', '/homeJobSeeker']];
+      setPages(p);
+      setSettings(s);
+    } else if (data?.user.role === 'employer') {
+      let p = [['Job Board', '/jobSearch'], ['My Jobs', '/homeJobSeeker']];
+      let s = [['Job Seeker Home', '/homeJobSeeker'], ['Post Job', '/postJob'],  ['Calendar', '/calendar']];
+      setPages(p);
+      setSettings(s);
+    }
+    // return () => {}
+  }, []);
 
   return (
     <AppBar position='static' sx={{ bgcolor: '#E44F48' }}>
@@ -127,9 +166,6 @@ const NavBar = ({ page }) => {
                 </Link>
               </Button>
             ))}
-            <Button>
-              <Link style={{ textDecoration: 'none', color: 'white' }} href="/calendar">Calendar</Link>
-            </Button>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -168,7 +204,7 @@ const NavBar = ({ page }) => {
               <MenuItem key={'upload'} onClick={e => updateImportingResume(true)}>
                 <Typography textAlign="center">Upload Resume</Typography>
               </MenuItem>
-              <MenuItem key={'signout'} onClick={e => signOut()}>
+              <MenuItem key={'signout'} onClick={handleSignOut}>
                 <Typography textAlign="center">Sign out</Typography>
               </MenuItem>
             </Menu>

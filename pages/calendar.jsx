@@ -14,6 +14,8 @@ import NavBar from '../src/navBar';
 import axios from 'axios';
 
 import { useSession } from "next-auth/react";
+import Router from 'next/router'
+
 
 Date.prototype.monthNames = [
   "January", "February", "March",
@@ -108,6 +110,7 @@ const Calendar = () => {
   }
 
   useEffect(() => {
+    if (status === "unauthenticated") Router.replace("/login");
     loadEvents();
     if (data?.user.role === 'employer') {
       updateCompanyLogin(true);

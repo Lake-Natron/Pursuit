@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import axios from 'axios';
-
+import NavBar from '../src/navBar';
 
 const Jobs =  () => {
 
@@ -31,8 +31,9 @@ useEffect(() => {
 
     return (
       <div>
-      <Box height="100vh" display="flex" flexDirection="column"> 
-      <TextField 
+      <NavBar />
+      <Box height="100vh" display="flex" flexDirection="column">
+      <TextField
           id="search"
           label="Search"
           type="search"
@@ -47,7 +48,7 @@ useEffect(() => {
             ),
           }}
           />
-        
+
       <Grid container spacing={2} columns={16} sx={{ m: '5px'}}>
         <Grid item xs={5}>
           <List>
@@ -62,22 +63,22 @@ useEffect(() => {
         <Divider orientation="vertical"  sx={{ m: '18px'}} />
         <Grid item xs={9.8} sx={{ mt: '8px', borderRadius: '16px', bgcolor: '#CFCFCF'}}>
           <Typography variant = "h1">{currentJob.name}</Typography>
-          <Typography variant = "h2">{currentJob.company_id}</Typography> 
+          <Typography variant = "h2">{currentJob.company_id}</Typography>
           <br/>
             <Typography style={{ maxHeight: 600, padding: "5px", overflow: 'auto', whiteSpace: "pre-wrap" }}>
            {currentJob.description}
            </Typography>
            <br/>
         <Button variant="contained" size="large" color="secondary">Apply</Button>
-        </Grid> 
-      </Grid> 
+        </Grid>
+      </Grid>
       </Box>
       </div>
 
     )
 
-    
+
   }
-  
+
 
   export default Jobs;

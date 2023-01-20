@@ -10,10 +10,7 @@ const EmployerAddNote = ({ notesVisible, updateNotesVisible, application_id, see
   let [title, updateTitle] = useState(title);
 
   const save = () => {
-    if (newStart.toString() !== '[object Object]' && newEnd.toString() !== '[object Object]' && newTitle !== '') {
-      // Send request before updating visibility
-
-    }
+    //add route to save note
   }
 
   const boxStyle = {

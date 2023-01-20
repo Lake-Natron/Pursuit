@@ -23,6 +23,7 @@ const ApplicantListCard = ({ applicant }) => {
   const [skills, setSkills] = useState([]);
   const { status, data } = useSession();
   const [degree, setDegree] = useState('')
+  const [loaded, setLoaded] = useState(false)
 
   const handleInterestedClick = (e) => {
     e.preventDefault();
@@ -57,6 +58,9 @@ const ApplicantListCard = ({ applicant }) => {
   }
 
   useEffect(() => {
+    if (!loaded) {
+      return;
+    }
     const getExperience = async () => {
       axios.get(`http://localhost:3001/workExperience?seeker_id=${applicant.seeker_id}`)
       .then(res => {setExperience(res.data)})
@@ -79,14 +83,15 @@ const ApplicantListCard = ({ applicant }) => {
       getExperience();
       getSkills();
       getEducation();
+      setLoaded(!loaded)
     }
   }, [])
 
   console.log('here', applicant)
-  console.log('exp', experience[0])
-  console.log('skil', skills)
+  //console.log('exp', experience[0])
+  //console.log('skil', skills)
   //console.log('edu', education[0])
-  console.log(applicant.company_interest_level)
+  //console.log(applicant.company_interest_level)
 
   return (
     <>

@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import Router from 'next/router'
 
 
-function ProtectedUser(props) {
+function ProtectedRouter(props) {
   const { status, data }= useSession();
 
 
@@ -20,4 +20,4 @@ function ProtectedUser(props) {
     }
 }
 
-export default ProtectedUser;
+export default ProtectedRouter;

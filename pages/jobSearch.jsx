@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import axios from 'axios';
-
+import NavBar from '../src/navBar';
 
 const Jobs =  () => {
 

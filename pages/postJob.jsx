@@ -58,6 +58,7 @@ const PostJob = () => {
   const [employmentType, setEmploymentType] = useState('');
   const [isFormValid, setIsFormValid] = useState(false)
   const { status, data } = useSession();
+  const [submitted, setSubmitted] = useState(false)
 
   useEffect(() => {
     if (status === "unauthenticated" || data?.user.role !== 'employer') Router.replace("/login");
@@ -127,6 +128,7 @@ const PostJob = () => {
         company_id: data?.user.id
       })
       .catch(err => {console.log(err)})
+      setSubmitted(!submitted);
     }
   }
 

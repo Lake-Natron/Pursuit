@@ -20,7 +20,7 @@ const HomeEmployer = () => {
 
     const getCompanyName = async () => {
       await axios.get(`http://localhost:3001/user?id=${data?.user.id}`)
-      .then(res => {console.log('2', res.data); setCompanyName(res.data.company_name)})
+      .then(res => {setCompanyName(res.data.company_name)})
       .catch(err => {console.log(err)})
     }
 

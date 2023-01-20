@@ -18,14 +18,15 @@ const ViewApplicants = ({query}) => {
   const [jobName, setJobName] = useState('')
   const router = useRouter();
   const { job_id } = router.query;
-  const [jobId, setJobId] = useState(job_id)
+  const [jobId, setJobId] = useState({query}.query)
   const { status, data } = useSession();
-  console.log('q', query)
 
   useEffect(() => {
     const getApplicants = async () => {
-      axios.get(`http://localhost:3001/jobs/applicants?job_id=${{query}.query}`)
-      .then((res) => {
+      console.log('jobId', jobId)
+      console.log('rerender')
+      axios.get(`http://localhost:3001/jobs/applicants?job_id=${jobId}`)
+      .then(res => {
         setApplicantList(res.data);
         setJobName(res.data[0].Job.name);
       })
@@ -35,7 +36,7 @@ const ViewApplicants = ({query}) => {
     if (data?.user.id) {
       getApplicants();
     }
-  }, [])
+  }, [jobId])
 
   return (
     <>
@@ -52,16 +53,16 @@ const ViewApplicants = ({query}) => {
   )
 }
 
-ViewApplicants.getInitialProps = async ({ query }) => {
-  console.log('asdfasdf', {query}.query.job_id)
-  await axios.get(`http://localhost:3001/jobs/applicants?job_id=${{query}.query.job_id}`)
-  .then((res) => {
-    console.log('okok', res)
-    setApplicantList(res.data);
-    setJobName(res.data[0].Job.name);
-  })
-  .catch(err => {console.log(err)})
-  return ({query}.query.job_id)
-}
+// ViewApplicants.getInitialProps = async ({ query }) => {
+//   console.log('asdfasdf', {query}.query.job_id)
+//   await axios.get(`http://localhost:3001/jobs/applicants?job_id=${{query}.query.job_id}`)
+//   .then((res) => {
+//     console.log('okok', res)
+//     setApplicantList(res.data);
+//     setJobName(res.data[0].Job.name);
+//   })
+//   .catch(err => {console.log(err)})
+//   return ({query}.query.job_id)
+// }
 
 export default ViewApplicants;

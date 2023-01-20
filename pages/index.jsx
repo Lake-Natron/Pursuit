@@ -2,15 +2,12 @@ import React from "react";
 import Link from 'next/link';
 import { signIn } from 'next-auth/react'
 import NavBar from '../src/navBar';
-import FastHomePage from '../src/fasthomepage';
-
 
 
 const App = () => {
 
 
   return (
-
     <div>
       <NavBar />
       <button>
@@ -24,9 +21,7 @@ const App = () => {
       <button onClick={() => {
         signIn();
       }}>Log In</button>
-      <FastHomePage />
     </div>
-
   )
 }
 

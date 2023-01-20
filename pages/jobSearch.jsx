@@ -89,8 +89,8 @@ const Jobs =  () => {
     return(
         <div>
           <NavBar />
-        <Box height="100vh" display="flex" flexDirection="column"> 
-        <TextField 
+        <Box height="100vh" display="flex" flexDirection="column">
+        <TextField
             id="search"
             label="Search"
             onInput={handleSearch}
@@ -120,9 +120,9 @@ const Jobs =  () => {
           <Divider orientation="vertical"  sx={{ m: '18px'}} />
           <Grid item xs={9.8} sx={{ mt: '8px', borderRadius: '16px', bgcolor: '#CFCFCF'}}>
             <Typography variant = "h1">{currentJob.name}</Typography>
-            <Typography variant = "h2">{companyName}</Typography> 
+            <Typography variant = "h2">{companyName}</Typography>
             <Typography variant = "body4">${numberWithCommas(currentJob.salary)} a year • {
-            currentJob.employment_type} • {currentJob.location}</Typography> 
+            currentJob.employment_type} • {currentJob.location}</Typography>
             <span>&nbsp;&nbsp;&nbsp;</span>
             <Button onClick={handleOpen} variant="contained" size="large" color="secondary">Apply</Button>
             <Modal
@@ -135,13 +135,13 @@ const Jobs =  () => {
                             <CloseIcon />
                       </IconButton>
             <Typography id="modal-modal-title" variant="h1" component="h2">
-            Application Submission: 
+            Application Submission:
             </Typography>
             <Typography variant='h2'> {currentJob.name}, {companyName}</Typography>
             <br></br>
             <Typography id="modal-modal-description" variant='body3'sx={{ mt: 2 }}>
-            My interest level: 
-            </Typography> 
+            My interest level:
+            </Typography>
             <br/>
 
             <br/>
@@ -176,12 +176,12 @@ const Jobs =  () => {
             {currentJob.description}
             </Typography>
             <br/>
-          </Grid> 
-        </Grid> 
+          </Grid>
+        </Grid>
         </Box>
         </div>
-    ) 
+    )
     }
-    
+
 
 export default Jobs;

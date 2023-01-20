@@ -10,12 +10,19 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CreateMeeting from '../src/calendar/createMeeting';
 import EmployerAddNote from '../src/employerAddNote';
+import { useSession, signOut} from "next-auth/react";
+import Router from 'next/router';
 
 
 const ApplicantListCard = ({ applicant }) => {
   const [visible, updateVisible] = useState(false);
   const [notesVisible, updateNotesVisible] = useState(false);
   const [applicantDetails, setApplicantsDetails] = useState([]);
+  const [education, setEducation] = useState([]);
+  const [experience, setExperience] = useState([]);
+  const [skills, setSkills] = useState([]);
+  const { status, data } = useSession();
+  const [degree, setDegree] = useState('')
 
   const handleInterestedClick = (e) => {
     e.preventDefault();
@@ -48,13 +55,38 @@ const ApplicantListCard = ({ applicant }) => {
     e.stopPropagation()
     updateNotesVisible(!notesVisible);
   }
-  console.log('here', applicant)
 
-  // useEffect(() => {
-  //   axios.get('http://localhost:3002/updateCompanyInterest')
-  //   .then(res => setApplicantsDetails(res.data))
-  //   .catch(err => {console.log(err)})
-  // }, [])
+  useEffect(() => {
+    const getExperience = async () => {
+      axios.get(`http://localhost:3001/workExperience?seeker_id=${applicant.seeker_id}`)
+      .then(res => {setExperience(res.data)})
+      .catch(err => {console.log(err)})
+    }
+
+    const getSkills = async () => {
+      axios.get(`http://localhost:3001/skills?seeker_id=${applicant.seeker_id}`)
+      .then(res => {setSkills(res.data)})
+      .catch(err => {console.log(err)})
+    }
+
+    const getEducation = async () => {
+      axios.get(`http://localhost:3001/education?seeker_id=${applicant.seeker_id}`)
+      .then(res => {setEducation(res.data)})
+      .catch(err => {console.log(err)})
+    }
+
+    if (data?.user.id) {
+      getExperience();
+      getSkills();
+      getEducation();
+    }
+  }, [])
+
+  console.log('here', applicant)
+  console.log('exp', experience[0])
+  console.log('skil', skills)
+  //console.log('edu', education[0])
+  console.log(applicant.company_interest_level)
 
   return (
     <>
@@ -64,29 +96,63 @@ const ApplicantListCard = ({ applicant }) => {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography>{applicant.User.first_name} {applicant.User.last_name}</Typography>
-          <Box sx={{ml: '30vw', width:'20vw', position:'relative', left:'7px'}}>
+          <Box>
+          <Typography sx={{}}>{applicant.User.first_name} {applicant.User.last_name}</Typography>
+          <Box sx={{ml: '30vw', position:'relative', right:'1vw'}}>
             <Button variant="contained" sx={{mr: '1em'}} onClick={handleInterestedClick}>Interested</Button>
             <Button variant="contained" onClick={handleNotInterestedClick}>Not Interested</Button>
+          </Box>
           </Box>
         </AccordionSummary>
         <AccordionDetails >
           <Typography sx={{}}>
             Education: <br/>
+          </Typography>
+          <Typography>
             Skills: <br/>
-            Other Info: <br/>
+          </Typography>
+          <Typography>
+            Experience: <br/>
+          </Typography>
+          <Typography>
             Notes: {applicant.company_notes}
           </Typography>
-          <Box sx={{mt: 2, position:'relative', left:'600px', width:'20vw'}}>
+          <Box sx={{mt: 2, position:'relative', left:'29vw', width:'20vw'}}>
             <Button sx={{mr: '1em'}} variant="contained" onClick={handleVisibleClick}>Create Meeting</Button>
             <Button variant="contained" onClick={handleNotesVisibleClick}>Edit Notes</Button>
           </Box>
         </AccordionDetails>
       </Accordion>
       <CreateMeeting visible={visible} updateVisible={updateVisible} application_id={applicant.id} seeker_id={applicant.seeker_id} />
-      <EmployerAddNote notesVisible={notesVisible} updateNotesVisible={updateNotesVisible} application_id={1} seeker_id={1} />
+      <EmployerAddNote notesVisible={notesVisible} updateNotesVisible={updateNotesVisible} application_id={applicant.id} seeker_id={applicant.seeker_id} />
     </>
   )
 }
 
 export default ApplicantListCard;
+
+
+// degree
+// :
+// "test"
+// graduate
+// :
+// true
+// graduation_date
+// :
+// "2023-01-10T00:00:00.000Z"
+// id
+// :
+// 5
+// location
+// :
+// "teest"
+// major
+// :
+// "test"
+// school
+// :
+// "test"
+// seeker_id
+// :
+// 20

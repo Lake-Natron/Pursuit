@@ -72,8 +72,6 @@ const handleSearch = (e) => {
     setCurrentJob(res.data[0])
     setCompanyName(res.data[0].User.company_name)
   })
-
-
 }
 
 const numberWithCommas = (x) => {

@@ -3,6 +3,7 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import axios from 'axios';
 
 const { useState, useEffect } = React;
 
@@ -17,8 +18,8 @@ const Request = ({visible, updateVisible, company_id, title}) => {
     if (description) {
       axios.post('http://localhost:3001/notification', {
         user_id: company_id,
-        type: 'Change Meeting Request',
-        details: 'Job Seeker has request an alternative time for ' + title
+        type: 'Change Meeting Request - ' + title,
+        details: description
       })
         .catch(err => console.log(err));
       updateVisible(false);

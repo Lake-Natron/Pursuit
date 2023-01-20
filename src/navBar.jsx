@@ -81,7 +81,7 @@ const NavBar = ({ page }) => {
       .catch(err => console.log(err))
     };
 
-    const interval = setInterval(apiNotifications, 30000);
+    const interval = setInterval(apiNotifications, 60000);
 
     return () => clearInterval(interval);
   }, [])

@@ -13,7 +13,6 @@ import EmployerAddNote from '../src/employerAddNote';
 import { useSession, signOut} from "next-auth/react";
 import Router from 'next/router';
 
-
 const ApplicantListCard = ({ applicant }) => {
   const [visible, updateVisible] = useState(false);
   const [notesVisible, updateNotesVisible] = useState(false);
@@ -59,41 +58,45 @@ const ApplicantListCard = ({ applicant }) => {
   }
 
   useEffect(() => {
-    if (!loaded) {
+    if (loaded) {
       return;
     }
-    console.log('test', seekerId)
+
     const getExperience = async () => {
-      axios.get(`http://localhost:3001/workExperience?seeker_id=${applicant.seeker_id}`)
-      .then(res => {setExperience(res.data)})
-      .catch(err => {console.log(err)})
+      return axios.get(`http://localhost:3001/workExperience?seeker_id=${applicant.seeker_id}`)
     }
 
     const getSkills = async () => {
-      axios.get(`http://localhost:3001/skills?seeker_id=${applicant.seeker_id}`)
-      .then(res => {setSkills(res.data)})
-      .catch(err => {console.log(err)})
+      return axios.get(`http://localhost:3001/skills?seeker_id=${applicant.seeker_id}`)
     }
 
     const getEducation = async () => {
-      axios.get(`http://localhost:3001/education?seeker_id=${applicant.seeker_id}`)
-      .then(res => {setEducation(res.data)})
-      .catch(err => {console.log(err)})
+      return axios.get(`http://localhost:3001/education?seeker_id=${applicant.seeker_id}`)
     }
 
     if (data?.user.id) {
-      getExperience();
-      getSkills();
-      getEducation();
-      setLoaded(!loaded)
+      Promise.all([getExperience(), getSkills(), getEducation()])
+        .then(([experience, skills, education]) => {
+          setExperience(experience.data[0]);
+          setSkills(skills.data);
+          setEducation(education.data[0]);
+          setLoaded(true)
+        })
+        .catch(err => {console.log(err)});
     }
   }, [])
 
   console.log('here', applicant)
-  console.log('exp', experience[0])
+  console.log('exp', experience)
   console.log('skil', skills)
-  console.log('edu', education[0])
+  console.log('edu', education)
   //console.log(applicant.company_interest_level)
+
+  const skillsList = skills.map(skill => {
+    return {
+      skill: skill.skill,
+    }
+  });
 
   return (
     <>
@@ -113,17 +116,26 @@ const ApplicantListCard = ({ applicant }) => {
         </AccordionSummary>
         <AccordionDetails >
           <Typography sx={{}}>
-            Education: <br/>
-          </Typography>
+            Education: {education && education.degree} {education && education.major + ' from'} {education && education.school}
+            <Typography sx={{fontSize: '0.8rem'}}>
+            Graduated: {education && education.graduation_date}
+            </Typography>
+          </Typography> <br/>
           <Typography>
-            Skills: <br/>
-          </Typography>
+            Skills: {skillsList[0] && skillsList[0].skill} {skillsList[1] &&'| ' + skillsList[1].skill} {skillsList[2] &&'| ' + skillsList[2].skill} {skillsList[3] &&'| ' + skillsList[3].skill} {skillsList[4] &&'| ' + skillsList[4].skill} {skillsList[5] &&'| ' + skillsList[5].skill}
+          </Typography> <br/>
           <Typography>
-            Experience: <br/>
+            Experience: {experience && experience.company_name}
+            <Typography sx={{fontSize: '0.8rem'}}>
+              Job Details: {experience && experience.job_details}
+            </Typography>
+            <Typography sx={{fontSize: '0.8rem'}}>
+              Start Date: {experience && experience.start_date + '; '} End Date: {experience && experience.end_date}
+            </Typography> <br/>
           </Typography>
           <Typography>
             Notes: {applicant.company_notes}
-          </Typography>
+          </Typography> <br/>
           <Box sx={{mt: 2, position:'relative', left:'29vw', width:'20vw'}}>
             <Button sx={{mr: '1em'}} variant="contained" onClick={handleVisibleClick}>Create Meeting</Button>
             <Button variant="contained" onClick={handleNotesVisibleClick}>Edit Notes</Button>

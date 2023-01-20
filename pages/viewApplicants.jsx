@@ -44,9 +44,11 @@ const ViewApplicants = () => {
     <Box sx={{mt: '2em', width: '100%', minWidth: 480, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
       <nav aria-label="applicant-list-container">
         <h2>{jobName}</h2>
-          {applicantList.map((applicant, index) =>
-            <ApplicantListCard applicant={applicant} key={index} />
-          )}
+        {applicantList.filter((applicant) => {
+          return applicant.company_interest_level !== 'Not Interested';
+        }).map((applicant, index) =>
+          <ApplicantListCard applicant={applicant} key={index} />
+        )}
       </nav>
     </Box>
     </>

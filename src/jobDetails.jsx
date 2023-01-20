@@ -34,9 +34,10 @@ let companyImages = [
 
 let randomIndex = Math.floor(Math.random() * 5);
 const coverImage = companyImages[randomIndex];
+let defaultNote = 'This is your default note: Here are some things that you could add to track the progress of your application.';
 
-const JobDetails = ({jobDetails, jobVisible, setVisible}) => {
-  const [notes, setNotes] = useState('Email arrives immediately, assuming you have the correct email address and your message does not get caught in a spam filter. So, unless the employer really seems to dislike technology (and you didn’t receive an email from anyone at this employer setting up the interview or see anyone using a computer while you were there), often the best strategy is start with email and follow-up with a formal paper thank you note If appropriate, send the email thank you as soon as you get home. Then, follow up with the formal thank you as soon as possible after that.');
+const JobDetails = ({jobDetails, jobVisible, setVisible, notes}) => {
+  const [editNotes, setEditNotes] = useState(defaultNote);
   // const [company, setJobCompany] = useState('Nike');
   const [canEditNote, setCanEditNote] = useState(false);
   const [jobDeets, setJobDeets] = useState({
@@ -51,16 +52,21 @@ const JobDetails = ({jobDetails, jobVisible, setVisible}) => {
     jobsite: 'Onsite'
   });
 
+  // checks if the notes are null;
   useEffect(() => {
-    // TODO: GET NOTES FOR JOBS
-    // SAVE JOB TO notes STATE
+    if (notes !== null && notes !== '') {
+      setEditNotes(notes);
+    }
+
+    return () => {};
   }, []);
 
   const handleClose = () => {
     setAnchor(null);
   }
 
-  const handleOnSaveClick = () => {
+  const handleOnSaveClick = (e) => {
+    e.preventDefault();
     setCanEditNote(!canEditNote);
     // TODO: SAVE NOTE FOR JOBS
   }
@@ -79,11 +85,45 @@ const JobDetails = ({jobDetails, jobVisible, setVisible}) => {
     paddingBottom: '30px'
   }
 
+  // let noteSection = '';
 
+  // if (notes) {
+  //   noteSection = (<>
+  //                   {notes}
+  //                 <br />
+  //                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+  //                   <Fab color="secondary" aria-label="edit note"
+  //                     onClick={() => {setCanEditNote(true)}}
+  //                     sx={{ m:2}}
+  //                   >
+  //                     <EditIcon />
+  //                     </Fab>
+  //                   </Box>
+  //                 </>)
+  // } else if (!notes) {
+  //   noteSection = (<>
+  //     <TextareaAutosize
+  //         aria-label="empty textarea"
+  //         placeholder={'enter your note here'}
+  //         defaultValue={editNotes}
+  //         value={editNotes}
+  //         onChange={(e) => {seEdittNotes(e.target.value)}}
+  //         style={{ width: '98%' }}
+  //       />
+  //     <Box display="flex" justifyContent="flex-end">
+  //       <Fab color="secondary" aria-label="save note"
+  //           onClick={handleOnSaveClick}
+  //           sx={{ m:2}}
+  //         >
+  //           <DoneAllIcon size='small'/>
+  //       </Fab>
+  //     </Box>
+  //    </>)
+  // }
 
   return (
   <>
-    {jobDetails && <Modal sx={{ top: '20%' }} open={jobVisible}>
+    {jobDetails && <Modal sx={{ top: '15%', overflow: 'scroll' }} open={jobVisible}>
       <Box sx={boxStyle}>
         <Box sx={{
           // backgroundColor: 'primary.dark',
@@ -120,10 +160,10 @@ const JobDetails = ({jobDetails, jobVisible, setVisible}) => {
           marginTop: '1vh',
           marginBottom: '1vh',
           minHeight: '80px',
-          fontSize: 18
+          fontSize: 16
         }}>
           <Typography variant="body2" sx={{
-            fontSize: '1.2rem'
+            fontSize: '1.1 rem'
           }}>
             {jobDetails.description}
           </Typography>
@@ -134,9 +174,10 @@ const JobDetails = ({jobDetails, jobVisible, setVisible}) => {
           <br />
           {'Below are your notes: '}
           <br />
-          {!canEditNote &&
+
+          {!canEditNote  &&
           <>
-            {notes}
+            {editNotes}
             <br />
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
               <Fab color="secondary" aria-label="edit note"
@@ -147,14 +188,15 @@ const JobDetails = ({jobDetails, jobVisible, setVisible}) => {
               </Fab>
             </Box>
           </>}
+
          {canEditNote &&
          <>
           <TextareaAutosize
               aria-label="empty textarea"
               placeholder={'enter your note here'}
               defaultValue={notes}
-              value={notes}
-              onChange={(e) => {setNotes(e.target.value)}}
+              value={editNotes}
+              onChange={(e) => {setEditNotes(e.target.value)}}
               style={{ width: '98%' }}
             />
           <Box display="flex" justifyContent="flex-end">
@@ -162,11 +204,12 @@ const JobDetails = ({jobDetails, jobVisible, setVisible}) => {
                 onClick={handleOnSaveClick}
                 sx={{ m:2}}
               >
-                <DoneAllIcon size='small'/>
+              <DoneAllIcon size='small'/>
             </Fab>
           </Box>
          </>
-          }
+         }
+
         </Card>
       </Box>
     </Modal>

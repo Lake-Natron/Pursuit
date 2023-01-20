@@ -224,9 +224,21 @@ const Signup = () => {
           variant="outlined"
           required
           fullWidth
+          name="address"
+          label="Address"
+          type="text"
+          id="address_2"
+          onChange={handleOnChange}
+          sx={{ m: 1 }}
+        />
+
+        <TextField
+          variant="outlined"
+          required
+          fullWidth
           name="address_2"
-          label="Address_2"
-          type="address"
+          label="Street"
+          type="text"
           id="address_2"
           onChange={handleOnChange}
           sx={{ m: 1 }}

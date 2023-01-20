@@ -22,8 +22,8 @@ import axios from 'axios';
 import { useSession, signOut } from "next-auth/react";
 
 // Navigation Link
-let pages = [['Home', '/'], ['Job Board', '/jobSearch'], ['My Jobs', '/homeJobSeeker']];
-let settings = [['Job Seeker Home', '/homeJobSeeker'], ['Employer Home', '/homeEmployer'], ['Post Job', '/postJob']];
+let pages = [['Home', '/'], ['Job Board', '/jobSearch'], ['My Jobs', '/homeJobSeeker'], ['Calendar', '/calendar']];
+let settings = [['Job Seeker Home', '/homeJobSeeker'], ['Employer Home', '/homeEmployer'], ['Post Job', '/postJob'],  ['Calendar', '/calendar']];
 
 // TODO: Conditionally Add Login Page
 // TODO: Conditionally change pages based on whether the user is logged in.
@@ -58,6 +58,10 @@ const NavBar = ({ page }) => {
   // Recurringly invokes get notifications
   // TODO: Add user id onto the application
   useEffect(() => {
+    if(!data) {
+      return;
+    }
+
     const apiNotifications = () => {
       console.log('this is the user id', data?.user.id)
       console.log('this is all stored in sesshionstorage', data?.user.role)
@@ -67,7 +71,7 @@ const NavBar = ({ page }) => {
       .catch(err => console.log(err))
     };
 
-    const interval = setInterval(apiNotifications, 3000);
+    const interval = setInterval(apiNotifications, 30000);
 
     return () => clearInterval(interval);
   }, [])
@@ -75,16 +79,19 @@ const NavBar = ({ page }) => {
   //need seeker_id from session info
   useEffect(() => {
     // if (status === "unauthenticated" || data?.user.role !== 'seeker') Router.replace("/login");
-    if (data?.user.role === 'seeker') {
+    if (status === 'unauthenticated' || data?.user.role !== 'seeker' || data?.user.role !== 'employer') {
+      pages = [['Job Board', '/jobSearch'], ['Log In', '/login']]
+      settings = [['Log In', '/login']];
+    } else if(data?.user.role === 'seeker') {
       console.log('changing seeker name');
-      pages = [['Job Board', '/jobSearch'], ['My Jobs', '/homeJobSeeker']];
+      pages = [['Job Board', '/jobSearch'], ['My Jobs', '/homeJobSeeker'],  ['Calendar', '/calendar']];
       settings = [['Job Seeker Home', '/homeJobSeeker']];
     } else if (data?.user.role === 'employer') {
       pages = [['Job Board', '/jobSearch'], ['My Jobs', '/homeJobSeeker']];
-      settings = [['Job Seeker Home', '/homeJobSeeker'], ['Post Job', '/postJob']];
-    } else if (status === 'unauthenticated') {
-      pages = ['Job Board', '/jobSearch', ]
+      settings = [['Job Seeker Home', '/homeJobSeeker'], ['Post Job', '/postJob'],  ['Calendar', '/calendar']];
     }
+
+    return () => {}
   }, [])
 
   return (
@@ -147,9 +154,6 @@ const NavBar = ({ page }) => {
                 </Link>
               </Button>
             ))}
-            <Button>
-              <Link style={{ textDecoration: 'none', color: 'white' }} href="/calendar">Calendar</Link>
-            </Button>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>

@@ -11,7 +11,8 @@ import Radio from '@mui/material/Radio';
 import Component from '../src/login-btn.jsx'
 import { signIn } from 'next-auth/react'
 import { useSession } from "next-auth/react";
-import Router from 'next/router'
+import Router from 'next/router';
+import NavBar from '../src/navBar';
 
 
 
@@ -69,6 +70,7 @@ const SignIn = () => {
 
   return (
     <>
+    <NavBar />
     <Container maxWidth='xs'>
        <Box
           sx={{

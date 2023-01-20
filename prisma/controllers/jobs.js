@@ -70,6 +70,14 @@ const getAllJobs = async (req, res) => {
   const { company_id } = req.query;
   const jobs = await prisma.Job.findMany({
     where: { company_id: Number(company_id) || undefined },
+    include: {
+      User: {
+        select: {
+          company_name: true,
+          email: true,
+        },
+      },
+    },
   });
   res.send(jobs);
 };

@@ -53,6 +53,7 @@ export default NextAuth({
         where: { email: email }
       });
       console.log(user.role)
+      session.user.image_url = user.image_url;
       session.user.id = user.id;
       session.user.role = user.role; // Add role value to user object so it is passed along with session
       return session;

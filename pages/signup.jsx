@@ -140,7 +140,7 @@ const Signup = () => {
     //TODO: Submit form for Auth and Add to Server
     // Needs to handle response if company name or email has ready been taken
     // Forward to homepage after completion
-    console.log('submitting')
+    console.log('submitting', formFields)
     try {
       const response = await axios.post('http://localhost:3001/user', formFields)
 

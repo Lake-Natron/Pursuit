@@ -126,6 +126,7 @@ const PostJob = () => {
         employmentType: employmentType,
         company_id: data?.user.id
       })
+      .then(() => {Router.replace("/homeEmployer")})
       .catch(err => {console.log(err)})
     }
   }

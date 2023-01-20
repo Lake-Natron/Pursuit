@@ -13,20 +13,24 @@ import { useRouter } from 'next/router';
 import { useSession, signOut} from "next-auth/react";
 import Router from 'next/router';
 
-const ViewApplicants = ({query}) => {
+const ViewApplicants = () => {
   const [applicantList, setApplicantList] = useState([]);
   const [jobName, setJobName] = useState('')
   const router = useRouter();
   const { job_id } = router.query;
-  const [jobId, setJobId] = useState({query}.query)
   const { status, data } = useSession();
+  console.log(job_id)
 
   useEffect(() => {
+    if (!job_id) {
+      return;
+    }
     const getApplicants = async () => {
-      console.log('jobId', jobId)
+      console.log('job_id', job_id)
       console.log('rerender')
-      axios.get(`http://localhost:3001/jobs/applicants?job_id=${jobId}`)
+      axios.get(`http://localhost:3001/jobs/applicants?job_id=${job_id}`)
       .then(res => {
+        console.log(res.data)
         setApplicantList(res.data);
         setJobName(res.data[0].Job.name);
       })
@@ -36,7 +40,7 @@ const ViewApplicants = ({query}) => {
     if (data?.user.id) {
       getApplicants();
     }
-  }, [jobId])
+  }, [job_id])
 
   return (
     <>
@@ -52,17 +56,5 @@ const ViewApplicants = ({query}) => {
     </>
   )
 }
-
-// ViewApplicants.getInitialProps = async ({ query }) => {
-//   console.log('asdfasdf', {query}.query.job_id)
-//   await axios.get(`http://localhost:3001/jobs/applicants?job_id=${{query}.query.job_id}`)
-//   .then((res) => {
-//     console.log('okok', res)
-//     setApplicantList(res.data);
-//     setJobName(res.data[0].Job.name);
-//   })
-//   .catch(err => {console.log(err)})
-//   return ({query}.query.job_id)
-// }
 
 export default ViewApplicants;

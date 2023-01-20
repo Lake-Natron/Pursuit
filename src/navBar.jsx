@@ -100,13 +100,13 @@ const NavBar = ({ page }) => {
       let s = [['Job Seeker Home', '/homeJobSeeker']];
       setPages(p);
       setSettings(s);
-      setAvatarImage(userImage)
+      setAvatarImage(data?.user.image_url)
     } else if (data?.user.role === 'employer') {
       let p = [['Job Board', '/jobSearch'], ['My Jobs', '/homeEmployer'], ['Post Job', '/postJob'], ['Calendar', '/calendar']];
       let s = [['Employer', '/homeEmployer'], ['Post Job', '/postJob']];
       setPages(p);
       setSettings(s);
-      setAvatarImage(companyImage)
+      setAvatarImage(data?.user.image_url)
     }
     // return () => {}
   }, []);

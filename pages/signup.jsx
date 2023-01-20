@@ -317,7 +317,7 @@ const Signup = () => {
           />
         </Box>
 
-        <Box sx={{ display:'flex', flexDirection: 'row', justifyContent: 'center' }}>
+        <Box sx={{ display:'flex', flexDirection: 'row', justifyContent: 'center', marginTop: 2 }}>
           <Button
             variant="contained"
             component="label"
@@ -331,7 +331,7 @@ const Signup = () => {
           </Button>
         </Box>
 
-        <FormControl sx={{ m: 1, width: '100%' }}>
+        <FormControl sx={{ m: 2, width: '100%' }}>
           <TextField
             variant="outlined"
             required
@@ -348,15 +348,17 @@ const Signup = () => {
           />
         </FormControl>
 
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          onClick={onSubmitForm}
-        >
-          Sign Up
-        </Button>
+        <Box sx={{ display:'flex', flexDirection: 'row', justifyContent: 'center', marginTop: 2 }}>
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            color="primary"
+            onClick={onSubmitForm}
+          >
+               Sign Up
+          </Button>
+        </Box>
 
       </Container>
       }

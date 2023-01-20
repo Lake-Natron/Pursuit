@@ -10,6 +10,8 @@ import NavBar from '../src/navBar';
 import JobDetails from '../src/jobDetails.jsx';
 import { useSession, signOut } from "next-auth/react";
 import Router from 'next/router';
+import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
 import { Typography } from '@mui/material';
 
 const HomeJobSeeker = () => {
@@ -53,9 +55,20 @@ const HomeJobSeeker = () => {
     setDetailsOf(jobDetails);
   };
 
-  // const setJobDetails = (jobObject) => {
-  //   setDetailsOf(jobObject)
-  // };
+  if (extreme.length === 0 && very.length === 0 && interested.length === 0) {
+    return (
+      <>
+      <NavBar />
+      <Typography align="center" mt="50px">You have not applied to any jobs yet. Go to the Job Board to find jobs!</Typography>
+      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', mt: '2em' }}>
+        <Button variant="contained">
+          <Link style={{ textDecoration: 'none', color: 'inherit' }} contained href="/jobSearch">Job Board</Link>
+        </Button>
+      </Box>
+
+      </>
+    )
+  }
 
   return (
     <>

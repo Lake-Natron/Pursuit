@@ -15,9 +15,11 @@ const JobSeekerJobListCard = ({listing, seeDetailsVisibility}) => {
   const closeDate = listing.Job.close_date.slice(0, 10);
   const job_id = listing.job_id;
 
+  let jobDetails = {};
+
   const handleClick = (e) => {
     e.preventDefault();
-    seeDetailsVisibility(true, listing);
+    seeDetailsVisibility(true, jobDetails);
     console.log('Click')
   }
 
@@ -26,6 +28,7 @@ const JobSeekerJobListCard = ({listing, seeDetailsVisibility}) => {
       await axios.get(`http://localhost:3001/job?job_id=${job_id}`)
       .then(res => {
         console.log(res.data)
+        jobDetails = res.data;
         setCompanyName(res.data.User.company_name)
       })
       .catch(err => {console.log(err)})

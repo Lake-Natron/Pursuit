@@ -88,9 +88,9 @@ const ApplicantListCard = ({ applicant }) => {
   }, [])
 
   console.log('here', applicant)
-  //console.log('exp', experience[0])
-  //console.log('skil', skills)
-  //console.log('edu', education[0])
+  console.log('exp', experience[0])
+  console.log('skil', skills)
+  console.log('edu', education[0])
   //console.log(applicant.company_interest_level)
 
   return (

@@ -19,18 +19,14 @@ const ViewApplicants = () => {
   const router = useRouter();
   const { job_id } = router.query;
   const { status, data } = useSession();
-  console.log(job_id)
 
   useEffect(() => {
     if (!job_id) {
       return;
     }
     const getApplicants = async () => {
-      console.log('job_id', job_id)
-      console.log('rerender')
       axios.get(`http://localhost:3001/jobs/applicants?job_id=${job_id}`)
       .then(res => {
-        console.log(res.data)
         setApplicantList(res.data);
         setJobName(res.data[0].Job.name);
       })

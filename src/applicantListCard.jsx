@@ -22,12 +22,13 @@ const ApplicantListCard = ({ applicant }) => {
   const [experience, setExperience] = useState([]);
   const [skills, setSkills] = useState([]);
   const { status, data } = useSession();
-  const [degree, setDegree] = useState('')
-  const [loaded, setLoaded] = useState(false)
+  const [degree, setDegree] = useState('');
+  const [loaded, setLoaded] = useState(false);
+  const [seekerId, setSeekerId] = useState(applicant.seeker_id);
 
   const handleInterestedClick = (e) => {
     e.preventDefault();
-    e.stopPropagation()
+    e.stopPropagation();
     axios.patch('http://localhost:3001/updateCompanyInterest', {
       'application_id': applicant.id,
       'company_interest_level': 'Interested'
@@ -37,7 +38,7 @@ const ApplicantListCard = ({ applicant }) => {
 
   const handleNotInterestedClick = (e) => {
     e.preventDefault();
-    e.stopPropagation()
+    e.stopPropagation();
     axios.patch('http://localhost:3001/updateCompanyInterest', {
       'application_id': applicant.id,
       'company_interest_level': 'Not Interested'
@@ -61,6 +62,7 @@ const ApplicantListCard = ({ applicant }) => {
     if (!loaded) {
       return;
     }
+    console.log('test', seekerId)
     const getExperience = async () => {
       axios.get(`http://localhost:3001/workExperience?seeker_id=${applicant.seeker_id}`)
       .then(res => {setExperience(res.data)})

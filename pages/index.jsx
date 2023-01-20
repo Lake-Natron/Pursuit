@@ -4,13 +4,10 @@ import { signIn } from 'next-auth/react'
 import NavBar from '../src/navBar';
 
 
-
-
 const App = () => {
 
-  
-  return (
 
+  return (
     <div>
       <NavBar />
       <button>
@@ -25,7 +22,6 @@ const App = () => {
         signIn();
       }}>Log In</button>
     </div>
-
   )
 }
 

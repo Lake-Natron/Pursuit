@@ -64,7 +64,7 @@ const NavBar = ({ page }) => {
   const handleSignOut = (e) => {
     e.preventDefault();
     signOut();
-    console.log('reroute')
+    // console.log('reroute')
     Router.replace("/login");
   }
   useEffect(() => {
@@ -73,9 +73,9 @@ const NavBar = ({ page }) => {
     }
 
     const apiNotifications = () => {
-      console.log('this is the user id', data?.user.id)
-      console.log('this is all stored in sesshionstorage', data?.user.role)
-      console.log('making axios call');
+      // console.log('this is the user id', data?.user.id)
+      // console.log('this is all stored in sesshionstorage', data?.user.role)
+      // console.log('making axios call');
       axios.get('http://localhost:3001/notifications', {params: {user_id: data?.user.id}})
       .then(res => setNotifications(res.data))
       .catch(err => console.log(err))

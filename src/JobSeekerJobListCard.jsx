@@ -20,6 +20,9 @@ const JobSeekerJobListCard = ({listing, seeDetailsVisibility}) => {
     seeDetailsVisibility(true, jobDetails);
   }
 
+  console.log('this is all the listing details', listing);
+  console.log('listing notes', listing.seeker_notes)
+
   useEffect(() => {
     const getJobDetails = async () => {
       await axios.get(`http://localhost:3001/job?job_id=${job_id}`)

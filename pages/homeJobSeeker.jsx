@@ -21,6 +21,7 @@ const HomeJobSeeker = () => {
   const [extreme, setExtreme] = useState([]);
   const [very, setVery] = useState([]);
   const [interested, setInterested] = useState([]);
+  const [seekerNotes, setSeekerNotes] = useState('');
   const { status, data } = useSession();
 
   useEffect(() => {
@@ -49,9 +50,11 @@ const HomeJobSeeker = () => {
     }
   }, [])
 
-  const seeJobDeets = (visibility, jobDetails = '') => {
+  // sets State to make popup modal visible
+  const seeJobDeets = (visibility, jobDetails = '', notes = '') => {
     setDetailsVisibility(() => !detailsVisibility);
     setDetailsOf(jobDetails);
+    setSeekerNotes(notes);
   };
 
   if (extreme.length === 0 && very.length === 0 && interested.length === 0) {
@@ -92,7 +95,7 @@ const HomeJobSeeker = () => {
           )}
         </List>
       </nav>
-      {detailsVisibility && <JobDetails jobDetails={detailsOf} jobVisible={detailsVisibility} setVisible={seeJobDeets}/>}
+      {detailsVisibility && <JobDetails jobDetails={detailsOf} jobVisible={detailsVisibility} setVisible={seeJobDeets} notes={seekerNotes}/>}
     </Box>
     </>
   )

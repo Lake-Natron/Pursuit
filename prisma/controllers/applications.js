@@ -78,7 +78,6 @@ const getJobsAppliedTo = async (req, res) => {
 
 const getApplicants = async (req, res) => {
   const { job_id } = req.query;
-  console.log(job_id)
   const applications = await prisma.Application.findMany({
     where: { job_id: Number(job_id) || undefined },
     include: {

@@ -67,7 +67,6 @@ const HomeJobSeeker = () => {
           <Link style={{ textDecoration: 'none', color: 'inherit' }} contained href="/jobSearch">Job Board</Link>
         </Button>
       </Box>
-
       </>
     )
   }
@@ -99,7 +98,6 @@ const HomeJobSeeker = () => {
       {detailsVisibility && <JobDetails jobDetails={detailsOf} jobVisible={detailsVisibility} setVisible={seeJobDeets} notes={seekerNotes}/>}
     </Box>
     </>
-
   )
 }
 

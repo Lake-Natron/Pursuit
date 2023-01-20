@@ -15,22 +15,18 @@ import Router from 'next/router';
 
 const ViewApplicants = () => {
   const [applicantList, setApplicantList] = useState([]);
-  const [jobName, setJobName] = useState('')
+  const [jobName, setJobName] = useState('');
   const router = useRouter();
   const { job_id } = router.query;
   const { status, data } = useSession();
-  console.log(job_id)
 
   useEffect(() => {
     if (!job_id) {
       return;
     }
     const getApplicants = async () => {
-      console.log('job_id', job_id)
-      console.log('rerender')
       axios.get(`http://localhost:3001/jobs/applicants?job_id=${job_id}`)
       .then(res => {
-        console.log(res.data)
         setApplicantList(res.data);
         setJobName(res.data[0].Job.name);
       })
@@ -48,9 +44,11 @@ const ViewApplicants = () => {
     <Box sx={{mt: '2em', width: '100%', minWidth: 480, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
       <nav aria-label="applicant-list-container">
         <h2>{jobName}</h2>
-          {applicantList.map((applicant, index) =>
-            <ApplicantListCard applicant={applicant} key={index} />
-          )}
+        {applicantList.filter((applicant) => {
+          return applicant.company_interest_level !== 'Not Interested';
+        }).map((applicant, index) =>
+          <ApplicantListCard applicant={applicant} key={index} />
+        )}
       </nav>
     </Box>
     </>

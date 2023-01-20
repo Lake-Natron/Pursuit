@@ -38,7 +38,7 @@ const NavBar = ({ page }) => {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [importingResume, updateImportingResume] = useState(false);
   const [showNotifications, updateShowNotifications] = useState(false);
-
+  const { status, data } = useSession();
   // TODO: Routinely pull down items from user for notifications:
 
   const handleOpenNavMenu = (event) => {
@@ -59,10 +59,13 @@ const NavBar = ({ page }) => {
   };
 
   useEffect(() => {
-    axios.get('http://localhost:3001/notifications', {params: {user_id: 2}})
+    if (!data) {
+      return;
+    }
+    axios.get('http://localhost:3001/notifications', {params: {user_id: data?.user.id}})
       .then(res => setNotifications(res.data))
       .catch(err => console.log(err))
-  }, [])
+  }, [data])
 
   return (
     <AppBar position='static' sx={{ bgcolor: '#E44F48' }}>

@@ -19,7 +19,7 @@ const EmployerJobListCard = ({listing}) => {
       <ListItemText primary={listing.name} secondary={`Close Date: ${closeDate}`}/>
 
         <Link style={{ textDecoration: 'none', color: 'white' }}
-        href="/viewApplicants" as={`/viewApplicants?job_id=${listing.id}`}
+        href={{pathname: "/viewApplicants", query: {job_id: listing.id}}}
         >
           <Button variant="contained">View Applicants</Button>
         </Link>

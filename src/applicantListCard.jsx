@@ -22,6 +22,7 @@ const ApplicantListCard = ({ applicant }) => {
   const [experience, setExperience] = useState([]);
   const [skills, setSkills] = useState([]);
   const { status, data } = useSession();
+  const [degree, setDegree] = useState('')
 
   const handleInterestedClick = (e) => {
     e.preventDefault();
@@ -54,8 +55,6 @@ const ApplicantListCard = ({ applicant }) => {
     e.stopPropagation()
     updateNotesVisible(!notesVisible);
   }
-  console.log('here', applicant)
-
 
   useEffect(() => {
     const getExperience = async () => {
@@ -83,10 +82,15 @@ const ApplicantListCard = ({ applicant }) => {
     }
   }, [])
 
-  console.log('exp', experience)
+  console.log('here', applicant)
+  console.log('exp', experience[0])
   console.log('skil', skills)
-  console.log('edu', education)
+  if (education[0]) {
+    console.log('edu', education[0].degree)
+  }
+  //console.log('edu', education[0])
   console.log(applicant.company_interest_level)
+
   return (
     <>
       <Accordion sx={{width: '60vw', border:'1px solid grey', borderRadius: '8px', overflow: 'hidden'}}>
@@ -106,8 +110,14 @@ const ApplicantListCard = ({ applicant }) => {
         <AccordionDetails >
           <Typography sx={{}}>
             Education: <br/>
+          </Typography>
+          <Typography>
             Skills: <br/>
-            Other Info: <br/>
+          </Typography>
+          <Typography>
+            Experience: <br/>
+          </Typography>
+          <Typography>
             Notes: {applicant.company_notes}
           </Typography>
           <Box sx={{mt: 2, position:'relative', left:'29vw', width:'20vw'}}>
@@ -123,3 +133,29 @@ const ApplicantListCard = ({ applicant }) => {
 }
 
 export default ApplicantListCard;
+
+
+// degree
+// :
+// "test"
+// graduate
+// :
+// true
+// graduation_date
+// :
+// "2023-01-10T00:00:00.000Z"
+// id
+// :
+// 5
+// location
+// :
+// "teest"
+// major
+// :
+// "test"
+// school
+// :
+// "test"
+// seeker_id
+// :
+// 20

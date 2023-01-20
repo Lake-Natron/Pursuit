@@ -20,6 +20,7 @@ const ViewApplicants = ({query}) => {
   const { job_id } = router.query;
   const [jobId, setJobId] = useState(job_id)
   const { status, data } = useSession();
+  console.log('q', query)
 
   useEffect(() => {
     const getApplicants = async () => {
@@ -52,14 +53,15 @@ const ViewApplicants = ({query}) => {
 }
 
 ViewApplicants.getInitialProps = async ({ query }) => {
-  await axios.get(`http://localhost:3001/jobs/applicants?job_id=${{query}.query}`)
+  console.log('asdfasdf', {query}.query.job_id)
+  await axios.get(`http://localhost:3001/jobs/applicants?job_id=${{query}.query.job_id}`)
   .then((res) => {
     console.log('okok', res)
     setApplicantList(res.data);
     setJobName(res.data[0].Job.name);
   })
   .catch(err => {console.log(err)})
-  return ({})
+  return ({query}.query.job_id)
 }
 
 export default ViewApplicants;

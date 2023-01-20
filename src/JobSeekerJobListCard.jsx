@@ -34,7 +34,7 @@ const JobSeekerJobListCard = ({listing, seeDetailsVisibility}) => {
     }
 
     getJobDetails();
-  })
+  }, [])
 
   return (
     <>

@@ -98,8 +98,8 @@ const NavBar = ({ page }) => {
       setPages(p);
       setSettings(s);
     } else if (data?.user.role === 'employer') {
-      let p = [['Job Board', '/jobSearch'], ['My Jobs', '/homeJobSeeker']];
-      let s = [['Job Seeker Home', '/homeJobSeeker'], ['Post Job', '/postJob'],  ['Calendar', '/calendar']];
+      let p = [['Job Board', '/jobSearch'], ['My Jobs', '/homeEmployer'], ['Calendar', '/calendar']];
+      let s = [['Employer', '/homeEmployer'], ['Post Job', '/postJob'],  ['Calendar', '/calendar']];
       setPages(p);
       setSettings(s);
     }

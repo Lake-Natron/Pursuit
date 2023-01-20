@@ -11,13 +11,22 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import axios from 'axios';
 
 const { useState, useEffect } = React;
+import { useSession } from "next-auth/react";
 
-const PrivateEvent = ({visible, updateVisible, updateEvents}) => {
+const PrivateEvent = ({visible, updateVisible, updateEvents, companyLogin}) => {
   let [start, updateStart] = useState({});
   let [end, updateEnd] = useState({});
   let [title, updateTitle] = useState('');
   let [description, updateDescription] = useState('');
-  let [companyLogin, updateCompanyLogin] = useState(true);
+  let [user, updateUser] = useState(0);
+
+  const { status, data } = useSession();
+
+  useEffect(() => {
+    if (data) {
+      updateUser(data?.user.id);
+    }
+  }, [data])
 
   useEffect(() => {
     updateStart({});
@@ -31,9 +40,9 @@ const PrivateEvent = ({visible, updateVisible, updateEvents}) => {
       // Send request before updating visibility
       let params = {};
       if (companyLogin) {
-        params.company_id = 9;
+        params.company_id = user;
       } else {
-        params.seeker_id = 1;
+        params.seeker_id = user;
       }
       params.title = title;
       params.private = true;

@@ -9,19 +9,24 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-//import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 const ViewApplicants = () => {
   const [applicantList, setApplicantList] = useState([]);
   const [jobName, setJobName] = useState('')
-  // const router = useRouter();
-  // const { job_id } = router.query;
-  // const [jobId, setJobId] = useState(job_id)
-  // console.log('here', jobId)
+  const router = useRouter();
+  const { job_id } = router.query;
+  const [jobId, setJobId] = useState(job_id)
+  console.log('here', jobId)
+
+  useEffect(() => {
+    console.log('test', job_id)
+  }, [job_id])
 
   //need job_id through session storage
   useEffect(() => {
-    axios.get(`http://localhost:3002/jobs/applicants?job_id=3`)
+    console.log('in here', jobId)
+    axios.get(`http://localhost:3001/jobs/applicants?job_id=${jobId}`)
     .then((res) => {
       setApplicantList(res.data);
       setJobName(res.data[0].Job.name);
@@ -32,7 +37,7 @@ const ViewApplicants = () => {
   return (
     <>
     <NavBar />
-    <Box sx={{width: '100%', minWidth: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid'}}>
+    <Box sx={{mt: '2em', width: '100%', minWidth: 480, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
       <nav aria-label="applicant-list-container">
         <h2>{jobName}</h2>
           {applicantList.map((applicant, index) =>

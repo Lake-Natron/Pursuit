@@ -14,6 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import NavBar from '../src/navBar';
+import { useSession, signOut} from "next-auth/react";
+import Router from 'next/router';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -55,7 +57,11 @@ const PostJob = () => {
   const [experienceType, setExperienceType] = useState('');
   const [employmentType, setEmploymentType] = useState('');
   const [isFormValid, setIsFormValid] = useState(false)
+  const { status, data } = useSession();
 
+  useEffect(() => {
+    if (status === "unauthenticated" || data?.user.role !== 'employer') Router.replace("/login");
+  }, [])
 
   const handleLocationChange = (e) => {
     const local = e.target.value;
@@ -108,20 +114,19 @@ const PostJob = () => {
       setIsFormValid(false);
     } else {
       setIsFormValid(true);
-      //need to change port hardcode, also figure out where company_id comes from
-      //do we want to reroute to home page
-      axios.post('http://localhost:3002/jobs', {
+      axios.post('http://localhost:3001/job', {
         title: title,
-        closeDate: closeDate,
+        close_date: closeDate,
         jobDescription: jobDescription,
         skills: skills,
-        salary: salary,
+        salary: Number(salary),
         location: location,
         jobSite: jobSite,
         experienceType: experienceType,
         employmentType: employmentType,
-        company_id: company_id
+        company_id: data?.user.id
       })
+      .catch(err => {console.log(err)})
     }
   }
 

@@ -1,4 +1,4 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const getJob = async (req, res) => {
@@ -9,16 +9,26 @@ const getJob = async (req, res) => {
       User: {
         select: {
           company_name: true,
-          email: true
-        }
-      }
-    }
+          email: true,
+        },
+      },
+    },
   });
   res.send(job);
-}
+};
 
 const searchJobs = async (req, res) => {
-  const { company_id, experience_type, employment_type, jobsite, salary_min, salary_max, description, name, company_name } = req.query;
+  const {
+    company_id,
+    experience_type,
+    employment_type,
+    jobsite,
+    salary_min,
+    salary_max,
+    description,
+    name,
+    company_name,
+  } = req.query;
   const jobs = await prisma.Job.findMany({
     where: {
       company_id: Number(company_id) || undefined,
@@ -27,23 +37,39 @@ const searchJobs = async (req, res) => {
       jobsite: jobsite,
       salary: {
         gte: Number(salary_min) || undefined,
-        lte: Number(salary_max) || undefined
+        lte: Number(salary_max) || undefined,
       },
       description: {
         contains: description,
-        mode: 'insensitive'
+        mode: "insensitive",
       },
       name: {
         contains: name,
-        mode: 'insensitive'
+        mode: "insensitive",
       },
       User: {
         company_name: {
           contains: company_name,
-          mode: 'insensitive'
-        }
-      }
+          mode: "insensitive",
+        },
+      },
     },
+    include: {
+      User: {
+        select: {
+          company_name: true,
+          email: true,
+        },
+      },
+    },
+  });
+  res.send(jobs);
+};
+
+const getAllJobs = async (req, res) => {
+  const { company_id } = req.query;
+  const jobs = await prisma.Job.findMany({
+    where: { company_id: Number(company_id) || undefined },
     include: {
       User: {
         select: {
@@ -54,22 +80,14 @@ const searchJobs = async (req, res) => {
     }
   });
   res.send(jobs);
-}
-
-const getAllJobs = async (req, res) => {
-  const { company_id } = req.query;
-  const jobs = await prisma.Job.findMany({
-    where: { company_id: Number(company_id) || undefined }
-  });
-  res.send(jobs);
-}
+};
 
 const addJob = async (req, res) => {
   let skills = req.body.skills;
   skills = skills.split(", ");
   skills = skills.map((skill) => {
-    return { "skill": skill };
-  })
+    return { skill: skill };
+  });
 
   const job = await prisma.Job.create({
     data: {
@@ -83,11 +101,11 @@ const addJob = async (req, res) => {
       employment_type: req.body.employmentType,
       jobsite: req.body.jobSite,
       Skill: {
-        create: skills
-      }
-    }
+        create: skills,
+      },
+    },
   });
   res.send(job);
-}
+};
 
-module.exports = { getJob, searchJobs, getAllJobs, addJob }
+module.exports = { getJob, searchJobs, getAllJobs, addJob };

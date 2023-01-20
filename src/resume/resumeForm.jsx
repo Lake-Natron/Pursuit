@@ -6,15 +6,20 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
+import { useSession } from "next-auth/react";
 
 const { useState, useEffect } = React;
 const ResumeForm = ({ visible, updateVisible }) => {
   const [works, updateWorks] = useState([{}]);
   const [eds, updateEds] = useState([{}]);
   const [skills, updateSkills] = useState('');
+  const { status, data } = useSession();
 
   useEffect(() => {
-    axios.get('http://localhost:3001/education', { params: { seeker_id: 1 } })
+    if (!data?.user.id) {
+      return;
+    }
+    axios.get('http://localhost:3001/education', { params: { seeker_id: data?.user.id } })
       .then(res => {
         if (res.data.length === 0) {
           updateEds([{}])
@@ -23,7 +28,7 @@ const ResumeForm = ({ visible, updateVisible }) => {
         }
       })
       .catch(err => console.log(err))
-    axios.get('http://localhost:3001/workExperience', { params: { seeker_id: 1 } })
+    axios.get('http://localhost:3001/workExperience', { params: { seeker_id: data?.user.id } })
       .then(res => {
         if (res.data.length === 0) {
           updateWorks([{}])
@@ -32,7 +37,7 @@ const ResumeForm = ({ visible, updateVisible }) => {
         }
       })
       .catch(err => console.log(err))
-      axios.get('http://localhost:3001/skills', { params: { seeker_id: 1 } })
+      axios.get('http://localhost:3001/skills', { params: { seeker_id: data?.user.id } })
         .then(res => {
           let string = '';
           res.data.forEach(skill => {
@@ -44,7 +49,7 @@ const ResumeForm = ({ visible, updateVisible }) => {
           updateSkills(string);
         })
         .catch(err => console.log(err));
-  }, [])
+  }, [data])
 
   const addWork = () => {
     let workList = [...works];
@@ -79,7 +84,7 @@ const ResumeForm = ({ visible, updateVisible }) => {
   const submit = (e) => {
     e.preventDefault();
     eds.forEach(ed => {
-      ed.seeker_id = 1; // Change Later
+      ed.seeker_id = data?.user.id;
       if (!ed.id) {
         axios.post('http://localhost:3001/education', ed)
           .catch(err => console.log(err))
@@ -89,7 +94,7 @@ const ResumeForm = ({ visible, updateVisible }) => {
       }
     });
     works.forEach(work => {
-      work.seeker_id = 1; // Change Later
+      work.seeker_id = data?.user.id;
       if (!work.id) {
         axios.post('http://localhost:3001/workExperience', work)
           .catch(err => console.log(err))
@@ -98,7 +103,7 @@ const ResumeForm = ({ visible, updateVisible }) => {
           .catch(err => console.log(err))
       }
     });
-    axios.post('http://localhost:3001/skills', { skills, seeker_id: 1 })
+    axios.post('http://localhost:3001/skills', { skills, seeker_id: data?.user.id })
           .catch(err => console.log(err))
     updateVisible(false);
   }

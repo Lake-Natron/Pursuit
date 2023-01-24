@@ -1,5 +1,5 @@
-# Job-Pursuit
-Job Pursuit is a employment website for both job seekers and employers. Employers have the ability to post jobs, view applications to jobs, and create meetings on their calendar. Job Seekers have the ability to search all jobs, apply to jobs, upload a resume, and edit their personal calendar.
+# Pursuit
+Pursuit is a employment website for both job seekers and employers. Employers have the ability to post jobs, view applications to jobs, and create meetings on their calendar. Job Seekers have the ability to search all jobs, apply to jobs, upload a resume, and edit their personal calendar.
 
 ## Table of Contents
 - [Tech Stack](#tech-stack)
@@ -33,8 +33,8 @@ Job Pursuit is a employment website for both job seekers and employers. Employer
 
 ## Contributors
 
-<a href="https://github.com/Lake-Natron/Job-Pursuit/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Lake-Natron/Job-Pursuit" />
+<a href="https://github.com/Lake-Natron/Pursuit/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Lake-Natron/Pursuit" />
 </a>
 
 &nbsp;

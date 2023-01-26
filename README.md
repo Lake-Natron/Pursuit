@@ -26,17 +26,22 @@ Job Pursuit is a employment website for both job seekers and employers. Employer
 ## Product Features
 
 ### Job Seeker Home
+<img src="assets/home_jobseeker.png" width="100%"/>
 
 ### Employer Home
+<img src="assets/home_employer.png" width="100%"/>
 
 ### Create Job
+<img src="assets/post_job.png" width="100%"/>
 
 ### Create Resume
 <img src="assets/resume.png" width="100%"/>
 
 ### View Applicants
+<img src="assets/applicants.png" width="100%"/>
 
 ### Find Jobs
+<img src="assets/job_search.png" width="100%"/>
 
 ### Calendar
 <img src="assets/calendar.png" width="100%"/>

@@ -125,7 +125,7 @@ const ApplicantListCard = ({ applicant }) => {
               Job Details: {experience && experience.job_details}
             </Typography>
             <Typography sx={{fontSize: '0.8rem'}}>
-              Start Date: {experience && experience.start_date + '; '} End Date: {experience && experience.end_date}
+              Start Date: {experience && experience.start_date + '; '} <br/> End Date: {experience && experience.end_date}
             </Typography> <br/>
           </Typography>
           <Typography>

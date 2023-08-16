@@ -46,7 +46,7 @@ const Jobs =  () => {
   const handleClose = () => setOpen(false);
   const [clear, setClear] = useState(false);
   const [originalJobs,setOriginalJobs] = useState([])
-  
+
   const handleClear = () => {
     setClear(false);
     setJobs(originalJobs)
@@ -69,7 +69,7 @@ const Jobs =  () => {
     handleClose()
   }
 
-  
+
   const handleSearch = (e) => {
     console.log(searchParams)
     axios.get('http://localhost:3001/jobs/search/',{params: {
@@ -102,7 +102,7 @@ const Jobs =  () => {
     return(
         <div>
           <NavBar />
-         <Box height="100vh" display="flex" flexDirection="column"> 
+         <Box height="100vh" display="flex" flexDirection="column">
         <SearchBar clear = {clear} handleSearch = {handleSearch} handleClear={handleClear} setSearchParams={setSearchParams} searchParams={searchParams}/>
         <Grid container spacing={2} columns={16} sx={{ m: '5px'}}>
           <Grid item xs={5}>
@@ -169,7 +169,7 @@ const Jobs =  () => {
             </Box>
             </Modal>
 
-            <Divider orientation="horozontal"  sx={{ m: '18px'}} />
+            <Divider orientation="horizontal"  sx={{ m: '18px'}} />
               <Typography style={{ maxHeight: 600, padding: "5px", overflow: 'auto', whiteSpace: "pre-wrap" }}>
             {currentJob.description}
             </Typography>

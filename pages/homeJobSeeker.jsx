@@ -64,7 +64,7 @@ const HomeJobSeeker = () => {
       <Typography align="center" mt="50px">You have not applied to any jobs yet. Go to the Job Board to find jobs!</Typography>
       <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', mt: '2em' }}>
         <Button variant="contained">
-          <Link style={{ textDecoration: 'none', color: 'inherit' }} contained href="/jobSearch">Job Board</Link>
+          <Link style={{ textDecoration: 'none', color: 'inherit' }} href="/jobSearch">Job Board</Link>
         </Button>
       </Box>
       </>

@@ -81,9 +81,9 @@ const IOSSlider = styled(Slider)(({ theme }) => ({
 }));
     return (
       <Box sx={{ml:"10px", mt: "30px", width: 320, display: "inline-block" }}>
-        <IOSSlider 
+        <IOSSlider
           //value={value}
-          aria-label="ios slider"
+          getaria-label="ios slider"
           marks={marks}
           min={0}
           max={500}
